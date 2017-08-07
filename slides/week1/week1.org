@@ -1,6 +1,7 @@
 #+TITLE: Week 1
 #+AUTHOR: Jason Gibson
 #+EMAIL: jgibson37@gatech.edu
+# content heavily borrowed from robocup-training
 
 * What are we doing today?
 - Introductions
@@ -13,9 +14,9 @@
 #+BEGIN_NOTES
 Downloading will take a while so make sure everyone does this now.
 Check for anyone with a dual boot already
-#+END_NOTESs
+#+END_NOTES
 - we use Ubuntu 16.04
-- there is a VM image that we reccomend since it is already set up
+- we have a VM image that we have aready set up for you
   - [[https://mega.nz/#!kgFCyC5Y!lETW_2hufOsqxEOUrnjVFD538FvI3qXBLXWiBm9X_xI][Download Link]] (http://bit.ly/2c61Fkx)
 - virtualbox is a virtualization software that robojackets supports
   - [[https://www.virtualbox.org/wiki/Downloads][Virtual Box]]
@@ -51,7 +52,7 @@ Talk a little bit about what the competition is like
 - Intelligent Ground Vehicle Competition
 - an autonomous navigation competition
 - [[https://www.igvc.org/index.html][Compeition Website]]
-- TODO add example field shot
+[[file:https://i.imgur.com/40QJ9g9.jpg]]
 
 * Sensors
 #+BEGIN_NOTES
@@ -84,8 +85,8 @@ mention ROS is an industrial standard
 [[file:https://i.imgur.com/0cdXQXW.png]]
 * Fork Our Repo
 - RoboJackets/igvc-software (https://github.com/RoboJackets/igvc-software)
-- TODO add image with fork and star for IGVC repo
-[[file:https://i.imgur.com/kYzz2oh.png]]
+#+ATTR_HTML: :width 60%
+[[file:https://i.imgur.com/9Wz6RP3.png]]
 
 *** Ensure you have Virtualization turned on in your BIOS
  - [[http://www.howtogeek.com/213795/how-to-enable-intel-vt-x-in-your-computers-bios-or-uefi-firmware/][This]] is a simple guide of how to do this.
@@ -114,3 +115,21 @@ mention ROS is an industrial standard
 
 *** Boot your new VM
  - Double Click the Entry, or Right Click -> Start -> Normal Start
+
+* Build Our Code
+- open a terminal
+#+BEGIN_SRC shell
+cd catkin_ws
+catkin_make
+#+END_SRC
+
+* Run Our Code
+- double click the RunMe.sh file on the desktop
+- type roslaunch igvc simulator.launch
+
+* rviz
+#+BEGIN_NOTES
+show them how to visualize things in rviz. Explain major topics
+#+END_NOTES
+- a visualization tool that works well for ROS
+  - we are seeing messages our robot is sending
