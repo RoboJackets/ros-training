@@ -154,12 +154,36 @@ catkin_make
 #+END_SRC
 
 * Run Our Code
-- double click the RunMe.sh file on the desktop
-- type roslaunch igvc simulator.launch
+#+BEGIN_NOTES
+tell them about tab complete
+#+END_NOTES
+- open terminator
+#+BEGIN_SRC shell
+cd Downloads
+rosbag play -l demo.bag
+#+END_SRC
+
+* Run Our Code
+#+BEGIN_NOTES
+new terminal
+#+END_NOTES
+- split terminator
+#+BEGIN_SRC shell
+roslaunch igvc simulation.launch
+#+END_SRC
+
+* Run Our Code
+#+BEGIN_NOTES
+new terminal
+#+END_NOTES
+- split terminator
+#+BEGIN_SRC shell
+rviz
+#+END_SRC
 
 * rviz
 #+BEGIN_NOTES
-show them how to visualize things in rviz. Explain major topics. Use Gazebo. Both teams. Show rqt_graph.
+show them how to visualize things in rviz. Explain major topics. Use Gazebo. Both teams. Show rqt_graph have them do it also.
 #+END_NOTES
 - a visualization tool that works well for ROS
   - we are seeing messages our robot is sending
