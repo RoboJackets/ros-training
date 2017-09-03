@@ -5,15 +5,23 @@
 
 * What are we doing today?
 - Introductions
-- Introduction to IGVC as a team
-  - Software Team
-- Setting up the IGVC VM
+- IGVC and RoboRacing Competitions
+- Setting up the IGVC/RoboRacing VM
 - Introduction to ROS
 
-* Developing for IGVC
+* ROS Training
+#+BEGIN_NOTES
+talk about RoboJackets is one team and how training is a shared venture
+#+END_NOTES
+- IGVC and RoboRacing software use similiar tech stacks
+  - C++
+  - Robot Operating System
+  - OpenCV
+
+* Developing for IGVC/RoboRacing
 #+BEGIN_NOTES
 Downloading will take a while so make sure everyone does this now.
-Check for anyone with a dual boot already
+Check for anyone with a dual boot already.
 #+END_NOTES
 - we use Ubuntu 16.04
 - we have a VM image that we have aready set up for you
@@ -21,7 +29,10 @@ Check for anyone with a dual boot already
 - virtualbox is a virtualization software that robojackets supports
   - [[https://www.virtualbox.org/wiki/Downloads][Virtual Box]]
 
-* IGVC Software Team
+* Ros Training Trainers
+#+BEGIN_NOTES
+Be sure to mention joint training is called ROS training
+#+END_NOTES
 
 * Meet Jason
 #+ATTR_HTML: :width 15%
@@ -34,16 +45,16 @@ Check for anyone with a dual boot already
   - Slack: [[https://robojackets.slack.com/messages/@jasongibson/][@jasongibson]]
   - Email: [[mailto:jgibson37@gatech.edu][jgibson37@gatech.edu]]
 
-* Meet Raymond
+* Meet Sahit
 #+ATTR_HTML: :width 20%
-[[file:https://i.imgur.com/8d43StT.jpg]]
-- Raymond Ortiz
-  - Senior, Computer Science (Threads: Devices, Intelligence)
-  - Inside RoboJackets: IGVC Executioner, Former Training Chair
-  - Outside RoboJackets: CS1332 Head TA, Google Intern
+[[file:https://i.imgur.com/aqKGrKm.jpg]]
+- Sahit Chintalapudi
+  - Sophomore, Computer Science (Threads: Intelligence, Theory)
+  - Roboracing Software Lead & Roboracing PR manager
+  - S-tier Taylor Swift fanboy
 - How to contact me
-  - Slack: [[https://robojackets.slack.com/messages/@raymond/][@raymond]]
-  - Email: [[mailto:rortiz9@gatech.edu][rortiz9@gatech.edu]]
+  - Slack: [[https://robojackets.slack.com/messages/@schintalapudi/][@schintalapudi]]
+  - Email: [[mailto:schintalapudi@gatech.edu][schintalapudi@gatech.edu]]
 
 * IGVC
 #+BEGIN_NOTES
@@ -51,7 +62,8 @@ Talk a little bit about what the competition is like
 #+END_NOTES
 - Intelligent Ground Vehicle Competition
 - an autonomous navigation competition
-- [[https://www.igvc.org/index.html][Compeition Website]]
+- [[http://www.igvc.org][Competition Website]]
+#+ATTR_HTML: :width 20%
 [[file:https://i.imgur.com/40QJ9g9.jpg]]
 
 * Sensors
@@ -69,7 +81,6 @@ briefly mention what each sensor is
 mention ROS is an industrial standard
 #+END_NOTES
 - c++ based
-- we use ROS, a flexible framework for robotics systems
 - our software can be broken down into three parts
   - path planning
   - obstacle detection
@@ -78,6 +89,24 @@ mention ROS is an industrial standard
   - mapping and localization
 - all the details will be covered in later weeks
 
+* RoboRacing 
+- TODO slides about RoboRacing competitions
+
+* ROS
+- message passing interface
+- multitude of useful libraries
+
+* ROS Architecture
+#+BEGIN_NOTES
+the arrows are topics and the circles are nodes
+#+END_NOTES
+- nodes
+  - small programs that are all running at the same time
+- topics
+  - messages that are passed between different nodes
+#+ATTR_HTML: :width 60%
+[[file:https://magiccvs.byu.edu/wiki/images/b/bb/Rqt_graph_turtle_key.png]]
+
 * Create a GitHub Account
 - [[https://github.com/join%0A][https://github.com/join]]
 - Please include /at least/ your real first name on github
@@ -85,6 +114,7 @@ mention ROS is an industrial standard
 [[file:https://i.imgur.com/0cdXQXW.png]]
 * Fork Our Repo
 - RoboJackets/igvc-software (https://github.com/RoboJackets/igvc-software)
+- RoboJackets/roboracing-software (https://github.com/RoboJackets/roboracing-software)
 #+ATTR_HTML: :width 60%
 [[file:https://i.imgur.com/9Wz6RP3.png]]
 
@@ -129,7 +159,7 @@ catkin_make
 
 * rviz
 #+BEGIN_NOTES
-show them how to visualize things in rviz. Explain major topics
+show them how to visualize things in rviz. Explain major topics. Use Gazebo. Both teams. Show rqt_graph.
 #+END_NOTES
 - a visualization tool that works well for ROS
   - we are seeing messages our robot is sending

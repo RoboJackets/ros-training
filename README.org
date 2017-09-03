@@ -1,0 +1,12 @@
+* IGVC Software Training
+
+* Building Slides
+
+1. Navigate to the ~./slides~ directory
+2. Install [[https://github.com/cask/cask][cask]].
+3. Run these commands
+  #+BEGIN_SRC sh
+  cask install
+  make
+  #+END_SRC
+4. Output will be placed in the ~html/~ directory, at the root
