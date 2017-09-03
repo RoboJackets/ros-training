@@ -162,20 +162,10 @@ tell them about tab complete
 cd Downloads
 rosbag play -l demo.bag
 #+END_SRC
-
-* Run Our Code
-#+BEGIN_NOTES
-new terminal
-#+END_NOTES
 - split terminator
 #+BEGIN_SRC shell
 roslaunch igvc simulation.launch
 #+END_SRC
-
-* Run Our Code
-#+BEGIN_NOTES
-new terminal
-#+END_NOTES
 - split terminator
 #+BEGIN_SRC shell
 rviz
