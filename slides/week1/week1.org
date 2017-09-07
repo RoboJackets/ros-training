@@ -90,8 +90,21 @@ mention ROS is an industrial standard
 - all the details will be covered in later weeks
 
 * RoboRacing 
-- TODO slides about RoboRacing competitions
+- International Autonomous Robot Racing Competition (Waterloo, Canada)
+- Autonomous Vehicle Competition (Denver, Colorado)
+- Both are autonomous racing competitions
+- Same sensors as IGVC but *no GPS*
+#+ATTR_HTML: :width 20%
+[[file:https://i.imgur.com/8s99LgL.jpg]]
 
+* RoboRacing Software
+- Consists of a few packages, but at a high level we have: vision, planning,
+  and control.
+- the IARRC package and AVC packages contain competition specific logic
+  (perception)
+- common has our path planner which is common between both events
+- platform consists of controls code that interfaces with the arduino
+- gazebo has the software that supports simulation
 * ROS
 - message passing interface
 - multitude of useful libraries
