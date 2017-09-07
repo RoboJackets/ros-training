@@ -89,7 +89,7 @@ mention ROS is an industrial standard
   - mapping and localization
 - all the details will be covered in later weeks
 
-* RoboRacing 
+* RoboRacing
 - TODO slides about RoboRacing competitions
 
 * ROS
@@ -106,10 +106,6 @@ the arrows are topics and the circles are nodes
   - messages that are passed between different nodes
 #+ATTR_HTML: :width 60%
 [[file:https://magiccvs.byu.edu/wiki/images/b/bb/Rqt_graph_turtle_key.png]]
-
-* Create a GitHub Account
-- [[https://github.com/join%0A][https://github.com/join]]
-- Please include /at least/ your real first name on github
 
 [[file:https://i.imgur.com/0cdXQXW.png]]
 * Fork Our Repo
