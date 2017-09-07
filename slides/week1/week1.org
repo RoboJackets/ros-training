@@ -76,7 +76,7 @@ briefly mention what each sensor is
 - IMU
 - encoders
 
-* IGVC Software
+* IGVC Szoftware
 #+BEGIN_NOTES
 mention ROS is an industrial standard
 #+END_NOTES
@@ -105,6 +105,7 @@ mention ROS is an industrial standard
 - common has our path planner which is common between both events
 - platform consists of controls code that interfaces with the arduino
 - gazebo has the software that supports simulation
+
 * ROS
 - message passing interface
 - multitude of useful libraries
@@ -119,10 +120,6 @@ the arrows are topics and the circles are nodes
   - messages that are passed between different nodes
 #+ATTR_HTML: :width 60%
 [[file:https://magiccvs.byu.edu/wiki/images/b/bb/Rqt_graph_turtle_key.png]]
-
-* Create a GitHub Account
-- [[https://github.com/join%0A][https://github.com/join]]
-- Please include /at least/ your real first name on github
 
 [[file:https://i.imgur.com/0cdXQXW.png]]
 * Fork Our Repo
