@@ -76,7 +76,7 @@ briefly mention what each sensor is
 - IMU
 - encoders
 
-* IGVC Szoftware
+* IGVC Software
 #+BEGIN_NOTES
 mention ROS is an industrial standard
 #+END_NOTES
@@ -89,7 +89,7 @@ mention ROS is an industrial standard
   - mapping and localization
 - all the details will be covered in later weeks
 
-* RoboRacing 
+* RoboRacing
 - International Autonomous Robot Racing Competition (Waterloo, Canada)
 - Autonomous Vehicle Competition (Denver, Colorado)
 - Both are autonomous racing competitions
