@@ -56,6 +56,17 @@ Be sure to mention joint training is called ROS training
   - Slack: [[https://robojackets.slack.com/messages/@schintalapudi/][@schintalapudi]]
   - Email: [[mailto:schintalapudi@gatech.edu][schintalapudi@gatech.edu]]
 
+* Meet Evan
+#+ATTR_HTML: :width 15% 
+[[file:https://i.imgur.com/50oKGjv.jpg]]
+- Evan Bretl
+  - 2nd year, Computer Science (Threads: Intelligence, Modeling/Simulation)
+  - Project Manager for RoboRacing
+  - Plays a lot of volleyball
+- Contact
+  - Slack: [[https://robojackets.slack.com/messages/@ebretl/][@ebretl]]
+  - Email: [[mailto:evan.bretl@gatech.edu][evan.bretl@gatech.edu]]
+
 * IGVC
 #+BEGIN_NOTES
 Talk a little bit about what the competition is like
