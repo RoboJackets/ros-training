@@ -36,10 +36,13 @@ keep it high level
 mention how it can be more human understandable. Just a shorthand for rosrun
 #+END_NOTES
 - XML files
-- a way to launch multiple ros nodes with parameters
+- a way to launch multiple ros nodes
 - recursive
 
 * Commandline
+#+BEGIN_NOTES
+make sure to mention tab complete
+#+END_NOTES
 #+BEGIN_SRC shell
 roslaunch [PACKAGE_NAME] FILE_NAME.launch
 #+END_SRC
@@ -100,16 +103,16 @@ mention that these are the tags the go under the launch tag
 #+END_SRC
 
 * Substitution Arguements
-- $(env ENV_VAR)
+- $(env =ENV_VAR=)
     - will set the value from environment variable
-    - will fail if ENV_VAR is not set
-- $(opentv ENV_VAR default_value)
+    - will fail if =ENV_VAR= is not set
+- $(opentv =ENV_VAR= =default_value=)
     - will set the value from environment variable if set
-    - will set default if ENV_VAR is not defined
-- $(find PKG_NAME)
+    - will set default if =ENV_VAR= is not defined
+- $(find =PKG_NAME=)
     - used for relative paths to files in packages
-- $(arg ARG_NAME)
-    - will set to ARG_NAME if it is defined in file
+- $(arg =ARG_NAME=)
+    - will set to =ARG_NAME= if it is defined in file
 
 * Useful Commandline Arguements
 | option | effect |
@@ -119,8 +122,52 @@ mention that these are the tags the go under the launch tag
 | =--nodes= | prints the nodes launched by this launch file|
 | =--args= | prints the command line arguements set in launch file|
 
+* Gazebo
+- The simulator used be both RoboRacing and IGVC
+- TODO add picture of gazebo logo
 
-* Usage
+* Simulation
 #+BEGIN_NOTES
-make sure to mention tab complete
+talk about how it crashes. Also that we can simulate friction, mass, etc
 #+END_NOTES
+- simulators are wonderful
+- allow to test code in somewhat real life situations
+- not a ROS simulator
+    - interacts with ROS through plugins that publish to topics
+    - these plugins are not perfect so it crashes *a lot*
+
+* Package Structure
+- =TEAM_NAME_Description=
+    - contains the URDF file
+- =TEAM_NAME_Control=
+    - contains the nodes that control the environment
+
+* URDF
+- unified robot description format
+- this is what gazebo uses to generate the robot
+- XML file format
+- defines everything in a 3-dimensional grid
+
+* URDF Components
+#+BEGIN_NOTES
+take about what each is and how meshes can be used as geometries
+#+END_NOTES
+- <robot> encompassing tag
+- links
+    - visual geometry
+    - collision geometry
+    - intertial geometry
+
+* Joints
+- links can be connected using joints
+    - all joints have a parents and a child
+- all positions are realtive to its parents
+    - tree must have a root
+
+* TODO I AM ROOT
+
+* Joint Types
+- TODO table of joint types
+
+* Useful Commands
+- =check_urdf=
