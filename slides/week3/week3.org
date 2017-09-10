@@ -11,9 +11,10 @@
 
 * Encoders
 #+BEGIN_NOTES
-keep it high level
+keep it high level. Do an example of ticks
 #+END_NOTES
 - used to determine the speed of a spinning wheel
+    - measure number of ticks during a time step
 - 2 main types
     - optical
     - magnetic
@@ -76,10 +77,10 @@ mention that these are the tags the go under the launch tag
 * <node>
 | tag | usage |
 |-------+------|
-| =name= | the name of the node |
+| =name= | the name given to that instance of a node |
 | =pkg= | the package that the node is in |
-| =type= | ?????? |
-| =args= | arguements to pass to node |
+| =type= | The package to launch |
+| =args= | arguments to pass to node |
 #+BEGIN_SRC XML
 <launch>
     <node name="NODE_NAME" pkg="PKG_NAME" type="NODE_TYPE" .../>
@@ -98,11 +99,13 @@ mention that these are the tags the go under the launch tag
 | =value= | the value of the parameter |
 #+BEGIN_SRC XML
 <launch>
-    <param name="PARAM_NAME" type="VAR_TYPE" value="VALUE">
+    <node name="NODE_NAME" pkg="PKG_NAME" type="NODE_TYPE">
+        <param name="PARAM_NAME" type="VAR_TYPE" value="VALUE">
+    </node>
 </launch>
 #+END_SRC
 
-* Substitution Arguements
+* Substitution arguments
 - $(env =ENV_VAR=)
     - will set the value from environment variable
     - will fail if =ENV_VAR= is not set
@@ -114,13 +117,13 @@ mention that these are the tags the go under the launch tag
 - $(arg =ARG_NAME=)
     - will set to =ARG_NAME= if it is defined in file
 
-* Useful Commandline Arguements
+* Useful Commandline Arguments
 | option | effect |
 |-------+------|
 | =--screen= | force node output to screen |
-| =--dump-params= | print parameters in yaml format|
-| =--nodes= | prints the nodes launched by this launch file|
-| =--args= | prints the command line arguements set in launch file|
+| =--dump-params= | print parameters in yaml format |
+| =--nodes= | prints the nodes launched by this launch file |
+| =--args= | prints the command line arguments set in launch file |
 
 * Gazebo
 - The simulator used be both RoboRacing and IGVC
@@ -132,7 +135,7 @@ talk about how it crashes. Also that we can simulate friction, mass, etc
 #+END_NOTES
 - simulators are wonderful
 - allow to test code in somewhat real life situations
-- not a ROS simulator
+- not a ROS product
     - interacts with ROS through plugins that publish to topics
     - these plugins are not perfect so it crashes *a lot*
 
@@ -149,12 +152,15 @@ talk about how it crashes. Also that we can simulate friction, mass, etc
 - defines everything in a 3-dimensional grid
 
 * URDF Components
-#+BEGIN_NOTES
-take about what each is and how meshes can be used as geometries
-#+END_NOTES
 - <robot> encompassing tag
-- links
-    - visual geometry
+- made up of things called links
+
+* Links TODO incremental example
+#+BEGIN_NOTES
+take about what each is and how meshes can be used as geometries. visual is required
+#+END_NOTES
+- links contain
+    - *visual geometry*
     - collision geometry
     - intertial geometry
 
@@ -162,12 +168,17 @@ take about what each is and how meshes can be used as geometries
 - links can be connected using joints
     - all joints have a parents and a child
 - all positions are realtive to its parents
-    - tree must have a root
+    - tree should have a single root
 
 * TODO I AM ROOT
 
 * Joint Types
-- TODO table of joint types
+| type | usage |
+|-------+------|
+| =revolute= | rotates on an axis and has rotation limits |
+| =continuous= | rotates in an axis and has to limits |
+| =fixed= | does not move |
+| =floating= | 6 degrees of freedom |
 
 * Useful Commands
 - =check_urdf=
