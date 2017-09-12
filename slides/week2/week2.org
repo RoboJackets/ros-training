@@ -44,4 +44,21 @@ TODO: A launch file that publishes lidar output? If we don't have one
                   package.xml
             ...
 #+END_SRC
+
 * CMakeLists file
+- ROS code is built with a build tool called catkin, which itself sits on top
+  of a build tool called CMake
+- CMakeLists defines the structure of the package for the compiler, as well
+  as linking the executable ROS nodes to the appropriate libraries (OpenCV,
+  PCL, etc..)
+-  [[https://github.com/RoboJackets/roboracing-software/blob/master/iarrc/CMakeLists.txt][Example
+   CMakeLists]] 
+
+* package.xml file
+- Defines packages the host computer needs to have installed to run the code
+  in the project
+- "build_depends" are packages needed to compile the code
+- "run_depends" are packages needed by the code at runtime
+- Also specifies project maintainer/contact information
+- [[https://github.com/RoboJackets/igvc-software/blob/master/gazebo/igvc_control/package.xml][Example
+  package.xml]]
