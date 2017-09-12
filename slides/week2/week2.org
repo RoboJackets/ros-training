@@ -1,0 +1,47 @@
+#+TITLE: Week 2
+#+AUTHOR: Sahit Chintalapudi
+#+EMAIL: schintalapudi@gatech.edu
+
+* Meet the lidar!
+- picture of lidar
+- This sensor shines a laser light in circles and measures the return times
+  from the pulses to give us a 3D model of our world
+- Notice that the lidar has a *rotating* component. This makes them more
+  fragile the a sensor like a camera, so *they should be handled with caution*.
+
+* Pointclouds
+- We use ROS's PCL package to interface with the LIDAR, and get messages of
+  type
+  [[http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html][PointCloud2]]
+- A pointcloud is a data structure for holding the results found by the
+  lidar
+- This includes an array of points picked up from the the LIDAR and their 
+  cartesian coordinates relative to the LIDAR
+
+* What does a pointcloud look like?
+#+BEGIN_NOTES
+Pull out Jason's LIDAR and run rqt
+TODO: A launch file that publishes lidar output? If we don't have one
+#+END_NOTES
+- Live demo time!
+
+* How do we structure ROS projects?
+#+BEGIN_SRC bash
+      project
+            package1
+                  src
+                        node1a
+                        node1b
+                        ...
+                  CMakeLists.txt
+                  package.xml
+            package2
+                  src 
+                        node2a
+                        node2b
+                        ...
+                  CMakeLists.txt
+                  package.xml
+            ...
+#+END_SRC
+* CMakeLists file
