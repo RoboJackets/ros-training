@@ -6,7 +6,7 @@
 - Encoders
 - launch files
 - Gazebo
-    - urdf
+	- urdf
 - PID
 
 * Encoders
@@ -14,24 +14,31 @@
 keep it high level. Do an example of ticks
 #+END_NOTES
 - used to determine the speed of a spinning wheel
-    - measure number of ticks during a time step
+	- measure number of ticks during a time step
 - 2 main types
-    - optical
-    - magnetic
+	- optical
+	- magnetic
 
 * Optical Encoders
+#+BEGIN_NOTES
+sensitive to dust and broken disks
+#+END_NOTES
 - uses a light and a glass wheel to measure ticks
 - Things to watch out for
-    - sensitive to dust
-    - broken disks
-- TODO Picture
+#+ATTR_HTML: :width 35%
+[[file:https://i.imgur.com/d5Rx7nQ.jpg]]
 
 * Magnetic Encoders
+#+BEGIN_NOTES
+uses the hall effect
+#+END_NOTES
 - uses magnets to measure ticks
 - generally low accuracy (lower tick count)
 - requires occasional tuning
-- TODO pciture
-
+#+ATTR_HTML: :width 35%
+[[file:https://automation-insights.blog/wp-content/uploads/2015/09/bml-evalkit.jpg]]
+* Waveforms for Encoders
+- TODO wavefroms encoders
 * Launch Files
 #+BEGIN_NOTES
 mention how it can be more human understandable. Just a shorthand for rosrun
@@ -40,6 +47,11 @@ mention how it can be more human understandable. Just a shorthand for rosrun
 - a way to launch multiple ros nodes
 - recursive
 
+* Why Launch Files
+
+#+BEGIN_SRC shell
+rosrun igvc mapper ekf/base_link_frame=base_footprint mappter/topics=/scan/pointcloud /usb_cam_center/line_cloud /usb_cam_left/line_cloud
+#+END_SRC
 * Commandline
 #+BEGIN_NOTES
 make sure to mention tab complete
@@ -48,14 +60,11 @@ make sure to mention tab complete
 roslaunch [PACKAGE_NAME] FILE_NAME.launch
 #+END_SRC
 
-* Why Launch Files
-TODO example of rosrun with lots of parameters vs launch file
-
 * Structure
 - everything is encompassed in the launch tag
 #+BEGIN_SRC XML
 <launch>
-    <!-- here -->
+	<!-- here -->
 </launch>
 #+END_SRC
 
@@ -83,11 +92,11 @@ mention that these are the tags the go under the launch tag
 | =args= | arguments to pass to node |
 #+BEGIN_SRC XML
 <launch>
-    <node name="NODE_NAME" pkg="PKG_NAME" type="NODE_TYPE" .../>
+	<node name="NODE_NAME" pkg="PKG_NAME" type="NODE_TYPE" .../>
 
-    <node name="NODE_NAME" pkg="PKG_NAME" type="NODE_TYPE">
-        <!-- tags local to this node -->
-    </node>
+	<node name="NODE_NAME" pkg="PKG_NAME" type="NODE_TYPE">
+		<!-- tags local to this node -->
+	</node>
 </launch>
 #+END_SRC
 
@@ -99,23 +108,23 @@ mention that these are the tags the go under the launch tag
 | =value= | the value of the parameter |
 #+BEGIN_SRC XML
 <launch>
-    <node name="NODE_NAME" pkg="PKG_NAME" type="NODE_TYPE">
-        <param name="PARAM_NAME" type="VAR_TYPE" value="VALUE">
-    </node>
+	<node name="NODE_NAME" pkg="PKG_NAME" type="NODE_TYPE">
+		<param name="PARAM_NAME" type="VAR_TYPE" value="VALUE">
+	</node>
 </launch>
 #+END_SRC
 
 * Substitution arguments
 - $(env =ENV_VAR=)
-    - will set the value from environment variable
-    - will fail if =ENV_VAR= is not set
+	- will set the value from environment variable
+	- will fail if =ENV_VAR= is not set
 - $(opentv =ENV_VAR= =default_value=)
-    - will set the value from environment variable if set
-    - will set default if =ENV_VAR= is not defined
+	- will set the value from environment variable if set
+	- will set default if =ENV_VAR= is not defined
 - $(find =PKG_NAME=)
-    - used for relative paths to files in packages
+	- used for relative paths to files in packages
 - $(arg =ARG_NAME=)
-    - will set to =ARG_NAME= if it is defined in file
+	- will set to =ARG_NAME= if it is defined in file
 
 * Useful Commandline Arguments
 | option | effect |
@@ -127,7 +136,8 @@ mention that these are the tags the go under the launch tag
 
 * Gazebo
 - The simulator used be both RoboRacing and IGVC
-- TODO add picture of gazebo logo
+#+ATTR_HTML: :width 35%
+[[file:https://upload.wikimedia.org/wikipedia/en/thumb/1/13/Gazebo_logo.svg/1024px-Gazebo_logo.svg.png]]
 
 * Simulation
 #+BEGIN_NOTES
@@ -136,14 +146,14 @@ talk about how it crashes. Also that we can simulate friction, mass, etc
 - simulators are wonderful
 - allow to test code in somewhat real life situations
 - not a ROS product
-    - interacts with ROS through plugins that publish to topics
-    - these plugins are not perfect so it crashes *a lot*
+	- interacts with ROS through plugins that publish to topics
+	- these plugins are not perfect so it crashes *a lot*
 
 * Package Structure
 - =TEAM_NAME_Description=
-    - contains the URDF file
+	- contains the URDF file
 - =TEAM_NAME_Control=
-    - contains the nodes that control the environment
+	- contains the nodes that control the environment
 
 * URDF
 - unified robot description format
@@ -155,30 +165,77 @@ talk about how it crashes. Also that we can simulate friction, mass, etc
 - <robot> encompassing tag
 - made up of things called links
 
-* Links TODO incremental example
+* Links
 #+BEGIN_NOTES
 take about what each is and how meshes can be used as geometries. visual is required
 #+END_NOTES
 - links contain
-    - *visual geometry*
-    - collision geometry
-    - intertial geometry
+	- *visual geometry*
+	- collision geometry
+	- intertial geometry
 
+* Links Basic Example
+make sure to launch rviz with this urdf
+#+BEGIN_SRC XML
+<robot>
+  <link name="base_link">
+	<visual>
+	  <geometry>
+		<box size="0.8 0.3 0.1"/>
+	  </geometry>
+	</visual>
+  </link>
+</robot>
+#+END_SRC
+
+* Gazebo Link
+#+BEGIN_NOTES
+launch this in gazebo
+#+END_NOTES
+#+BEGIN_SRC XML
+<link name="body">
+  <inertial>
+	<origin xyz="0 0 0" />
+	<mass value="50.0" />
+	<inertia  ixx="0.0" ixy="0.0"  ixz="1.0"  iyy="0.0"  iyz="0.0"  izz="0.0" />
+  </inertial>
+  <visual>
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+	<geometry>
+	  <mesh filename="model://urdf/meshes/Body.dae"/>
+	</geometry>
+  </visual>
+  <collision>
+	<geometry>
+	  <mesh filename="model://urdf/meshes/Body.dae"/>
+	</geometry>
+  </collision>
+</link>
+#+END_SRC
 * Joints
 - links can be connected using joints
-    - all joints have a parents and a child
+	- all joints have a parents and a child
 - all positions are realtive to its parents
-    - tree should have a single root
+	- tree should have a single root
 
 * TODO I AM ROOT
 
 * Joint Types
 | type | usage |
 |-------+------|
-| =revolute= | rotates on an axis and has rotation limits |
 | =continuous= | rotates in an axis and has to limits |
 | =fixed= | does not move |
 | =floating= | 6 degrees of freedom |
-
+| =revolute= | rotates on an axis and has rotation limits |
+* Example Joint
+#+BEGIN_SRC XML
+<joint name="base_link_to_left_wheel" type="continuous">
+	<parent link="base_link"/>
+	<child link="left_wheel"/>
+	<axis xyz="0 0 -1" rpy="0 0 0" />
+	<origin xyz="0 0 0" rpy="0 0 0" />
+</joint>
+#+END_SRC
+* Introducing HAL
 * Useful Commands
 - =check_urdf=
