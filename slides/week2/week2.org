@@ -62,3 +62,174 @@ TODO: A launch file that publishes lidar output? If we don't have one
 - Also specifies project maintainer/contact information
 - [[https://github.com/RoboJackets/igvc-software/blob/master/gazebo/igvc_control/package.xml][Example
   package.xml]]
+
+* Some ROS Vocab
+- A _node_ is a process running on your computer
+      - you specify the behavior of the node with the C++ code you write
+- Nodes _publish messages_ on a _topic_
+      - A message is a data structure made up of fields. Messages can be
+        primitive like booleans or ints, or they can contain other data
+        structures like a PointCloud
+      - Think of a topic as the mailbox to which the messages get delivered
+- Nodes _subscribe_ to a topic to receive _callbacks_ when a new message
+  appears
+      - Subscribing to a topic entails telling ROS to call a function you
+        define everytime a new message is published on this topic!
+- Let's see it in action!
+
+* A ROS Publisher - Setup
+#+BEGIN_NOTES
+Should we write our own? I like how well this is documented
+#+END_NOTES
+- Borrowed from:
+  https://raw.githubusercontent.com/ros/ros_tutorials/kinetic-devel/roscpp_tutorials/talker/talker.cpp
+#+BEGIN_SRC C++
+#include "ros/ros.h"
+#include "std_msgs/String.h"
+
+#include <sstream>
+
+int main(int argc, char **argv)
+{
+  /**
+   * The ros::init() function needs to see argc and argv so that it can perform
+   * any ROS arguments and name remapping that were provided at the command line.
+   * The third argument to init() is the name of the node.
+   *
+   * You must call ros::init() before using any part of the ROS system.
+   */
+  ros::init(argc, argv, "talker");
+
+  /**
+   * NodeHandle is the main access point to communications with the ROS system.
+   * The first NodeHandle constructed will fully initialize this node, and the last
+   * NodeHandle destructed will close down the node.
+   */
+  ros::NodeHandle n;
+#+END_SRC
+
+* ROS Publisher - Advertising
+#+BEGIN_SRC C++
+  /**
+   * The advertise() function is how you tell ROS that you want to
+   * publish on a given topic name. This invokes a call to the ROS
+   * master node, which keeps a registry of who is publishing and who
+   * is subscribing. After this advertise() call is made, the master
+   * node will notify anyone who is trying to subscribe to this topic name,
+   * and they will in turn negotiate a peer-to-peer connection with this
+   * node.  advertise() returns a Publisher object which allows you to
+   * publish messages on that topic through a call to publish().  Once
+   * all copies of the returned Publisher object are destroyed, the topic
+   * will be automatically unadvertised.
+   *
+   * The second parameter to advertise() is the size of the message queue
+   * used for publishing messages.  If messages are published more quickly
+   * than we can send them, the number here specifies how many messages to
+   * buffer up before throwing some away.
+   */
+  ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
+
+  ros::Rate loop_rate(10);
+#+END_SRC
+
+
+* ROS Publisher - publishing
+#+BEGIN_SRC C++
+  int count = 0;
+  while (ros::ok())
+  {
+    //This is a message object. You stuff it with data, and then publish it.
+    std_msgs::String msg;
+
+    std::stringstream ss;
+    ss << "hello world " << count;
+    msg.data = ss.str();
+
+    ROS_INFO("%s", msg.data.c_str());
+
+    /**
+     * The publish() function is how you send messages. The parameter
+     * is the message object. The type of this object must agree with the type
+     * given as a template parameter to the advertise<>() call, as was done
+     * in the constructor above.
+     */
+    chatter_pub.publish(msg);
+
+    ros::spinOnce();
+
+    loop_rate.sleep();
+    ++count;
+  }
+  return 0;
+}      
+#+END_SRC
+
+* Let's get a better picture of what's going on
+- How can I see which nodes are running and if my node is one of them?
+- =rosnode list=
+- What if i want to know if messages are being published onto my topic?
+- =rostopic hz chatter=
+- Ok, cool! What are those messages?
+- =rostopic echo chatter=
+* A ROS Subsriber -  Setup
+#+BEGIN_SRC C++
+#include "ros/ros.h"
+#include "std_msgs/String.h"
+
+/**
+ * This tutorial demonstrates simple receipt of messages over the ROS system.
+ */
+void chatterCallback(const std_msgs::String::ConstPtr& msg)
+{
+  ROS_INFO("I heard: [%s]", msg->data.c_str());
+}
+
+int main(int argc, char **argv)
+{
+  ros::init(argc, argv, "listener");
+
+  ros::NodeHandle n;
+#+END_SRC
+
+* A ROS Subsriber - Subscribing
+#+BEGIN_SRC C++
+  /**
+   * The subscribe() call is how you tell ROS that you want to receive messages
+   * on a given topic.  This invokes a call to the ROS
+   * master node, which keeps a registry of who is publishing and who
+   * is subscribing.  Messages are passed to a callback function, here
+   * called chatterCallback.  subscribe() returns a Subscriber object that you
+   * must hold on to until you want to unsubscribe.  When all copies of the Subscriber
+   * object go out of scope, this callback will automatically be unsubscribed from
+   * this topic.
+   */
+  ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
+
+  /**
+   * ros::spin() will enter a loop, pumping callbacks.  With this version, all
+   * callbacks will be called from within this thread (the main one).  ros::spin()
+   * will exit when Ctrl-C is pressed, or the node is shutdown by the master.
+   */
+  ros::spin();
+
+  return 0;
+}
+#+END_SRC
+
+* Let's go back to PointCloud2
+#+BEGIN_NOTES
+Talk them through the layout of the message. Show them that messages can
+consists of field which then consist of other fields. For example, click on
+the header, which links to message definition for a header. Note that every
+message should have a header
+#+END_NOTES
+- Everyone visit the
+  [[http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html][PointCloud2
+  message declaration]]
+
+* Takeaways from the message definition
+- Messages should always have headers. Haveing a timestamp makes logging and
+  debugging easier
+- Messages contain fields of data, some of these fields also contain fields
+  of data, as they are also message types
+
