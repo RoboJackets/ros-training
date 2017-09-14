@@ -27,9 +27,8 @@ install(DIRECTORY config/
    FILES_MATCHING PATTERN "*.yaml"
 )
 
-add_executable(hal_control node/hal_control.cpp)
-add_dependencies(hal_control)
-target_link_libraries(hal_control ${catkin_LIBRARIES})
+#add_executable(hal_control node/hal_control.cpp)
+#target_link_libraries(hal_control ${catkin_LIBRARIES})
 
 catkin_install_python(
 		PROGRAMS
