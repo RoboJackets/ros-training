@@ -66,6 +66,17 @@ Be sure to mention joint training is called ROS training
 - Contact
   - Slack: [[https://robojackets.slack.com/messages/@ebretl/][@ebretl]]
   - Email: [[mailto:evan.bretl@gatech.edu][evan.bretl@gatech.edu]]
+  
+* Meet Matthew
+#+ATTR_HTML: :width 15% 
+[[file:https://i.imgur.com/gMOFiLz.jpg]]
+- Matthew Keezer
+  - 1st year Masters, Computer Science (Threads: N/A)
+  - IGVC member, \(retired IGVC software lead\)
+  - 583 games on steam, only 20% are unplayed [[https://goo.gl/QzrMWZ]]
+- Contact
+  - Slack: [[https://robojackets.slack.com/messages/@rmkeezer/][@rmkeezer]]
+  - Email: [[mailto:rkeezer3@gatech.edu][rkeezer3@gatech.edu]]
 
 * IGVC
 #+BEGIN_NOTES
