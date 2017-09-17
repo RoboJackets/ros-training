@@ -72,7 +72,7 @@ Be sure to mention joint training is called ROS training
 [[file:https://i.imgur.com/gMOFiLz.jpg]]
 - Matthew Keezer
   - 1st year Masters, Computer Science (Threads: N/A)
-  - IGVC member, \(retired IGVC software lead\)
+  - IGVC member, (retired IGVC software lead)
   - 583 games on steam, only 20% are unplayed [[https://goo.gl/QzrMWZ]]
 - Contact
   - Slack: [[https://robojackets.slack.com/messages/@rmkeezer/][@rmkeezer]]
