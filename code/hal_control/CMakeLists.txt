@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
 	rospy
 	roscpp
 	std_msgs
+	hal_msgs
 )
 
 include_directories(
@@ -27,8 +28,8 @@ install(DIRECTORY config/
    FILES_MATCHING PATTERN "*.yaml"
 )
 
-#add_executable(hal_control node/hal_control.cpp)
-#target_link_libraries(hal_control ${catkin_LIBRARIES})
+add_executable(hal_control node/hal_control.cpp)
+target_link_libraries(hal_control ${catkin_LIBRARIES})
 
 catkin_install_python(
 		PROGRAMS

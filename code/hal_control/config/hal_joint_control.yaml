@@ -1,9 +1,8 @@
-# defines the joint that will be used to control.
-ros-training:
+hal:
   # Publish all joint states -----------------------------------
   joint_state_controller:
     type: joint_state_controller/JointStateController
-    publish_rate: 50
+    publish_rate: 50  
 
   # effort Controllers ---------------------------------------
   left_wheel_effort_controller:
@@ -14,4 +13,3 @@ ros-training:
     type: effort_controllers/JointEffortController
     joint: body_to_right_wheel
     pid: {p: 100.0, i: 0.01, d: 10.0}
-

@@ -3,6 +3,7 @@
 #include <std_msgs/Float64.h>
 #include <algorithm>
 #include <chrono>
+#include <hal_msgs/speed_pair.h>
 
 double speed_set_point_left = 0.0;
 double speed_set_point_right = 0.0;
@@ -17,7 +18,7 @@ double speed_D_right = 1;
 
 constexpr double wheel_radius = 0.3429;
 
-/*void speedCallback(const igvc_msgs::velocity_pair::ConstPtr &msg)
+void speedCallback(const hal_msgs::speed_pair::ConstPtr &msg)
 {
   if (msg->left_velocity == msg->left_velocity)
   {
@@ -27,11 +28,11 @@ constexpr double wheel_radius = 0.3429;
   {
 	speed_set_point_right = msg->right_velocity;
   }
-  }*/
+}
 
 void jointStateCallback(const sensor_msgs::JointStateConstPtr &msg)
 {
-  auto iter = std::find(msg->name.begin(), msg->name.end(), std::string{ "axle_to_left_wheel" });
+  auto iter = std::find(msg->name.begin(), msg->name.end(), std::string{ "body_to_left_wheel" });
 
   if (iter != msg->name.end())
   {
@@ -40,7 +41,7 @@ void jointStateCallback(const sensor_msgs::JointStateConstPtr &msg)
 	speed_measured_left = (msg->velocity[index]) * (wheel_radius);
   }
 
-  iter = std::find(msg->name.begin(), msg->name.end(), std::string{ "axle_to_right_wheel" });
+  iter = std::find(msg->name.begin(), msg->name.end(), std::string{ "body_to_right_wheel" });
 
   if (iter != msg->name.end())
   {
@@ -54,19 +55,19 @@ void jointStateCallback(const sensor_msgs::JointStateConstPtr &msg)
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "jaymii_controller");
+  ros::init(argc, argv, "hal_controller");
 
   ros::NodeHandle handle;
 
   ros::Publisher leftWheelEffortPublisher =
-	  handle.advertise<std_msgs::Float64>("/igvc/left_wheel_effort_controller/command", 1);
+	  handle.advertise<std_msgs::Float64>("/hal/left_wheel_effort_controller/command", 1);
   ros::Publisher rightWheelEffortPublisher =
-	  handle.advertise<std_msgs::Float64>("/igvc/right_wheel_effort_controller/command", 1);
-  ros::Publisher wheelSpeedPublisher = handle.advertise<igvc_msgs::velocity_pair>("/encoders", 1);
+	  handle.advertise<std_msgs::Float64>("/hal/right_wheel_effort_controller/command", 1);
+  ros::Publisher wheelSpeedPublisher = handle.advertise<hal_msgs::speed_pair>("/encoders", 1);
 
-  //auto speedSub = handle.subscribe("/motors", 1, speedCallback);
+  auto speedSub = handle.subscribe("/motors", 1, speedCallback);
 
-  auto stateSub = handle.subscribe("/igvc/joint_states", 1, jointStateCallback);
+  auto stateSub = handle.subscribe("/hal/joint_states", 1, jointStateCallback);
 
   std::chrono::time_point<std::chrono::system_clock> prev, now;
   prev = std::chrono::system_clock::now();
@@ -89,7 +90,7 @@ int main(int argc, char **argv)
 	auto effort_right = speed_P_right * error_right - speed_D_right * dError_right;
 
 	// ROS_INFO_STREAM("Publishing effort: " << effort_right);
-	ROS_INFO_STREAM("left: " << effort_left << " right: " << effort_right);
+	// ROS_INFO_STREAM("left: " << effort_left << " right: " << effort_right);
 	std_msgs::Float64 left_wheel_message;
 	std_msgs::Float64 right_wheel_message;
 	left_wheel_message.data = effort_left;
@@ -97,7 +98,7 @@ int main(int argc, char **argv)
 
 	leftWheelEffortPublisher.publish(left_wheel_message);
 	rightWheelEffortPublisher.publish(right_wheel_message);
-	igvc_msgs::velocity_pair speed_measured;
+	hal_msgs::speed_pair speed_measured;
 	speed_measured.left_velocity = speed_measured_left;
 	speed_measured.right_velocity = speed_measured_right;
 	now = std::chrono::system_clock::now();
