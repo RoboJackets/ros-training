@@ -209,3 +209,23 @@ show them how to visualize things in rviz. Explain major topics. Use Gazebo. Bot
 #+END_NOTES
 - a visualization tool that works well for ROS
   - we are seeing messages our robot is sending
+
+* Bag Files
+- A bag file is a way of recording all the messages written to topics
+  - more on that next week, for now think of them as a log file
+- We can visualize the information provided by these bag files to help test
+  new code
+
+* Play a bag file
+- fire up a new terminal, launch ros and then play the log info
+- (note the "&" puts roscore as a background process)
+#+BEGIN_SRC bash
+roscore &
+rosbag play -l avc2016.bag
+#+END_SRC
+
+* Watch the video
+- In a new terminal, run:
+#+BEGIN_SRC bash
+rqt_image_view
+#+END_SRC
