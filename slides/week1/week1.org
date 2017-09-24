@@ -178,6 +178,15 @@ the arrows are topics and the circles are nodes
 *** Boot your new VM
  - Double Click the Entry, or Right Click -> Start -> Normal Start
 
+* Fix remotes
+- open a terminal
+#+BEGIN_SRC shell
+cd catkin_ws/src/ros-training
+git remote rename origin upstream
+git remote add origin https://github.com/<USERNAME>/ros-training.git
+git pull upstream
+#+END_SRC
+
 * Build Our Code
 - open a terminal
 #+BEGIN_SRC shell
