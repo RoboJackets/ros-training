@@ -253,5 +253,5 @@ show them on your machine
 #+END_NOTES
 - split terminator
 #+BEGIN_SRC shell
-roslaunch iarrc circuit.launch
+roslaunch avc avc.launch
 #+END_SRC
