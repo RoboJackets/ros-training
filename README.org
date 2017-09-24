@@ -1,4 +1,4 @@
-* IGVC Software Training
+* ROS Training
 
 * Building Slides
 
