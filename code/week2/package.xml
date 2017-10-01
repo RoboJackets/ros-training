@@ -3,7 +3,7 @@
   <name>node_example</name>
   <version>0.0.1</version>
   <description>
-	basic publisher and subscriber for IGVC and RR ROS training
+  basic publisher and subscriber for IGVC and RR ROS training
   </description>
   <author>Jason Gibson</author>
   <maintainer email="jgibson37@gatech.edu">Jason Gibson</maintainer>
