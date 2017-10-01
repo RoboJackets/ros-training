@@ -12,6 +12,6 @@
 4. Output will be placed in the ~html/~ directory, at the root
 * Slides
 1. Week 1
-   + [[https://github.com/RoboJackets/ros-training/blob/gh-pages/docs/week1/week1.md][Week 1]]
+   + [[https://robojackets.github.io/ros-training/slides/week1/week1.html][Week 1]]
 2. Week 2
-   + [[https://github.com/RoboJackets/ros-training/blob/gh-pages/docs/week2/week2.md][Week 2]]
+   + [[https://robojackets.github.io/ros-training/slides/week2/week2.html][Week 2]]
