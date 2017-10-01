@@ -1,12 +1,14 @@
 #+TITLE: Week 2
-#+AUTHOR: Sahit Chintalapudi
-#+EMAIL: schintalapudi@gatech.edu
+#+AUTHOR: Sahit Chintalapudi, Jason Gibson
+#+EMAIL: schintalapudi@gatech.edu, jgibson37@gatech.edu
 
 * Meet the lidar!
 - This sensor shines a laser light in circles and measures the return times
   from the pulses to give us a 3D model of our world
 - Notice that the lidar has a *rotating* component. This makes them more
   fragile the a sensor like a camera, so *they should be handled with caution*.
+#+ATTR_HTML: :width 30%
+[[file:https://cdn.sparkfun.com//assets/parts/1/2/0/0/3/14117-02a.jpg]]
 
 * Pointclouds
 - We use ROS's PCL package to interface with the LIDAR, and get messages of
@@ -19,8 +21,7 @@
 
 * What does a pointcloud look like?
 #+BEGIN_NOTES
-Pull out Jason's LIDAR and run rqt TODO: A launch file that publishes
-lidar output? If we don't have one
+Pull out Jason's LIDAR and run rqt
 #+END_NOTES
 - Live demo time!
 
@@ -29,22 +30,22 @@ lidar output? If we don't have one
 pull open the repository and show them this literal structure
 #+END_NOTES
 #+BEGIN_SRC bash
-      project
-            package1
-                  src
-                        node1a
-                        node1b
-                        ...
-                  CMakeLists.txt
-                  package.xml
-            package2
-                  src
-                        node2a
-                        node2b
-                        ...
-                  CMakeLists.txt
-                  package.xml
+    project
+      package1
+          src
+            node1a
+            node1b
             ...
+          CMakeLists.txt
+          package.xml
+      package2
+          src
+            node2a
+            node2b
+            ...
+          CMakeLists.txt
+          package.xml
+      ...
 #+END_SRC
 
 * CMakeLists file
@@ -59,6 +60,26 @@ walk them through the file and show them the parts of it
 -  [[https://github.com/RoboJackets/roboracing-software/blob/master/iarrc/CMakeLists.txt][Example
    CMakeLists]]
 
+* Our CMakeLists.txt file
+#+BEGIN_SRC
+cmake_minimum_required(VERSION 2.8.3)
+project(node_example)
+
+find_package(catkin REQUIRED COMPONENTS roscpp std_msgs)
+
+catkin_package(
+  CATKIN_DEPENDS roscpp std_msgs
+)
+
+include_directories(include ${catkin_INCLUDE_DIRS})
+
+add_executable(talker src/talker.cpp)
+target_link_libraries(talker ${catkin_LIBRARIES})
+
+add_executable(listener src/listener.cpp)
+target_link_libraries(listener ${catkin_LIBRARIES})
+#+END_SRC
+
 * package.xml file
 #+BEGIN_NOTES
 walk them through the file and show them the parts of it
@@ -71,19 +92,40 @@ walk them through the file and show them the parts of it
 - [[https://github.com/RoboJackets/igvc-software/blob/master/gazebo/igvc_control/package.xml][Example
   package.xml]]
 
+* Our package.xml file
+#+BEGIN_SRC xml
+<?xml version="1.0"?>
+<package format="2">
+  <name>node_example</name>
+  <version>0.0.1</version>
+  <description>
+  basic publisher and subscriber for IGVC and RR ROS training
+  </description>
+  <author>Jason Gibson</author>
+  <maintainer email="jgibson37@gatech.edu">Jason Gibson</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+
+</package>
+
+#+END_SRC
+
 * Some ROS Vocab
 - A _node_ is a process running on your computer
-      - you specify the behavior of the node with the C++ code you write
+    - you specify the behavior of the node with the C++ code you write
 - Nodes _publish messages_ on a _topic_
-      - A message is a data structure made up of fields. Messages can be
-        primitive like booleans or ints, or they can contain other data
-        structures like a PointCloud
-      - Think of a topic as the mailbox to which the messages get delivered
+    - A message is a data structure made up of fields. Messages can be
+    primitive like booleans or ints, or they can contain other data
+    structures like a PointCloud
+    - Think of a topic as the mailbox to which the messages get delivered
 - Nodes _subscribe_ to a topic to receive _callbacks_ when a new message
   appears
-      - Subscribing to a topic entails telling ROS to call a function you
-        define everytime a new message is published on this topic!
-- Let's see it in action!
+    - Subscribing to a topic entails telling ROS to call a function you
+    define everytime a new message is published on this topic!
 
 * A ROS Publisher - Setup
 #+BEGIN_NOTES
@@ -99,135 +141,103 @@ Should we write our own? I like how well this is documented
 
 int main(int argc, char **argv)
 {
-  /**
-   * The ros::init() function needs to see argc and argv so that it can perform
-   * any ROS arguments and name remapping that were provided at the command line.
-   * The third argument to init() is the name of the node.
-   *
-   * You must call ros::init() before using any part of the ROS system.
-   */
-  ros::init(argc, argv, "talker");
+   ros::init(argc, argv, "talker");
 
-  /**
-   * NodeHandle is the main access point to communications with the ROS system.
-   * The first NodeHandle constructed will fully initialize this node, and the last
-   * NodeHandle destructed will close down the node.
-   */
-  ros::NodeHandle n;
+   ros::NodeHandle n;
+
+   ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
+
+   ros::Rate loop_rate(10);
 #+END_SRC
-
-* ROS Publisher - Advertising
-#+BEGIN_SRC C++
-  /**
-   * The advertise() function is how you tell ROS that you want to
-   * publish on a given topic name. This invokes a call to the ROS
-   * master node, which keeps a registry of who is publishing and who
-   * is subscribing. After this advertise() call is made, the master
-   * node will notify anyone who is trying to subscribe to this topic name,
-   * and they will in turn negotiate a peer-to-peer connection with this
-   * node.  advertise() returns a Publisher object which allows you to
-   * publish messages on that topic through a call to publish().  Once
-   * all copies of the returned Publisher object are destroyed, the topic
-   * will be automatically unadvertised.
-   *
-   * The second parameter to advertise() is the size of the message queue
-   * used for publishing messages.  If messages are published more quickly
-   * than we can send them, the number here specifies how many messages to
-   * buffer up before throwing some away.
-   */
-  ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
-
-  ros::Rate loop_rate(10);
-#+END_SRC
-
 
 * ROS Publisher - publishing
 #+BEGIN_SRC C++
   int count = 0;
   while (ros::ok())
   {
-    //This is a message object. You stuff it with data, and then publish it.
-    std_msgs::String msg;
+  //This is a message object. You stuff it with data, and then publish it.
+  std_msgs::String msg;
 
-    std::stringstream ss;
-    ss << "hello world " << count;
-    msg.data = ss.str();
+  std::stringstream ss;
+  ss << "hello world " << count;
+  msg.data = ss.str();
 
-    ROS_INFO("%s", msg.data.c_str());
+  ROS_INFO("%s", msg.data.c_str());
 
-    /**
-     * The publish() function is how you send messages. The parameter
-     * is the message object. The type of this object must agree with the type
-     * given as a template parameter to the advertise<>() call, as was done
-     * in the constructor above.
-     */
-    chatter_pub.publish(msg);
+  chatter_pub.publish(msg);
 
-    ros::spinOnce();
+  ros::spinOnce();
 
-    loop_rate.sleep();
-    ++count;
+  loop_rate.sleep();
+  ++count;
   }
   return 0;
 }
 #+END_SRC
 
+* Start the publisher node
+#+BEGIN_SRC sh
+rosrun node_example talker
+#+END_SRC
 
 * rosnode
-- =rosnode list=
-  - lists all of the nodes that are running
-* Let's get a better picture of what's going on
-- How can I see which nodes are running and if my node is one of them?
-- =rosnode list=
-- What if i want to know if messages are being published onto my topic?
-- =rostopic hz chatter=
-- Ok, cool! What are those messages?
-- =rostopic echo chatter=
-* A ROS Subsriber -  Setup
+#+BEGIN_NOTES
+demo
+#+END_NOTES
+| =rosnode list= | lists all of the nodes that are running                       |
+| =rosnode info= | gives information about a node (publishers, subscribers, etc) |
+| =rosnode kill= | kills a running node                                          |
+
+* rostopic
+#+BEGIN_NOTES
+demo
+#+END_NOTES
+| =rostopic list= | lists the currently publishing or subscribing topics    |
+| =rostopic info= | prints out information about that topic                 |
+| =rostopic echo= | prints out the messages on that topic                   |
+| =rostopic hz=   | prints out the rate at which a topic is being published |
+| =rostopic type= | prints out the type of message                          |
+| =rostopic find= | prints out the topics with the given message type       |
+| =rostopic pub=  | publishes a given topic with the given command          |
+
+* rosmsg
+#+BEGIN_NOTES
+demo
+#+END_NOTES
+| =rosmsg show= | shows you the make up of a message |
+- =rostopic type topicName | rosmsg show=
+
+* A ROS Subscriber -  Setup
 #+BEGIN_SRC C++
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 
-/**
- * This tutorial demonstrates simple receipt of messages over the ROS system.
- */
 void chatterCallback(const std_msgs::String::ConstPtr& msg)
 {
   ROS_INFO("I heard: [%s]", msg->data.c_str());
 }
-
-int main(int argc, char **argv)
-{
-  ros::init(argc, argv, "listener");
-
-  ros::NodeHandle n;
 #+END_SRC
 
-* A ROS Subsriber - Subscribing
+* A ROS Subscriber - Subscribing
 #+BEGIN_SRC C++
-  /**
-   * The subscribe() call is how you tell ROS that you want to receive messages
-   * on a given topic.  This invokes a call to the ROS
-   * master node, which keeps a registry of who is publishing and who
-   * is subscribing.  Messages are passed to a callback function, here
-   * called chatterCallback.  subscribe() returns a Subscriber object that you
-   * must hold on to until you want to unsubscribe.  When all copies of the Subscriber
-   * object go out of scope, this callback will automatically be unsubscribed from
-   * this topic.
-   */
-  ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
+int main(int argc, char **argv)
+{
+   ros::init(argc, argv, "listener");
 
-  /**
-   * ros::spin() will enter a loop, pumping callbacks.  With this version, all
-   * callbacks will be called from within this thread (the main one).  ros::spin()
-   * will exit when Ctrl-C is pressed, or the node is shutdown by the master.
-   */
-  ros::spin();
+   ros::NodeHandle n;
 
-  return 0;
+   ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
+
+   ros::spin();
+
+   return 0;
 }
 #+END_SRC
 
+* Start the subscriber node
+#+BEGIN_SRC sh
+rosrun node_example listener
+#+END_SRC
 * Let's go back to PointCloud2
 #+BEGIN_NOTES
 Talk them through the layout of the message. Show them that messages can
@@ -244,3 +254,9 @@ message should have a header
   debugging easier
 - Messages contain fields of data, some of these fields also contain fields
   of data, as they are also message types
+* =rqt_graph=
+#+BEGIN_NOTES
+make sure to launch enough nodes to make it hella complicated. talk a little bit about a code base
+#+END_NOTES
+- what if I want to see all of my nodes and messages
+- =rqt_graph=
