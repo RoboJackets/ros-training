@@ -3,7 +3,6 @@
 #+EMAIL: schintalapudi@gatech.edu
 
 * Meet the lidar!
-- picture of lidar
 - This sensor shines a laser light in circles and measures the return times
   from the pulses to give us a 3D model of our world
 - Notice that the lidar has a *rotating* component. This makes them more
@@ -14,18 +13,21 @@
   type
   [[http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html][PointCloud2]]
 - A pointcloud is a data structure for holding the results found by the
-  lidar
-- This includes an array of points picked up from the the LIDAR and their 
+  lidar (X, Y, Z)
+- This includes an array of points picked up from the the LIDAR and their
   cartesian coordinates relative to the LIDAR
 
 * What does a pointcloud look like?
 #+BEGIN_NOTES
-Pull out Jason's LIDAR and run rqt
-TODO: A launch file that publishes lidar output? If we don't have one
+Pull out Jason's LIDAR and run rqt TODO: A launch file that publishes
+lidar output? If we don't have one
 #+END_NOTES
 - Live demo time!
 
 * How do we structure ROS projects?
+#+BEGIN_NOTES
+pull open the repository and show them this literal structure
+#+END_NOTES
 #+BEGIN_SRC bash
       project
             package1
@@ -36,7 +38,7 @@ TODO: A launch file that publishes lidar output? If we don't have one
                   CMakeLists.txt
                   package.xml
             package2
-                  src 
+                  src
                         node2a
                         node2b
                         ...
@@ -46,19 +48,25 @@ TODO: A launch file that publishes lidar output? If we don't have one
 #+END_SRC
 
 * CMakeLists file
+#+BEGIN_NOTES
+walk them through the file and show them the parts of it
+#+END_NOTES
 - ROS code is built with a build tool called catkin, which itself sits on top
   of a build tool called CMake
 - CMakeLists defines the structure of the package for the compiler, as well
   as linking the executable ROS nodes to the appropriate libraries (OpenCV,
   PCL, etc..)
 -  [[https://github.com/RoboJackets/roboracing-software/blob/master/iarrc/CMakeLists.txt][Example
-   CMakeLists]] 
+   CMakeLists]]
 
 * package.xml file
+#+BEGIN_NOTES
+walk them through the file and show them the parts of it
+#+END_NOTES
 - Defines packages the host computer needs to have installed to run the code
   in the project
-- "build_depends" are packages needed to compile the code
-- "run_depends" are packages needed by the code at runtime
+- =build_depends= are packages needed to compile the code
+- =run_depends= are packages needed by the code at runtime
 - Also specifies project maintainer/contact information
 - [[https://github.com/RoboJackets/igvc-software/blob/master/gazebo/igvc_control/package.xml][Example
   package.xml]]
@@ -161,9 +169,13 @@ int main(int argc, char **argv)
     ++count;
   }
   return 0;
-}      
+}
 #+END_SRC
 
+
+* rosnode
+- =rosnode list=
+  - lists all of the nodes that are running
 * Let's get a better picture of what's going on
 - How can I see which nodes are running and if my node is one of them?
 - =rosnode list=
@@ -232,4 +244,3 @@ message should have a header
   debugging easier
 - Messages contain fields of data, some of these fields also contain fields
   of data, as they are also message types
-
