@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Week 2</title>
+<meta name="author" content="(Sahit Chintalapudi, Jason Gibson)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/theme/white.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://robojackets.github.io/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Week 2</h1>
+</section>
+
+<section id="slide-org893af58">
+<h2 id="org893af58">Meet the lidar!</h2>
+<ul>
+<li>This sensor shines a laser light in circles and measures the return times
+from the pulses to give us a 3D model of our world</li>
+<li>Notice that the lidar has a <b>rotating</b> component. This makes them more
+fragile the a sensor like a camera, so <b>they should be handled with caution</b>.</li>
+
+</ul>
+
+<div class="figure">
+<p><img src="https://cdn.sparkfun.com//assets/parts/1/2/0/0/3/14117-02a.jpg" alt="14117-02a.jpg" width="30%" />
+</p>
+</div>
+
+</section>
+<section id="slide-org05e99d2">
+<h2 id="org05e99d2">Pointclouds</h2>
+<ul>
+<li>We use ROS's PCL package to interface with the LIDAR, and get messages of
+type
+<a href="http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html">PointCloud2</a></li>
+<li>A pointcloud is a data structure for holding the results found by the
+lidar (X, Y, Z)</li>
+<li>This includes an array of points picked up from the the LIDAR and their
+cartesian coordinates relative to the LIDAR</li>
+
+</ul>
+
+</section>
+<section id="slide-orgdeeeba6">
+<h2 id="orgdeeeba6">What does a pointcloud look like?</h2>
+<aside class="notes">
+<p>
+Pull out Jason's LIDAR and run rqt
+</p>
+
+</aside>
+<ul>
+<li>Live demo time!</li>
+
+</ul>
+
+</section>
+<section id="slide-org0706ebc">
+<h2 id="org0706ebc">How do we structure ROS projects?</h2>
+<aside class="notes">
+<p>
+pull open the repository and show them this literal structure
+</p>
+
+</aside>
+<div class="org-src-container">
+
+<pre  class="src src-bash">project
+  package1
+      src
+        node1a
+        node1b
+        ...
+      CMakeLists.txt
+      package.xml
+  package2
+      src
+        node2a
+        node2b
+        ...
+      CMakeLists.txt
+      package.xml
+  ...
+</pre>
+</div>
+
+</section>
+<section id="slide-org04ee41a">
+<h2 id="org04ee41a">CMakeLists file</h2>
+<aside class="notes">
+<p>
+walk them through the file and show them the parts of it
+</p>
+
+</aside>
+<ul>
+<li>ROS code is built with a build tool called catkin, which itself sits on top
+of a build tool called CMake</li>
+<li>CMakeLists defines the structure of the package for the compiler, as well
+as linking the executable ROS nodes to the appropriate libraries (OpenCV,
+PCL, etc..)</li>
+<li><a href="https://github.com/RoboJackets/roboracing-software/blob/master/iarrc/CMakeLists.txt">Example
+CMakeLists</a></li>
+
+</ul>
+
+</section>
+<section id="slide-org68f3b11">
+<h2 id="org68f3b11">Our CMakeLists.txt file</h2>
+<pre  class="example">
+cmake_minimum_required(VERSION 2.8.3)
+project(node_example)
+
+find_package(catkin REQUIRED COMPONENTS roscpp std_msgs)
+
+catkin_package(
+  CATKIN_DEPENDS roscpp std_msgs
+)
+
+include_directories(include ${catkin_INCLUDE_DIRS})
+
+add_executable(talker src/talker.cpp)
+target_link_libraries(talker ${catkin_LIBRARIES})
+
+add_executable(listener src/listener.cpp)
+target_link_libraries(listener ${catkin_LIBRARIES})
+</pre>
+
+</section>
+<section id="slide-org367926e">
+<h2 id="org367926e">package.xml file</h2>
+<aside class="notes">
+<p>
+walk them through the file and show them the parts of it
+</p>
+
+</aside>
+<ul>
+<li>Defines packages the host computer needs to have installed to run the code
+in the project</li>
+<li><code>build_depends</code> are packages needed to compile the code</li>
+<li><code>run_depends</code> are packages needed by the code at runtime</li>
+<li>Also specifies project maintainer/contact information</li>
+<li><a href="https://github.com/RoboJackets/igvc-software/blob/master/gazebo/igvc_control/package.xml">Example
+package.xml</a></li>
+
+</ul>
+
+</section>
+<section id="slide-org7734207">
+<h2 id="org7734207">Our package.xml file</h2>
+<div class="org-src-container">
+
+<pre  class="src src-xml">&lt;?<span style="color: #598249;">xml</span> <span style="color: #2F7BDE;">version</span>=<span style="color: #15968D;">"</span><span style="color: #15968D;">1.0</span><span style="color: #15968D;">"</span>?&gt;
+&lt;<span style="color: #2F7BDE;">package</span> <span style="color: #2F7BDE;">format</span>=<span style="color: #15968D;">"</span><span style="color: #15968D;">2</span><span style="color: #15968D;">"</span>&gt;
+  &lt;<span style="color: #2F7BDE;">name</span>&gt;node_example&lt;/<span style="color: #2F7BDE;">name</span>&gt;
+  &lt;<span style="color: #2F7BDE;">version</span>&gt;0.0.1&lt;/<span style="color: #2F7BDE;">version</span>&gt;
+  &lt;<span style="color: #2F7BDE;">description</span>&gt;
+  basic publisher and subscriber for IGVC and RR ROS training
+  &lt;/<span style="color: #2F7BDE;">description</span>&gt;
+  &lt;<span style="color: #2F7BDE;">author</span>&gt;Jason Gibson&lt;/<span style="color: #2F7BDE;">author</span>&gt;
+  &lt;<span style="color: #2F7BDE;">maintainer</span> <span style="color: #2F7BDE;">email</span>=<span style="color: #15968D;">"</span><span style="color: #15968D;">jgibson37@gatech.edu</span><span style="color: #15968D;">"</span>&gt;Jason Gibson&lt;/<span style="color: #2F7BDE;">maintainer</span>&gt;
+  &lt;<span style="color: #2F7BDE;">license</span>&gt;MIT&lt;/<span style="color: #2F7BDE;">license</span>&gt;
+
+  &lt;<span style="color: #2F7BDE;">buildtool_depend</span>&gt;catkin&lt;/<span style="color: #2F7BDE;">buildtool_depend</span>&gt;
+
+  &lt;<span style="color: #2F7BDE;">depend</span>&gt;roscpp&lt;/<span style="color: #2F7BDE;">depend</span>&gt;
+  &lt;<span style="color: #2F7BDE;">depend</span>&gt;std_msgs&lt;/<span style="color: #2F7BDE;">depend</span>&gt;
+
+&lt;/<span style="color: #2F7BDE;">package</span>&gt;
+
+</pre>
+</div>
+
+</section>
+<section id="slide-org8784221">
+<h2 id="org8784221">Some ROS Vocab</h2>
+<ul>
+<li>A <span class="underline">node</span> is a process running on your computer
+<ul>
+<li>you specify the behavior of the node with the C++ code you write</li>
+
+</ul></li>
+<li><p>
+Nodes <span class="underline">publish messages</span> on a <span class="underline">topic</span>
+</p>
+<ul>
+<li>A message is a data structure made up of fields. Messages can be</li>
+
+</ul>
+<p>
+primitive like booleans or ints, or they can contain other data
+structures like a PointCloud
+</p>
+<ul>
+<li>Think of a topic as the mailbox to which the messages get delivered</li>
+
+</ul></li>
+<li><p>
+Nodes <span class="underline">subscribe</span> to a topic to receive <span class="underline">callbacks</span> when a new message
+appears
+</p>
+<ul>
+<li>Subscribing to a topic entails telling ROS to call a function you</li>
+
+</ul>
+<p>
+define everytime a new message is published on this topic!
+</p></li>
+
+</ul>
+
+</section>
+<section id="slide-orgf279a96">
+<h2 id="orgf279a96">A ROS Publisher - Setup</h2>
+<aside class="notes">
+<p>
+Should we write our own? I like how well this is documented
+</p>
+
+</aside>
+<ul>
+<li>Borrowed from:
+<a href="https://raw.githubusercontent.com/ros/ros_tutorials/kinetic-devel/roscpp_tutorials/talker/talker.cpp">https://raw.githubusercontent.com/ros/ros_tutorials/kinetic-devel/roscpp_tutorials/talker/talker.cpp</a></li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-C++"><span style="color: #598249;">#include</span> <span style="color: #15968D;">"ros/ros.h"</span>
+<span style="color: #598249;">#include</span> <span style="color: #15968D;">"std_msgs/String.h"</span>
+
+<span style="color: #598249;">#include</span> <span style="color: #15968D;">&lt;sstream&gt;</span>
+
+<span style="color: #598249;">int</span> <span style="color: #2F7BDE;">main</span>(<span style="color: #598249;">int</span> <span style="color: #2F7BDE;">argc</span>, <span style="color: #598249;">char</span> **<span style="color: #2F7BDE;">argv</span>)
+{
+   <span style="color: #15968D;">ros</span>::init(argc, argv, <span style="color: #15968D;">"talker"</span>);
+
+   <span style="color: #15968D;">ros</span>::<span style="color: #598249;">NodeHandle</span> <span style="color: #2F7BDE;">n</span>;
+
+   <span style="color: #15968D;">ros</span>::<span style="color: #598249;">Publisher</span> <span style="color: #2F7BDE;">chatter_pub</span> = n.advertise&lt;<span style="color: #15968D;">std_msgs</span>::String&gt;(<span style="color: #15968D;">"chatter"</span>, 1000);
+
+   <span style="color: #15968D;">ros</span>::<span style="color: #598249;">Rate</span> <span style="color: #2F7BDE;">loop_rate</span>(10);
+</pre>
+</div>
+
+</section>
+<section id="slide-orgd61c946">
+<h2 id="orgd61c946">ROS Publisher - publishing</h2>
+<div class="org-src-container">
+
+<pre  class="src src-C++">  <span style="color: #598249;">int</span> <span style="color: #2F7BDE;">count</span> = 0;
+  <span style="color: #598249;">while</span> (<span style="color: #15968D;">ros</span>::ok())
+  {
+  <span style="color: #5e6263;">//</span><span style="color: #5e6263;">This is a message object. You stuff it with data, and then publish it.</span>
+  <span style="color: #15968D;">std_msgs</span>::<span style="color: #598249;">String</span> <span style="color: #2F7BDE;">msg</span>;
+
+  <span style="color: #15968D;">std</span>::<span style="color: #598249;">stringstream</span> <span style="color: #2F7BDE;">ss</span>;
+  ss &lt;&lt; <span style="color: #15968D;">"hello world "</span> &lt;&lt; count;
+  msg.data = ss.str();
+
+  ROS_INFO(<span style="color: #15968D;">"%s"</span>, msg.data.c_str());
+
+  chatter_pub.publish(msg);
+
+  <span style="color: #15968D;">ros</span>::spinOnce();
+
+  loop_rate.sleep();
+  ++count;
+  }
+  <span style="color: #598249;">return</span> 0;
+}
+</pre>
+</div>
+
+</section>
+<section id="slide-org27fa2c0">
+<h2 id="org27fa2c0">Start the publisher node</h2>
+<div class="org-src-container">
+
+<pre  class="src src-sh">rosrun node_example talker
+</pre>
+</div>
+
+</section>
+<section id="slide-orgc9799c7">
+<h2 id="orgc9799c7">rosnode</h2>
+<aside class="notes">
+<p>
+demo
+</p>
+
+</aside>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>rosnode list</code></td>
+<td class="org-left">lists all of the nodes that are running</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>rosnode info</code></td>
+<td class="org-left">gives information about a node (publishers, subscribers, etc)</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>rosnode kill</code></td>
+<td class="org-left">kills a running node</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-orgfb2860e">
+<h2 id="orgfb2860e">rostopic</h2>
+<aside class="notes">
+<p>
+demo
+</p>
+
+</aside>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>rostopic list</code></td>
+<td class="org-left">lists the currently publishing or subscribing topics</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>rostopic info</code></td>
+<td class="org-left">prints out information about that topic</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>rostopic echo</code></td>
+<td class="org-left">prints out the messages on that topic</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>rostopic hz</code></td>
+<td class="org-left">prints out the rate at which a topic is being published</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>rostopic type</code></td>
+<td class="org-left">prints out the type of message</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>rostopic find</code></td>
+<td class="org-left">prints out the topics with the given message type</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>rostopic pub</code></td>
+<td class="org-left">publishes a given topic with the given command</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-org30be5fe">
+<h2 id="org30be5fe">rosmsg</h2>
+<aside class="notes">
+<p>
+demo
+</p>
+
+</aside>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>rosmsg show</code></td>
+<td class="org-left">shows you the make up of a message</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>rostopic type topicName | rosmsg show</code></li>
+
+</ul>
+
+</section>
+<section id="slide-org9e389e8">
+<h2 id="org9e389e8">A ROS Subscriber -  Setup</h2>
+<div class="org-src-container">
+
+<pre  class="src src-C++"><span style="color: #598249;">#include</span> <span style="color: #15968D;">"ros/ros.h"</span>
+<span style="color: #598249;">#include</span> <span style="color: #15968D;">"std_msgs/String.h"</span>
+
+<span style="color: #598249;">void</span> <span style="color: #2F7BDE;">chatterCallback</span>(<span style="color: #598249;">const</span> <span style="color: #15968D;">std_msgs</span>::<span style="color: #15968D;">String</span>::<span style="color: #598249;">ConstPtr</span>&amp; <span style="color: #2F7BDE;">msg</span>)
+{
+  ROS_INFO(<span style="color: #15968D;">"I heard: [%s]"</span>, msg-&gt;data.c_str());
+}
+</pre>
+</div>
+
+</section>
+<section id="slide-orgccabba3">
+<h2 id="orgccabba3">A ROS Subscriber - Subscribing</h2>
+<div class="org-src-container">
+
+<pre  class="src src-C++"><span style="color: #598249;">int</span> <span style="color: #2F7BDE;">main</span>(<span style="color: #598249;">int</span> <span style="color: #2F7BDE;">argc</span>, <span style="color: #598249;">char</span> **<span style="color: #2F7BDE;">argv</span>)
+{
+   <span style="color: #15968D;">ros</span>::init(argc, argv, <span style="color: #15968D;">"listener"</span>);
+
+   <span style="color: #15968D;">ros</span>::<span style="color: #598249;">NodeHandle</span> <span style="color: #2F7BDE;">n</span>;
+
+   <span style="color: #15968D;">ros</span>::<span style="color: #598249;">Subscriber</span> <span style="color: #2F7BDE;">sub</span> = n.subscribe(<span style="color: #15968D;">"chatter"</span>, 1000, chatterCallback);
+
+   <span style="color: #15968D;">ros</span>::spin();
+
+   <span style="color: #598249;">return</span> 0;
+}
+</pre>
+</div>
+
+</section>
+<section id="slide-org437506a">
+<h2 id="org437506a">Start the subscriber node</h2>
+<div class="org-src-container">
+
+<pre  class="src src-sh">rosrun node_example listener
+</pre>
+</div>
+</section>
+<section id="slide-orgdc1cab6">
+<h2 id="orgdc1cab6">Let's go back to PointCloud2</h2>
+<aside class="notes">
+<p>
+Talk them through the layout of the message. Show them that messages can
+consists of field which then consist of other fields. For example, click on
+the header, which links to message definition for a header. Note that every
+message should have a header
+</p>
+
+</aside>
+<ul>
+<li>Everyone visit the
+<a href="http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html">PointCloud2
+message declaration</a></li>
+
+</ul>
+
+</section>
+<section id="slide-orgf1133be">
+<h2 id="orgf1133be">Takeaways from the message definition</h2>
+<ul>
+<li>Messages should always have headers. Haveing a timestamp makes logging and
+debugging easier</li>
+<li>Messages contain fields of data, some of these fields also contain fields
+of data, as they are also message types</li>
+
+</ul>
+</section>
+<section id="slide-org1646f33">
+<h2 id="org1646f33"><code>rqt_graph</code></h2>
+<aside class="notes">
+<p>
+make sure to launch enough nodes to make it hella complicated. talk a little bit about a code base
+</p>
+
+</aside>
+<ul>
+<li>what if I want to see all of my nodes and messages</li>
+<li><code>rqt_graph</code></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="https://robojackets.github.io/reveal.js/lib/js/head.min.js"></script>
+<script src="https://robojackets.github.io/reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: false,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+width: 1440,
+height: 800,
+margin: 0.15,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'fast',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://robojackets.github.io/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+]
+});
+</script>
+</body>
+</html>
