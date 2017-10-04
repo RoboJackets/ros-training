@@ -1,4 +1,4 @@
-* IGVC Software Training
+* ROS Training
 
 * Building Slides
 
@@ -10,3 +10,8 @@
   make
   #+END_SRC
 4. Output will be placed in the ~html/~ directory, at the root
+* Slides
+1. Week 1
+   + [[https://robojackets.github.io/ros-training/slides/week1/week1.html][Week 1]]
+2. Week 2
+   + [[https://robojackets.github.io/ros-training/slides/week2/week2.html][Week 2]]

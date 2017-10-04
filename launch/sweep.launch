@@ -1,0 +1,11 @@
+<launch>
+  <node name="sweep_node"	pkg="sweep_ros"  type="sweep_node" output="screen">
+	<param name="serial_port"         type="string" value="/dev/ttyUSB0"/>
+	<param name="serial_baudrate"     type="int"    value="115200"/>
+	<param name="frame_id"            type="string" value="lidar"/>
+	<param name="rotation_speed"	  type="int" value="1"/>
+  </node>
+
+	<param name="robot_description" command="cat $(find igvc_description)/urdf/Jaymii.urdf"/>
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+</launch>
