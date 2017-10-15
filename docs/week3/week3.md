@@ -51,7 +51,7 @@ uses the hall effect
 # Update your local fork
 
 ```shell
-git pull rj master
+git pull
 git push
 ```
 
