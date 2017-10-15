@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Week 3</title>
+<meta name="author" content="(Jason Gibson)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/theme/white.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://robojackets.github.io/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Week 3</h1>
+</section>
+
+<section id="slide-org909a8aa">
+<h2 id="org909a8aa">What are we doing today?</h2>
+<ul>
+<li>Encoders</li>
+<li>launch files</li>
+<li>Gazebo
+<ul>
+<li>urdf</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org79b1fb3">
+<h2 id="org79b1fb3">Encoders</h2>
+<aside class="notes">
+<p>
+keep it high level. Do an example of ticks
+</p>
+
+</aside>
+<ul>
+<li>used to determine the speed of a spinning wheel
+<ul>
+<li>measure number of ticks during a time step</li>
+
+</ul></li>
+<li>2 main types
+<ul>
+<li>optical</li>
+<li>magnetic</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgf20ee36">
+<h3 id="orgf20ee36">Optical Encoders</h3>
+<aside class="notes">
+<p>
+sensitive to dust and broken disks
+</p>
+
+</aside>
+<ul>
+<li>uses a light and a glass wheel to measure ticks</li>
+<li>generally a high tick count</li>
+<li>used by IGVC and RoboRacing</li>
+
+</ul>
+
+<div class="figure">
+<p><img src="https://i.imgur.com/d5Rx7nQ.jpg" alt="d5Rx7nQ.jpg" width="35%" />
+</p>
+</div>
+
+</section>
+<section id="slide-org26d3aac">
+<h3 id="org26d3aac">Magnetic Encoders</h3>
+<aside class="notes">
+<p>
+uses the hall effect
+</p>
+
+</aside>
+<ul>
+<li>uses magnets to measure ticks</li>
+<li>generally lower tick count</li>
+<li>requires occasional tuning</li>
+
+</ul>
+
+<div class="figure">
+<p><img src="https://automation-insights.blog/wp-content/uploads/2015/09/bml-evalkit.jpg" alt="bml-evalkit.jpg" width="35%" />
+</p>
+</div>
+</section>
+<section id="slide-org895bc70">
+<h2 id="org895bc70">Update your local fork</h2>
+<div class="org-src-container">
+
+<pre  class="src src-shell">git pull rj master
+git push
+</pre>
+</div>
+</section>
+<section id="slide-org4aa0656">
+<h2 id="org4aa0656">Launch Files</h2>
+<aside class="notes">
+<p>
+mention how it can be more human understandable. Just a shorthand for rosrun
+</p>
+
+</aside>
+<ul>
+<li>XML files</li>
+<li>a way to launch multiple ros nodes</li>
+<li>recursive</li>
+
+</ul>
+
+</section>
+<section id="slide-org87ef589">
+<h2 id="org87ef589">Why Launch Files</h2>
+<div class="org-src-container">
+
+<pre  class="src src-shell">rosrun igvc mapper ekf/base_link_frame=base_footprint mapper/topics=
+/scan/pointcloud /usb_cam_center/line_cloud /usb_cam_left/line_cloud
+<span style="color: #2F7BDE;">max_correspondence_distance</span>=0.1 <span style="color: #2F7BDE;">max_iterations</span>=30 <span style="color: #2F7BDE;">search_radius</span>=0.03
+</pre>
+</div>
+</section>
+<section id="slide-org512c5ac">
+<h2 id="org512c5ac">Commandline</h2>
+<aside class="notes">
+<p>
+make sure to mention tab complete
+</p>
+
+</aside>
+<div class="org-src-container">
+
+<pre  class="src src-shell">roslaunch igvc mapper.launch
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre  class="src src-shell">roslaunch [PACKAGE_NAME] FILE_NAME.launch
+</pre>
+</div>
+
+</section>
+<section id="slide-orgc46c01b">
+<h2 id="orgc46c01b">Structure</h2>
+<ul>
+<li>everything is encompassed in the launch tag</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-XML">&lt;launch&gt;
+  &lt;!-- here --&gt;
+&lt;/launch&gt;
+</pre>
+</div>
+
+</section>
+<section id="slide-org5416945">
+<h2 id="org5416945">Valid Tags</h2>
+<aside class="notes">
+<p>
+mention that these are the tags the go under the launch tag
+</p>
+
+</aside>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">tag</th>
+<th scope="col" class="org-left">usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>node</code></td>
+<td class="org-left">launches a node</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>param</code></td>
+<td class="org-left">sets up a parameter for that node</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>remap</code></td>
+<td class="org-left">remap a topic name to something else</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>rosparam</code></td>
+<td class="org-left">enables the use of YAML files for setting lots of parameters</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>include</code></td>
+<td class="org-left">includes and launches other roslaunch files</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>env</code></td>
+<td class="org-left">specify and environment variable</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>arg</code></td>
+<td class="org-left">sets a variable that can be used in the rest of the launch file</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>group</code></td>
+<td class="org-left">allows you to group nodes in a single launch file</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-org03c3569">
+<h2 id="org03c3569">&lt;node&gt;</h2>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">tag</th>
+<th scope="col" class="org-left">usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>name</code></td>
+<td class="org-left">the name given to that instance of a node</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>pkg</code></td>
+<td class="org-left">the package that the node is in</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>type</code></td>
+<td class="org-left">The package to launch</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>args</code></td>
+<td class="org-left">arguments to pass to node</td>
+</tr>
+</tbody>
+</table>
+<div class="org-src-container">
+
+<pre  class="src src-XML">&lt;launch&gt;
+  &lt;node name="NODE_NAME" pkg="PKG_NAME" type="NODE_TYPE" .../&gt;
+
+  &lt;node name="NODE_NAME" pkg="PKG_NAME" type="NODE_TYPE"&gt;
+    &lt;!-- tags local to this node --&gt;
+  &lt;/node&gt;
+&lt;/launch&gt;
+</pre>
+</div>
+
+</section>
+<section id="slide-org254c19d">
+<h2 id="org254c19d">&lt;param&gt;</h2>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">tag</th>
+<th scope="col" class="org-left">usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>name</code></td>
+<td class="org-left">the name of the parameter</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>type</code></td>
+<td class="org-left">the variable type</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>value</code></td>
+<td class="org-left">the value of the parameter</td>
+</tr>
+</tbody>
+</table>
+<div class="org-src-container">
+
+<pre  class="src src-XML">&lt;launch&gt;
+  &lt;node name="NODE_NAME" pkg="PKG_NAME" type="NODE_TYPE"&gt;
+    &lt;param name="PARAM_NAME" type="VAR_TYPE" value="VALUE"&gt;
+  &lt;/node&gt;
+&lt;/launch&gt;
+</pre>
+</div>
+
+</section>
+<section id="slide-orgf2de924">
+<h2 id="orgf2de924">Substitution arguments</h2>
+<ul>
+<li>$(env <code>ENV_VAR</code>)
+<ul>
+<li>will set the value from environment variable</li>
+<li>will fail if <code>ENV_VAR</code> is not set</li>
+
+</ul></li>
+<li>$(opentv <code>ENV_VAR</code> <code>default_value</code>)
+<ul>
+<li>will set the value from environment variable if set</li>
+<li>will set default if <code>ENV_VAR</code> is not defined</li>
+
+</ul></li>
+<li>$(find <code>PKG_NAME</code>)
+<ul>
+<li>used for relative paths to files in packages</li>
+
+</ul></li>
+<li>$(arg <code>ARG_NAME</code>)
+<ul>
+<li>will set to <code>ARG_NAME</code> if it is defined in file</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org78d4a96">
+<h2 id="org78d4a96">Useful Commandline Arguments</h2>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">option</th>
+<th scope="col" class="org-left">effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>--screen</code></td>
+<td class="org-left">force node output to screen</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>--dump-params</code></td>
+<td class="org-left">print parameters in yaml format</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>--nodes</code></td>
+<td class="org-left">prints the nodes launched by this launch file</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>--args</code></td>
+<td class="org-left">prints the command line arguments set in launch file</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-org7a090cc">
+<h2 id="org7a090cc">Gazebo</h2>
+<ul>
+<li>The simulator used by both RoboRacing and IGVC</li>
+
+</ul>
+
+<div class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/13/Gazebo_logo.svg/1024px-Gazebo_logo.svg.png" alt="1024px-Gazebo_logo.svg.png" width="35%" />
+</p>
+</div>
+
+</section>
+<section id="slide-org66097a4">
+<h2 id="org66097a4">Simulation</h2>
+<aside class="notes">
+<p>
+talk about how it crashes. Also that we can simulate friction, mass, etc
+</p>
+
+</aside>
+<ul>
+<li>simulators are wonderful</li>
+<li>allow to test code in somewhat real life situations</li>
+<li>not a ROS product
+<ul>
+<li>interacts with ROS through plugins that publish to topics</li>
+<li>these plugins are not perfect so it crashes <b>a lot</b></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org59d8b59">
+<h2 id="org59d8b59">Package Structure</h2>
+<ul>
+<li><code>TEAM_NAME_Description</code>
+<ul>
+<li>contains the URDF file</li>
+<li>defines the world</li>
+
+</ul></li>
+<li><code>TEAM_NAME_Control</code>
+<ul>
+<li>contains the nodes that control the environment</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgc12a604">
+<h2 id="orgc12a604">URDF</h2>
+<ul>
+<li>unified robot description format</li>
+<li>this is what gazebo uses to generate the robot</li>
+<li>XML file format</li>
+<li>defines everything in a 3-dimensional grid</li>
+
+</ul>
+
+</section>
+<section id="slide-org6cf5dee">
+<h2 id="org6cf5dee">Links</h2>
+<aside class="notes">
+<p>
+take about what each is and how meshes can be used as geometries. visual is required
+</p>
+
+</aside>
+<ul>
+<li>links contain
+<ul>
+<li>required for ROS
+<ul>
+<li>visual geometry</li>
+
+</ul></li>
+<li>required for gazebo
+<ul>
+<li>collision geometry</li>
+<li>intertial geometry</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orge632be6">
+<h2 id="orge632be6">Links Basic Example</h2>
+<aside class="notes">
+<p>
+make sure to launch rviz with this urdf
+</p>
+
+</aside>
+<div class="org-src-container">
+
+<pre  class="src src-XML">&lt;robot&gt;
+  &lt;link name="base_link"&gt;
+    &lt;visual&gt;
+      &lt;geometry&gt;
+	&lt;box size="0.8 0.3 0.1"/&gt;
+      &lt;/geometry&gt;
+    &lt;/visual&gt;
+  &lt;/link&gt;
+&lt;/robot&gt;
+</pre>
+</div>
+
+</section>
+<section id="slide-orga35b5df">
+<h2 id="orga35b5df">Gazebo Link</h2>
+<aside class="notes">
+<p>
+launch this in gazebo
+</p>
+
+</aside>
+<div class="org-src-container">
+
+<pre  class="src src-XML">&lt;link name="body"&gt;
+  &lt;inertial&gt;
+    &lt;origin xyz="0 0 0" /&gt;
+    &lt;mass value="50.0" /&gt;
+    &lt;inertia  ixx="0.0" ixy="0.0"  ixz="1.0"  iyy="0.0"  iyz="0.0"  izz="0.0" /&gt;
+  &lt;/inertial&gt;
+  &lt;visual&gt;
+    &lt;origin rpy="0 0 0" xyz="0 0 0"/&gt;
+    &lt;geometry&gt;
+      &lt;mesh filename="model://urdf/meshes/Body.dae"/&gt;
+    &lt;/geometry&gt;
+  &lt;/visual&gt;
+  &lt;collision&gt;
+    &lt;geometry&gt;
+      &lt;mesh filename="model://urdf/meshes/Body.dae"/&gt;
+    &lt;/geometry&gt;
+  &lt;/collision&gt;
+&lt;/link&gt;
+</pre>
+</div>
+</section>
+<section id="slide-org971bc01">
+<h2 id="org971bc01">Joints</h2>
+<ul>
+<li>links can be connected using joints
+<ul>
+<li>all joints have a parents and a child</li>
+
+</ul></li>
+<li>all positions are realtive to its parents
+<ul>
+<li>entire tree should have a single root</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgf21fe26">
+<h2 id="orgf21fe26">I AM ROOT</h2>
+
+<div class="figure">
+<p><img src="https://www.syfy.com/sites/syfy/files/wire/legacy/groot_0.jpg" alt="groot_0.jpg" width="45%" />
+</p>
+</div>
+
+</section>
+<section id="slide-org55fb2b6">
+<h2 id="org55fb2b6">Joint Types</h2>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">type</th>
+<th scope="col" class="org-left">usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>continuous</code></td>
+<td class="org-left">rotates in an axis and has to limits</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>fixed</code></td>
+<td class="org-left">does not move</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>floating</code></td>
+<td class="org-left">6 degrees of freedom</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>revolute</code></td>
+<td class="org-left">rotates on an axis and has rotation limits</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="slide-orgf78e49b">
+<h2 id="orgf78e49b">Example Joint</h2>
+<div class="org-src-container">
+
+<pre  class="src src-XML">&lt;joint name="base_link_to_left_wheel" type="continuous"&gt;
+  &lt;parent link="base_link"/&gt;
+  &lt;child link="left_wheel"/&gt;
+  &lt;axis xyz="0 0 -1" rpy="0 0 0" /&gt;
+  &lt;origin xyz="0 0 0" rpy="0 0 0" /&gt;
+&lt;/joint&gt;
+</pre>
+</div>
+
+</section>
+<section id="slide-orgfaf34b3">
+<h2 id="orgfaf34b3">Useful Commands</h2>
+<aside class="notes">
+<p>
+explain the output
+</p>
+
+</aside>
+<ul>
+<li><code>check_urdf</code>
+<ul>
+<li>"compiles" the urdf and gives a printout of the tf tree</li>
+
+</ul></li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-BASH">robot name is: hal
+---------- Successfully Parsed XML ---------------
+root Link: base_footprint has 4 child(ren)
+  child(1):  base_link
+  child(2):  body
+    child(1):  back_ball
+    child(2):  left_wheel
+    child(3):  right_wheel
+  child(3):  usb_cam_center
+    child(1):  optical_cam_center
+  child(4):  lidar
+</pre>
+</div>
+
+</section>
+<section id="slide-org3dbfe13">
+<h2 id="org3dbfe13">Introducing HAL</h2>
+
+<div class="figure">
+<p><img src="https://i.imgur.com/IGlRSWv.png" alt="IGlRSWv.png" width="55%" />
+</p>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="https://robojackets.github.io/reveal.js/lib/js/head.min.js"></script>
+<script src="https://robojackets.github.io/reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: false,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+width: 1440,
+height: 800,
+margin: 0.15,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'fast',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://robojackets.github.io/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+]
+});
+</script>
+</body>
+</html>
