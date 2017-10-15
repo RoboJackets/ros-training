@@ -40,7 +40,6 @@ uses the hall effect
 * Update your local fork
 #+BEGIN_SRC shell
 git pull
-git push
 #+END_SRC
 * Launch Files
 #+BEGIN_NOTES
