@@ -52,7 +52,6 @@ uses the hall effect
 
 ```shell
 git pull
-git push
 ```
 
 
