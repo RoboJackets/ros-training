@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 
 <launch>
-  <node name="driver" pkg="basic_driver" type="driver" />
+  <node name="driver" pkg="basic_driver" type="driver">
+    <param name="desired_speed" type="double" value="0.1"/>
+  </node>
 
   <include file="$(find hal_control)/launch/gazebo.launch">
     <arg name="gui" value="true"/>
