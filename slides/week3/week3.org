@@ -39,7 +39,7 @@ uses the hall effect
 [[file:https://automation-insights.blog/wp-content/uploads/2015/09/bml-evalkit.jpg]]
 * Update your local fork
 #+BEGIN_SRC shell
-git pull rj master
+git pull
 git push
 #+END_SRC
 * Launch Files
