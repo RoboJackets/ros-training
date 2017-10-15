@@ -1,0 +1,19 @@
+<launch>
+
+	<arg name="namespace" default="hal"/>
+
+	<!-- Vehicle pose -->
+	<arg name="x" default="0"/>
+	<arg name="y" default="0"/>
+	<arg name="z" default="0"/>
+	<arg name="roll" default="0.0"/>
+	<arg name="pitch" default="0.0"/>
+	<arg name="yaw" default="0"/>
+	<!-- Spawn the vehicle. -->
+	<node name="spawn_platform" pkg="gazebo_ros" type="spawn_model"
+		  args="-file $(find hal_description)/urdf/hal.urdf
+				-gazebo_namespace /$(arg namespace)/gazebo
+				-urdf -model HAL
+				-x $(arg x) -y $(arg y) -z $(arg z)
+				-R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
+</launch>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package>
+  <name>hal_msgs</name>
+  <version>0.0.0</version>
+  <description>Custom messages for ROS Training</description>
+
+  <maintainer email="jgibson37@gatech.edu">Jason Gibson</maintainer>
+
+  <!-- One license tag required, multiple allowed, one license per tag -->
+  <!-- Commonly used license strings: -->
+  <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
+  <license>MIT</license>
+
+
+  <author email="jgibson37@gatech.edu">Jason Gibson</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>message_generation</build_depend>
+
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+	<!-- You can specify that this package is a metapackage here: -->
+	<!-- <metapackage/> -->
+
+	<!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<launch>
+  <env name="GAZEBO_MODEL_PATH" value="$(find hal_description)"/>
+  <env name="GAZEBO_RESOURCE_PATH" value="$(find hal_description)"/>
+  <arg name="namespace" default="hal"/>
+  <arg name="world_name" default="model://urdf/empty.world"/>
+  <arg name="cmd_timeout" default="0.5"/>
+  <arg name="paused" default="false"/>
+  <arg name="gui" default="true"/>
+
+  <!-- Vehicle pose -->
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="z" default="1"/>
+  <arg name="roll" default="0.0"/>
+  <arg name="pitch" default="0.0"/>
+  <arg name="yaw" default="0"/>
+
+  <!-- Remap to same topics as the actual robot
+  <remap from="/$(arg namespace)/usb_cam_center" to="/usb_cam_center" />
+  <remap from="/$(arg namespace)/imu" to="/imu" />
+  <remap from="/$(arg namespace)/fix" to="/fix" />-->
+
+
+
+  <group ns="$(arg namespace)">
+  <node name="spawn_platform_script" pkg="hal_control" type="spawn_hal.sh" />
+
+  <!-- Create the world. -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_name)"/> <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- needed for rviz -->
+  <param name="robot_description" command="cat $(find hal_description)/urdf/hal.urdf" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+  </group>
+
+  <include file="$(find hal_control)/launch/hal_control.launch" />
+</launch>
