@@ -7,7 +7,6 @@
 - launch files
 - Gazebo
   - urdf
-- PID
 
 * Encoders
 #+BEGIN_NOTES
