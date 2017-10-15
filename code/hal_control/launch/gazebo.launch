@@ -2,8 +2,9 @@
 
 <launch>
   <env name="GAZEBO_MODEL_PATH" value="$(find hal_description)"/>
+  <env name="GAZEBO_RESOURCE_PATH" value="$(find hal_description)"/>
   <arg name="namespace" default="hal"/>
-  <arg name="world_name" default="worlds/rubble_world"/>
+  <arg name="world_name" default="model://urdf/empty.world"/>
   <arg name="cmd_timeout" default="0.5"/>
 
   <!-- Vehicle pose -->
@@ -22,23 +23,23 @@
 
 
   <group ns="$(arg namespace)">
-	<node name="spawn_platform_script" pkg="hal_control" type="spawn_hal.sh" />
+  <node name="spawn_platform_script" pkg="hal_control" type="spawn_hal.sh" />
 
-	<!-- Create the world. -->
-	<include file="$(find gazebo_ros)/launch/empty_world.launch">
-	  <arg name="world_name" value="$(arg world_name)"/> <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
-	  <arg name="paused" value="false"/>
-	  <arg name="use_sim_time" value="true"/>
-	  <arg name="gui" value="true"/>
-	  <arg name="headless" value="false"/>
-	  <arg name="debug" value="false"/>
-	</include>
+  <!-- Create the world. -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_name)"/> <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
 
-	<!-- needed for rviz -->
-	<param name="robot_description" command="cat $(find hal_description)/urdf/hal.urdf" />
-	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  <!-- needed for rviz -->
+  <param name="robot_description" command="cat $(find hal_description)/urdf/hal.urdf" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
 
-	</group>
+  </group>
 
-	<include file="$(find hal_control)/launch/hal_control.launch" />
+  <include file="$(find hal_control)/launch/hal_control.launch" />
 </launch>
