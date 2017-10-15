@@ -38,6 +38,11 @@ uses the hall effect
 - requires occasional tuning
 #+ATTR_HTML: :width 35%
 [[file:https://automation-insights.blog/wp-content/uploads/2015/09/bml-evalkit.jpg]]
+* Update your local fork
+#+BEGIN_SRC shell
+git pull rj master
+git push
+#+END_SRC
 * Launch Files
 #+BEGIN_NOTES
 mention how it can be more human understandable. Just a shorthand for rosrun
