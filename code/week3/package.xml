@@ -13,5 +13,6 @@
 
   <depend>roscpp</depend>
   <depend>std_msgs</depend>
+  <depend>hal_msgs</depend>
 
 </package>
