@@ -3,7 +3,7 @@
   <name>hal_control</name>
   <version>1.0.0</version>
   <description>
-	hal_control contains the files realting to the control of hal
+  hal_control contains the files realting to the control of hal
   </description>
 
   <maintainer email="jgibson37@gatech.edu">Jason Gibson</maintainer>
@@ -13,6 +13,7 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <build_depend>hal_msgs</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>geometry_msgs</build_depend>
@@ -38,4 +39,5 @@
   <run_depend>dynamic_reconfigure</run_depend>
   <run_depend>roslib</run_depend>
   <run_depend>gazebo_ros</run_depend>
+  <run_depend>hal_msgs</run_depend>
 </package>
