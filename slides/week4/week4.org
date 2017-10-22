@@ -3,9 +3,21 @@
 #+EMAIL: jgibson37@gatech.edu
 
 * What are we doing today
-- review what makes up a node
-- write a node to find an object
+- IMU
+- Review what makes up a node
+- Write a node to find an object
   - PCL
+* IMU
+- Inertial measurement unit
+- Detects linear acceleration using accelerometers
+- Detects rotational rate using gyroscopes
+- Can include magnetometer for headings
+- Super useful for position estimates
+- Suffers from accumulated error
+** RPY
+- Roll, Pitch, Yaw
+#+ATTR_HTML: :width 60%
+[[file:https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Flight_dynamics_with_text.png/1600px-Flight_dynamics_with_text.png]]
 * Review
 ** What are the three files every node needs?
 *** What are the three files every node needs?
@@ -36,6 +48,32 @@
 - ros::init
 - Create NodeHandle
 - ros spin
+** How do I get what nodes are currently running?
+*** How do I get what nodes are currently running?
+- rosnode list
+** How do I get information about a running node?
+*** How do I get information about a running node?
+- rosnode info [NAME]
+** How do I get a list of the topic currently publishing?
+*** How do I get a list of the topic currently publishing?
+- rostopic list
+** How do I get how often a topic is publishing?
+*** How do I get how often a topic is publishing?
+- rostopic hz [NAME]
+** How do I get what is being published on a topic?
+*** How do I get what is being published on a topic?
+- rostopic echo [NAME]
+
+* Output
+- Must have output set to screen to print out to the terminal
+  - Done in the launch file
+** =ROS_INFO=
+- =ROS_INFO("Hello");=
+- Prints out whatever is inside
+- Cannot print out multiple things
+** =ROS_INFO_STREAM=
+- =ROS_INFO_STREAM("x = " << point.x << " y = " << point.y);=
+- You can pipe information just like with cout
 * PCL
 - The Point Cloud Library
 - Standard across most ROS projects
