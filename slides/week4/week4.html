@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Week 4</title>
+<meta name="author" content="(Jason Gibson)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/theme/white.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://robojackets.github.io/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Week 4</h1>
+</section>
+
+<section id="slide-orge9779dc">
+<h2 id="orge9779dc">What are we doing today</h2>
+<ul>
+<li>IMU</li>
+<li>Review what makes up a node</li>
+<li>Write a node to find an object
+<ul>
+<li>PCL</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org812c5aa">
+<h2 id="org812c5aa">IMU</h2>
+<ul>
+<li>Inertial measurement unit</li>
+<li>Detects linear acceleration using accelerometers</li>
+<li>Detects rotational rate using gyroscopes</li>
+<li>Can include magnetometer for headings</li>
+<li>Super useful for position estimates</li>
+<li>Suffers from accumulated error</li>
+
+</ul>
+</section>
+<section id="slide-org7405ca2">
+<h3 id="org7405ca2">RPY</h3>
+<ul>
+<li>Roll, Pitch, Yaw</li>
+
+</ul>
+
+<div class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Flight_dynamics_with_text.png/1600px-Flight_dynamics_with_text.png" alt="1600px-Flight_dynamics_with_text.png" width="60%" />
+</p>
+</div>
+</section>
+<section id="slide-org434c5dc">
+<h2 id="org434c5dc">Review</h2>
+<div class="outline-text-2" id="text-org434c5dc">
+</div>
+</section>
+<section id="slide-org6ea5894">
+<h3 id="org6ea5894">What are the three files every node needs?</h3>
+<div class="outline-text-3" id="text-org6ea5894">
+</div>
+</section>
+<section id="slide-org2eacd34">
+<h4 id="org2eacd34">What are the three files every node needs?</h4>
+<ul>
+<li>CMakeLists.txt</li>
+<li>package.xml</li>
+<li>a source file</li>
+
+</ul>
+</section>
+<section id="slide-orgb345879">
+<h3 id="orgb345879">What is in a CMakeLists.txt file?</h3>
+<div class="outline-text-3" id="text-orgb345879">
+</div>
+</section>
+<section id="slide-org81aa1c1">
+<h4 id="org81aa1c1">What is in a CMakeLists.txt file?</h4>
+<ul>
+<li>How to build the node
+<ul>
+<li>Defines the structure of the package for the compile</li>
+<li>Linking the executable ROS nodes to the appropriate libraries (OpenCV, PCL, etc..)</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org2b45d38">
+<h3 id="org2b45d38">What is in the package.xml file?</h3>
+<div class="outline-text-3" id="text-org2b45d38">
+</div>
+</section>
+<section id="slide-org12f6ac0">
+<h4 id="org12f6ac0">What is in the package.xml file?</h4>
+<ul>
+<li>What are the dependencies of a node</li>
+<li>maintainer information, author, etc</li>
+
+</ul>
+</section>
+<section id="slide-org884027d">
+<h3 id="org884027d">What is required for a subscriber?</h3>
+<div class="outline-text-3" id="text-org884027d">
+</div>
+</section>
+<section id="slide-org688613b">
+<h4 id="org688613b">What is required for a subscriber?</h4>
+<ul>
+<li>Callback function</li>
+<li>Topic name</li>
+<li>Queue size</li>
+
+</ul>
+</section>
+<section id="slide-org57abd01">
+<h3 id="org57abd01">What is required for a publisher?</h3>
+<div class="outline-text-3" id="text-org57abd01">
+</div>
+</section>
+<section id="slide-org692b982">
+<h4 id="org692b982">What is required for a publisher?</h4>
+<ul>
+<li>Topic name</li>
+<li>Queue size</li>
+
+</ul>
+</section>
+<section id="slide-org5c675f1">
+<h3 id="org5c675f1">What things must be done in every node?</h3>
+<div class="outline-text-3" id="text-org5c675f1">
+</div>
+</section>
+<section id="slide-orgd9e587c">
+<h4 id="orgd9e587c">What things must be done in every node?</h4>
+<ul>
+<li>include ros header</li>
+<li>ros::init</li>
+<li>Create NodeHandle</li>
+<li>ros spin</li>
+
+</ul>
+</section>
+<section id="slide-org64c4a97">
+<h3 id="org64c4a97">How do I get what nodes are currently running?</h3>
+<div class="outline-text-3" id="text-org64c4a97">
+</div>
+</section>
+<section id="slide-org1dc3216">
+<h4 id="org1dc3216">How do I get what nodes are currently running?</h4>
+<ul>
+<li>rosnode list</li>
+
+</ul>
+</section>
+<section id="slide-orgef0fa0d">
+<h3 id="orgef0fa0d">How do I get information about a running node?</h3>
+<div class="outline-text-3" id="text-orgef0fa0d">
+</div>
+</section>
+<section id="slide-org132a97e">
+<h4 id="org132a97e">How do I get information about a running node?</h4>
+<ul>
+<li>rosnode info [NAME]</li>
+
+</ul>
+</section>
+<section id="slide-org2c6a629">
+<h3 id="org2c6a629">How do I get a list of the topic currently publishing?</h3>
+<div class="outline-text-3" id="text-org2c6a629">
+</div>
+</section>
+<section id="slide-org810d4a5">
+<h4 id="org810d4a5">How do I get a list of the topic currently publishing?</h4>
+<ul>
+<li>rostopic list</li>
+
+</ul>
+</section>
+<section id="slide-org8ad646c">
+<h3 id="org8ad646c">How do I get how often a topic is publishing?</h3>
+<div class="outline-text-3" id="text-org8ad646c">
+</div>
+</section>
+<section id="slide-orgff6544e">
+<h4 id="orgff6544e">How do I get how often a topic is publishing?</h4>
+<ul>
+<li>rostopic hz [NAME]</li>
+
+</ul>
+</section>
+<section id="slide-org09e60a6">
+<h3 id="org09e60a6">How do I get what is being published on a topic?</h3>
+<div class="outline-text-3" id="text-org09e60a6">
+</div>
+</section>
+<section id="slide-org06275bf">
+<h4 id="org06275bf">How do I get what is being published on a topic?</h4>
+<ul>
+<li>rostopic echo [NAME]</li>
+
+</ul>
+
+</section>
+<section id="slide-org24e9abb">
+<h2 id="org24e9abb">Output</h2>
+<ul>
+<li>Must have output set to screen to print out to the terminal
+<ul>
+<li>Done in the launch file</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org126423b">
+<h3 id="org126423b"><code>ROS_INFO</code></h3>
+<ul>
+<li><code>ROS_INFO("Hello");</code></li>
+<li>Prints out whatever is inside</li>
+<li>Cannot print out multiple things</li>
+
+</ul>
+</section>
+<section id="slide-org8e2094d">
+<h3 id="org8e2094d"><code>ROS_INFO_STREAM</code></h3>
+<ul>
+<li><code>ROS_INFO_STREAM("x = " &lt;&lt; point.x &lt;&lt; " y = " &lt;&lt; point.y);</code></li>
+<li>You can pipe information just like with cout</li>
+
+</ul>
+</section>
+<section id="slide-org075dc1d">
+<h2 id="org075dc1d">PCL</h2>
+<ul>
+<li>The Point Cloud Library</li>
+<li>Standard across most ROS projects</li>
+<li>Lots of useful data structures and algorithms focused on points</li>
+
+</ul>
+
+</section>
+<section id="slide-org5ebdee0">
+<h2 id="org5ebdee0">What is a point cloud?</h2>
+<ul>
+<li>A collection of points
+<ul>
+<li>Typically XYZ</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org465a6ea">
+<h2 id="org465a6ea">Write a node</h2>
+<ul>
+<li>Now we want to have hal set himself facing an object</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="https://robojackets.github.io/reveal.js/lib/js/head.min.js"></script>
+<script src="https://robojackets.github.io/reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: false,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+width: 1440,
+height: 800,
+margin: 0.15,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'fast',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://robojackets.github.io/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+]
+});
+</script>
+</body>
+</html>
