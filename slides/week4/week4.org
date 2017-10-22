@@ -1,0 +1,49 @@
+#+TITLE: Week 4
+#+AUTHOR: Jason Gibson
+#+EMAIL: jgibson37@gatech.edu
+
+* What are we doing today
+- review what makes up a node
+- write a node to find an object
+  - PCL
+* Review
+** What are the three files every node needs?
+*** What are the three files every node needs?
+- CMakeLists.txt
+- package.xml
+- a source file
+** What is in a CMakeLists.txt file?
+*** What is in a CMakeLists.txt file?
+- How to build the node
+  - Defines the structure of the package for the compile
+  - Linking the executable ROS nodes to the appropriate libraries (OpenCV, PCL, etc..)
+** What is in the package.xml file?
+*** What is in the package.xml file?
+- What are the dependencies of a node
+- maintainer information, author, etc
+** What is required for a subscriber?
+*** What is required for a subscriber?
+- Callback function
+- Topic name
+- Queue size
+** What is required for a publisher?
+*** What is required for a publisher?
+- Topic name
+- Queue size
+** What things must be done in every node?
+*** What things must be done in every node?
+- include ros header
+- ros::init
+- Create NodeHandle
+- ros spin
+* PCL
+- The Point Cloud Library
+- Standard across most ROS projects
+- Lots of useful data structures and algorithms focused on points
+
+* What is a point cloud?
+- A collection of points
+  - Typically XYZ
+
+* Write a node
+- Now we want to have hal set himself facing an object
