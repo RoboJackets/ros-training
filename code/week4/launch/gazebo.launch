@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<launch>
+  <node name="converter" pkg="follower" type="converter">
+  </node>
+
+  <include file="$(find hal_control)/launch/gazebo.launch">
+    <arg name="gui" value="true"/>
+    <arg name="paused" value="false"/>
+  </include>
+
+</launch>

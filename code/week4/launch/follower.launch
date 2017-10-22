@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<launch>
+  <node name="follower" pkg="follower" type="follower" output="screen">
+  </node>
+
+</launch>
