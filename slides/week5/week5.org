@@ -1,0 +1,153 @@
+#+TITLE: Week 5
+#+AUTHOR: Jason Gibson
+#+EMAIL: jgibson37@gatech.edu
+
+* What are we doing today
+- Look at solutions from last week
+- GPS
+- Review command line tools
+- How tf?
+- Write a node to find an object using tf
+* Solutions from last week
+* GPS
+- Global positioning system
+- Created by the military
+- Triangulates postion based on multiple satellites
+  - Relies on atmoic clocks
+  - satellites publish times and receivers use equation to find its position
+    - Requires 4 satellites, typically want closer to 7
+** Filters and base stations
+- Make assumptions to correct for noise
+- Base station (RTK, real time kinematic)
+  - Assumes it is not moving
+  - Have two in parallel and use this one to correct for noise
+  - Global base stations
+  - Can get cm accuracy
+** Almanacs
+- Where to look for the satellites
+  - Estimated position over time stored
+  - Check there first
+- Based off of last location
+* Review
+** What are the three files every node needs?
+*** What are the three files every node needs?
+- CMakeLists.txt
+- package.xml
+- a source file
+** What is in a CMakeLists.txt file?
+*** What is in a CMakeLists.txt file?
+- How to build the node
+  - Defines the structure of the package for the compile
+  - Linking the executable ROS nodes to the appropriate libraries (OpenCV, PCL, etc..)
+** What is in the package.xml file?
+*** What is in the package.xml file?
+- What are the dependencies of a node
+- maintainer information, author, etc
+** What is required for a subscriber?
+*** What is required for a subscriber?
+- Callback function
+- Topic name
+- Queue size
+** What is required for a publisher?
+*** What is required for a publisher?
+- Topic name
+- Queue size
+** What things must be done in every node?
+*** What things must be done in every node?
+- include ros header
+- ros::init
+- Create NodeHandle
+- ros spin
+** How do I get what nodes are currently running?
+*** How do I get what nodes are currently running?
+- rosnode list
+** How do I get information about a running node?
+*** How do I get information about a running node?
+- rosnode info [NAME]
+** How do I get a list of the topic currently publishing?
+*** How do I get a list of the topic currently publishing?
+- rostopic list
+** How do I get how often a topic is publishing?
+*** How do I get how often a topic is publishing?
+- rostopic hz [NAME]
+** How do I get what is being published on a topic?
+*** How do I get what is being published on a topic?
+- rostopic echo [NAME]
+* Transforms
+- This is going to be very high level
+  - Lots of linear algebra
+** Coordinate frame
+- A (X,Y,Z) point in space and an orientation that things are relative to
+- You can have multiple in the same world
+- [[http://www.ros.org/reps/rep-0103.html#coordinate-frame-conventions][standards]]
+** Pose
+- Name for location of a robot relative to a coordinate frame
+- (X,Y,Z) (R,P,Y)
+** All data is in a coordinate frame
+- Remember the lidar from last week?
+  - That data was in reference to the lidar
+** UTM
+- Universal Transverse Mercator coordinate system
+  - Used by IGVC
+- Divides the entire world into a grid
+- Referred to as northing (+Y) easting (+X)
+  - Same as geographic coordinate frame
+** Example coordinate frames
+| standard   | X       | Y       | Z       |
+|------------+---------+---------+---------|
+| urdf       | forward | left    | up      |
+| UTM        | right   | forward | up      |
+| camera     | left    | up      | forward |
+** Using tf2 to do transforms
+- Calculating coordinate transforms is hard
+- Let ROS do it for you
+  - Yay tf
+*** transform direction
+- Always transforms from one coordiante frame to another
+- Each link is its own coordinate frame
+- transform the coordinate frame ="frame_id"= into ="child_frame_id"=
+*** Wait!
+- You usually have to wait for the transform to become available
+#+BEGIN_SRC C++
+tf::TransformListener tf_listener;
+// transfroms source -> target
+// target, source, when to do it, how long to wait
+if(tf_listener.waitForTransform("[TARGET]", "[SOURCE]", ros::Time(0), ros::Duration(3.0))) {
+// DO it
+}
+#+END_SRC
+*** Do It
+#+BEGIN_SRC C++
+tf::TransformListener tf_listener;
+// transfroms source -> target
+// target, source, when to do it, how long to wait
+if(tf_listener.waitForTransform("[TARGET]", "[SOURCE]", ros::Time(0), ros::Duration(3.0))) {
+  // source -> target
+  // target, source, when, result
+  tf_listener.lookupTransform("/base_link", "/ball", ros::Time(0), transform);
+}
+#+END_SRC
+* Commands
+** Create a diagram
+- =rosrun rqt_tf_tree rqt_tf_tree=
+- Creates a diagram of all of the tf elements
+** =tf_echo=
+- =rosrun tf tf_echo [source_frame] [target_frame]=
+- Publishes the transform to the command line
+* Node writing
+- We are going to use tf to get the pose of the ball from last week
+- But first some questions
+** What is the package name?
+*** =follower_2=
+** What are the executables
+*** =tf_pub follower_2=
+** What topics locator does listen to?
+*** =hal/gazebo/model_states=
+** What type of message is =hal/gazebo/model_states=
+*** =gazebo_msgs::ModelStates=
+** What would the line for the launch file look like to launch locator
+*** <node name="=tf_pub=" pkg="=follower_2=" type="=tf_pub=">
+** What would the line for the launch file look like to launch locator
+*** <node name="=follower_2=" pkg="=follower_2=" type="=follower_2=">
+** Will this work?
+- <node name="namenamename" pkg="=follower_2=" type="=tf_pub=" output="screen"/>
