@@ -14,9 +14,6 @@
   <depend>roscpp</depend>
   <depend>std_msgs</depend>
   <depend>hal_msgs</depend>
-  <depend>pcl_ros</depend>
-  <depend>pcl_conversions</depend>
-  <depend>laser_geometry</depend>
   <depend>gazebo_msgs</depend>
   <depend>tf</depend>
 </package>

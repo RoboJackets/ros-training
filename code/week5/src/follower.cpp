@@ -11,19 +11,6 @@ void linkNameCallback(const std_msgs::String::ConstPtr& msg)
   topic_name = msg->data;
 }
 
-/*
-void originCallback(const sensor_msgs::NavSatFixConstPtr& msg)
-{
-  tf::TransformListener tf_listener;
-  tf::StampedTransform transform;
-  geometry_msgs::Point position;
-  if (tf_listener.waitForTransform("/odom", "/base_footprint", ros::Time(0), ros::Duration(3.0)))
-  {
-    tf_listener.lookupTransform("/odom", "/base_footprint", ros::Time(0), transform);
-  }
-}
-*/
-
 int main(int argc, char** argv) {
   ros::init(argc, argv, "follower_2");
 
