@@ -29,8 +29,8 @@
 <section id="sec-title-slide"><h1 class="title">Week 2</h1>
 </section>
 
-<section id="slide-org9ec4b30">
-<h2 id="org9ec4b30">Meet the lidar!</h2>
+<section id="slide-orgf015184">
+<h2 id="orgf015184">Meet the lidar!</h2>
 <ul>
 <li>This sensor shines a laser light in circles and measures the return times
 from the pulses to give us a 3D model of our world</li>
@@ -45,8 +45,8 @@ fragile the a sensor like a camera, so <b>they should be handled with caution</b
 </div>
 
 </section>
-<section id="slide-orgea19845">
-<h2 id="orgea19845">Pointclouds</h2>
+<section id="slide-org68fafeb">
+<h2 id="org68fafeb">Pointclouds</h2>
 <ul>
 <li>We use ROS's PCL package to interface with the LIDAR, and get messages of
 type
@@ -59,8 +59,8 @@ cartesian coordinates relative to the LIDAR</li>
 </ul>
 
 </section>
-<section id="slide-org0c48a1f">
-<h2 id="org0c48a1f">What does a pointcloud look like?</h2>
+<section id="slide-org8eeda24">
+<h2 id="org8eeda24">What does a pointcloud look like?</h2>
 <aside class="notes">
 <p>
 Pull out Jason's LIDAR and run rqt
@@ -73,8 +73,8 @@ Pull out Jason's LIDAR and run rqt
 </ul>
 
 </section>
-<section id="slide-org2779008">
-<h2 id="org2779008">How do we structure ROS projects?</h2>
+<section id="slide-org18a0ddc">
+<h2 id="org18a0ddc">How do we structure ROS projects?</h2>
 <aside class="notes">
 <p>
 pull open the repository and show them this literal structure
@@ -103,8 +103,8 @@ pull open the repository and show them this literal structure
 </div>
 
 </section>
-<section id="slide-org0ec7663">
-<h2 id="org0ec7663">CMakeLists file</h2>
+<section id="slide-orgb4da2cd">
+<h2 id="orgb4da2cd">CMakeLists file</h2>
 <aside class="notes">
 <p>
 walk them through the file and show them the parts of it
@@ -123,8 +123,8 @@ CMakeLists</a></li>
 </ul>
 
 </section>
-<section id="slide-orgf527bc3">
-<h2 id="orgf527bc3">Our CMakeLists.txt file</h2>
+<section id="slide-org3ae125e">
+<h2 id="org3ae125e">Our CMakeLists.txt file</h2>
 <pre  class="example">
 cmake_minimum_required(VERSION 2.8.3)
 project(node_example)
@@ -145,8 +145,8 @@ target_link_libraries(listener ${catkin_LIBRARIES})
 </pre>
 
 </section>
-<section id="slide-org1e89e84">
-<h2 id="org1e89e84">package.xml file</h2>
+<section id="slide-orgbdb13ea">
+<h2 id="orgbdb13ea">package.xml file</h2>
 <aside class="notes">
 <p>
 walk them through the file and show them the parts of it
@@ -165,8 +165,8 @@ package.xml</a></li>
 </ul>
 
 </section>
-<section id="slide-org5d6c268">
-<h2 id="org5d6c268">Our package.xml file</h2>
+<section id="slide-org7b0d699">
+<h2 id="org7b0d699">Our package.xml file</h2>
 <div class="org-src-container">
 
 <pre  class="src src-xml">&lt;?<span style="color: #598249;">xml</span> <span style="color: #2F7BDE;">version</span>=<span style="color: #15968D;">"</span><span style="color: #15968D;">1.0</span><span style="color: #15968D;">"</span>?&gt;
@@ -191,8 +191,8 @@ package.xml</a></li>
 </div>
 
 </section>
-<section id="slide-org987b838">
-<h2 id="org987b838">Some ROS Vocab</h2>
+<section id="slide-org2637c53">
+<h2 id="org2637c53">Some ROS Vocab</h2>
 <ul>
 <li>A <span class="underline">node</span> is a process running on your computer
 <ul>
@@ -229,8 +229,8 @@ define everytime a new message is published on this topic!
 </ul>
 
 </section>
-<section id="slide-org44fcb17">
-<h2 id="org44fcb17">A ROS Publisher - Setup</h2>
+<section id="slide-org70521aa">
+<h2 id="org70521aa">A ROS Publisher - Setup</h2>
 <aside class="notes">
 <p>
 Should we write our own? I like how well this is documented
@@ -262,8 +262,8 @@ Should we write our own? I like how well this is documented
 </div>
 
 </section>
-<section id="slide-org8e4cc68">
-<h2 id="org8e4cc68">ROS Publisher - publishing</h2>
+<section id="slide-org8955f84">
+<h2 id="org8955f84">ROS Publisher - publishing</h2>
 <div class="org-src-container">
 
 <pre  class="src src-C++">  <span style="color: #598249;">int</span> <span style="color: #2F7BDE;">count</span> = 0;
@@ -291,8 +291,8 @@ Should we write our own? I like how well this is documented
 </div>
 
 </section>
-<section id="slide-org23bb35b">
-<h2 id="org23bb35b">Start the publisher node</h2>
+<section id="slide-orgcbda2fc">
+<h2 id="orgcbda2fc">Start the publisher node</h2>
 <div class="org-src-container">
 
 <pre  class="src src-sh">rosrun node_example talker
@@ -300,8 +300,8 @@ Should we write our own? I like how well this is documented
 </div>
 
 </section>
-<section id="slide-org0aa8c6d">
-<h2 id="org0aa8c6d">rosnode</h2>
+<section id="slide-org1d0b05b">
+<h2 id="org1d0b05b">rosnode</h2>
 <aside class="notes">
 <p>
 demo
@@ -335,8 +335,8 @@ demo
 </table>
 
 </section>
-<section id="slide-org278dc72">
-<h2 id="org278dc72">rostopic</h2>
+<section id="slide-org470b901">
+<h2 id="org470b901">rostopic</h2>
 <aside class="notes">
 <p>
 demo
@@ -390,8 +390,8 @@ demo
 </table>
 
 </section>
-<section id="slide-org5f1a1f2">
-<h2 id="org5f1a1f2">rosmsg</h2>
+<section id="slide-org9d4395a">
+<h2 id="org9d4395a">rosmsg</h2>
 <aside class="notes">
 <p>
 demo
@@ -419,8 +419,8 @@ demo
 </ul>
 
 </section>
-<section id="slide-orgbbc26b6">
-<h2 id="orgbbc26b6">A ROS Subscriber -  Setup</h2>
+<section id="slide-org2c11168">
+<h2 id="org2c11168">A ROS Subscriber -  Setup</h2>
 <div class="org-src-container">
 
 <pre  class="src src-C++"><span style="color: #598249;">#include</span> <span style="color: #15968D;">"ros/ros.h"</span>
@@ -434,8 +434,8 @@ demo
 </div>
 
 </section>
-<section id="slide-orgb5195a8">
-<h2 id="orgb5195a8">A ROS Subscriber - Subscribing</h2>
+<section id="slide-org307f99b">
+<h2 id="org307f99b">A ROS Subscriber - Subscribing</h2>
 <div class="org-src-container">
 
 <pre  class="src src-C++"><span style="color: #598249;">int</span> <span style="color: #2F7BDE;">main</span>(<span style="color: #598249;">int</span> <span style="color: #2F7BDE;">argc</span>, <span style="color: #598249;">char</span> **<span style="color: #2F7BDE;">argv</span>)
@@ -454,16 +454,16 @@ demo
 </div>
 
 </section>
-<section id="slide-org9326159">
-<h2 id="org9326159">Start the subscriber node</h2>
+<section id="slide-org6794c49">
+<h2 id="org6794c49">Start the subscriber node</h2>
 <div class="org-src-container">
 
 <pre  class="src src-sh">rosrun node_example listener
 </pre>
 </div>
 </section>
-<section id="slide-orgfb6c7fb">
-<h2 id="orgfb6c7fb">Let's go back to PointCloud2</h2>
+<section id="slide-org0a25d58">
+<h2 id="org0a25d58">Let's go back to PointCloud2</h2>
 <aside class="notes">
 <p>
 Talk them through the layout of the message. Show them that messages can
@@ -481,8 +481,8 @@ message declaration</a></li>
 </ul>
 
 </section>
-<section id="slide-org6962b73">
-<h2 id="org6962b73">Takeaways from the message definition</h2>
+<section id="slide-org3f09600">
+<h2 id="org3f09600">Takeaways from the message definition</h2>
 <ul>
 <li>Messages should always have headers. Haveing a timestamp makes logging and
 debugging easier</li>
@@ -491,8 +491,8 @@ of data, as they are also message types</li>
 
 </ul>
 </section>
-<section id="slide-org44cbb53">
-<h2 id="org44cbb53"><code>rqt_graph</code></h2>
+<section id="slide-org9f9b66c">
+<h2 id="org9f9b66c"><code>rqt_graph</code></h2>
 <aside class="notes">
 <p>
 make sure to launch enough nodes to make it hella complicated. talk a little bit about a code base

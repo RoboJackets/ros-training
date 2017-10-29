@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Week 5</title>
+<meta name="author" content="(Jason Gibson)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/theme/white.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://robojackets.github.io/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Week 5</h1>
+</section>
+
+<section id="slide-orgd69de3c">
+<h2 id="orgd69de3c">What are we doing today</h2>
+<ul>
+<li>Look at solutions from last week</li>
+<li>GPS</li>
+<li>Review command line tools</li>
+<li>How tf?</li>
+<li>Write a node to find an object using tf</li>
+
+</ul>
+</section>
+<section id="slide-org28e1781">
+<h2 id="org28e1781">Solutions from last week</h2>
+</section>
+<section id="slide-org79056d9">
+<h2 id="org79056d9">GPS</h2>
+<ul>
+<li>Global positioning system</li>
+<li>Created by the military</li>
+<li>Triangulates postion based on multiple satellites
+<ul>
+<li>Relies on atmoic clocks</li>
+<li>satellites publish times and receivers use equation to find its position
+<ul>
+<li>Requires 4 satellites, typically want closer to 7</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orgfe9a04f">
+<h3 id="orgfe9a04f">Filters and base stations</h3>
+<ul>
+<li>Make assumptions to correct for noise</li>
+<li>Base station (RTK, real time kinematic)
+<ul>
+<li>Assumes it is not moving</li>
+<li>Have two in parallel and use this one to correct for noise</li>
+<li>Global base stations</li>
+<li>Can get cm accuracy</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org69eadc2">
+<h3 id="org69eadc2">Almanacs</h3>
+<ul>
+<li>Where to look for the satellites
+<ul>
+<li>Estimated position over time stored</li>
+<li>Check there first</li>
+
+</ul></li>
+<li>Based off of last location</li>
+
+</ul>
+</section>
+<section id="slide-org58b04b2">
+<h2 id="org58b04b2">Review</h2>
+<div class="outline-text-2" id="text-org58b04b2">
+</div>
+</section>
+<section id="slide-org5355aa0">
+<h3 id="org5355aa0">What are the three files every node needs?</h3>
+<div class="outline-text-3" id="text-org5355aa0">
+</div>
+</section>
+<section id="slide-org9f1fd50">
+<h4 id="org9f1fd50">What are the three files every node needs?</h4>
+<ul>
+<li>CMakeLists.txt</li>
+<li>package.xml</li>
+<li>a source file</li>
+
+</ul>
+</section>
+<section id="slide-org7a1dec9">
+<h3 id="org7a1dec9">What is in a CMakeLists.txt file?</h3>
+<div class="outline-text-3" id="text-org7a1dec9">
+</div>
+</section>
+<section id="slide-orge700f6d">
+<h4 id="orge700f6d">What is in a CMakeLists.txt file?</h4>
+<ul>
+<li>How to build the node
+<ul>
+<li>Defines the structure of the package for the compile</li>
+<li>Linking the executable ROS nodes to the appropriate libraries (OpenCV, PCL, etc..)</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org84d9b67">
+<h3 id="org84d9b67">What is in the package.xml file?</h3>
+<div class="outline-text-3" id="text-org84d9b67">
+</div>
+</section>
+<section id="slide-org620a7ca">
+<h4 id="org620a7ca">What is in the package.xml file?</h4>
+<ul>
+<li>What are the dependencies of a node</li>
+<li>maintainer information, author, etc</li>
+
+</ul>
+</section>
+<section id="slide-orga5bba28">
+<h3 id="orga5bba28">What is required for a subscriber?</h3>
+<div class="outline-text-3" id="text-orga5bba28">
+</div>
+</section>
+<section id="slide-orgb67c643">
+<h4 id="orgb67c643">What is required for a subscriber?</h4>
+<ul>
+<li>Callback function</li>
+<li>Topic name</li>
+<li>Queue size</li>
+
+</ul>
+</section>
+<section id="slide-orgd8555c4">
+<h3 id="orgd8555c4">What is required for a publisher?</h3>
+<div class="outline-text-3" id="text-orgd8555c4">
+</div>
+</section>
+<section id="slide-orgf92ca36">
+<h4 id="orgf92ca36">What is required for a publisher?</h4>
+<ul>
+<li>Topic name</li>
+<li>Queue size</li>
+
+</ul>
+</section>
+<section id="slide-org04d0132">
+<h3 id="org04d0132">What things must be done in every node?</h3>
+<div class="outline-text-3" id="text-org04d0132">
+</div>
+</section>
+<section id="slide-org74e287b">
+<h4 id="org74e287b">What things must be done in every node?</h4>
+<ul>
+<li>include ros header</li>
+<li>ros::init</li>
+<li>Create NodeHandle</li>
+<li>ros spin</li>
+
+</ul>
+</section>
+<section id="slide-org8e8d2e7">
+<h3 id="org8e8d2e7">How do I get what nodes are currently running?</h3>
+<div class="outline-text-3" id="text-org8e8d2e7">
+</div>
+</section>
+<section id="slide-org6b45d81">
+<h4 id="org6b45d81">How do I get what nodes are currently running?</h4>
+<ul>
+<li>rosnode list</li>
+
+</ul>
+</section>
+<section id="slide-orge1bbe95">
+<h3 id="orge1bbe95">How do I get information about a running node?</h3>
+<div class="outline-text-3" id="text-orge1bbe95">
+</div>
+</section>
+<section id="slide-org203b8cd">
+<h4 id="org203b8cd">How do I get information about a running node?</h4>
+<ul>
+<li>rosnode info [NAME]</li>
+
+</ul>
+</section>
+<section id="slide-org5a18105">
+<h3 id="org5a18105">How do I get a list of the topic currently publishing?</h3>
+<div class="outline-text-3" id="text-org5a18105">
+</div>
+</section>
+<section id="slide-orgc27fe30">
+<h4 id="orgc27fe30">How do I get a list of the topic currently publishing?</h4>
+<ul>
+<li>rostopic list</li>
+
+</ul>
+</section>
+<section id="slide-org37aa420">
+<h3 id="org37aa420">How do I get how often a topic is publishing?</h3>
+<div class="outline-text-3" id="text-org37aa420">
+</div>
+</section>
+<section id="slide-org71c0dfd">
+<h4 id="org71c0dfd">How do I get how often a topic is publishing?</h4>
+<ul>
+<li>rostopic hz [NAME]</li>
+
+</ul>
+</section>
+<section id="slide-org5039e9e">
+<h3 id="org5039e9e">How do I get what is being published on a topic?</h3>
+<div class="outline-text-3" id="text-org5039e9e">
+</div>
+</section>
+<section id="slide-org5f365a4">
+<h4 id="org5f365a4">How do I get what is being published on a topic?</h4>
+<ul>
+<li>rostopic echo [NAME]</li>
+
+</ul>
+</section>
+<section id="slide-orgcafc2c1">
+<h2 id="orgcafc2c1">Transforms</h2>
+<ul>
+<li>This is going to be very high level
+<ul>
+<li>Lots of linear algebra</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org67926b7">
+<h3 id="org67926b7">Coordinate frame</h3>
+<ul>
+<li>A (X,Y,Z) point in space and an orientation that things are relative to</li>
+<li>You can have multiple in the same world</li>
+<li><a href="http://www.ros.org/reps/rep-0103.html#coordinate-frame-conventions">standards</a></li>
+
+</ul>
+</section>
+<section id="slide-orge0b2f74">
+<h3 id="orge0b2f74">Pose</h3>
+<ul>
+<li>Name for location of a robot relative to a coordinate frame</li>
+<li>(X,Y,Z) (R,P,Y)</li>
+
+</ul>
+</section>
+<section id="slide-orgc6f19d1">
+<h3 id="orgc6f19d1">All data is in a coordinate frame</h3>
+<ul>
+<li>Remember the lidar from last week?
+<ul>
+<li>That data was in reference to the lidar</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org6e950cf">
+<h3 id="org6e950cf">UTM</h3>
+<ul>
+<li>Universal Transverse Mercator coordinate system
+<ul>
+<li>Used by IGVC</li>
+
+</ul></li>
+<li>Divides the entire world into a grid</li>
+<li>Referred to as northing (+Y) easting (+X)
+<ul>
+<li>Same as geographic coordinate frame</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org2173b67">
+<h3 id="org2173b67">Example coordinate frames</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">standard</th>
+<th scope="col" class="org-left">X</th>
+<th scope="col" class="org-left">Y</th>
+<th scope="col" class="org-left">Z</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">urdf</td>
+<td class="org-left">forward</td>
+<td class="org-left">left</td>
+<td class="org-left">up</td>
+</tr>
+
+<tr>
+<td class="org-left">UTM</td>
+<td class="org-left">right</td>
+<td class="org-left">forward</td>
+<td class="org-left">up</td>
+</tr>
+
+<tr>
+<td class="org-left">camera</td>
+<td class="org-left">left</td>
+<td class="org-left">up</td>
+<td class="org-left">forward</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="slide-org269500f">
+<h3 id="org269500f">Using tf2 to do transforms</h3>
+<ul>
+<li>Calculating coordinate transforms is hard</li>
+<li>Let ROS do it for you
+<ul>
+<li>Yay tf</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orgedfcdc4">
+<h4 id="orgedfcdc4">transform direction</h4>
+<ul>
+<li>Always transforms from one coordiante frame to another</li>
+<li>Each link is its own coordinate frame</li>
+<li>transform the coordinate frame <code>"frame_id"</code> into <code>"child_frame_id"</code></li>
+
+</ul>
+</section>
+<section id="slide-org31e1199">
+<h4 id="org31e1199">Wait!</h4>
+<ul>
+<li>You usually have to wait for the transform to become available</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-C++"><span style="color: #15968D;">tf</span>::<span style="color: #598249;">TransformListener</span> <span style="color: #2F7BDE;">tf_listener</span>;
+<span style="color: #5e6263;">// </span><span style="color: #5e6263;">transfroms source -&gt; target</span>
+<span style="color: #5e6263;">// </span><span style="color: #5e6263;">target, source, when to do it, how long to wait</span>
+<span style="color: #598249;">if</span>(tf_listener.waitForTransform(<span style="color: #15968D;">"[TARGET]"</span>, <span style="color: #15968D;">"[SOURCE]"</span>, <span style="color: #15968D;">ros</span>::Time(0), <span style="color: #15968D;">ros</span>::Duration(3.0))) {
+<span style="color: #5e6263;">// </span><span style="color: #5e6263;">DO it</span>
+}
+</pre>
+</div>
+</section>
+<section id="slide-org82f8d20">
+<h4 id="org82f8d20">Do It</h4>
+<div class="org-src-container">
+
+<pre  class="src src-C++"><span style="color: #15968D;">tf</span>::<span style="color: #598249;">TransformListener</span> <span style="color: #2F7BDE;">tf_listener</span>;
+<span style="color: #5e6263;">// </span><span style="color: #5e6263;">transfroms source -&gt; target</span>
+<span style="color: #5e6263;">// </span><span style="color: #5e6263;">target, source, when to do it, how long to wait</span>
+<span style="color: #598249;">if</span>(tf_listener.waitForTransform(<span style="color: #15968D;">"[TARGET]"</span>, <span style="color: #15968D;">"[SOURCE]"</span>, <span style="color: #15968D;">ros</span>::Time(0), <span style="color: #15968D;">ros</span>::Duration(3.0))) {
+  <span style="color: #5e6263;">// </span><span style="color: #5e6263;">source -&gt; target</span>
+  <span style="color: #5e6263;">// </span><span style="color: #5e6263;">target, source, when, result</span>
+  tf_listener.lookupTransform(<span style="color: #15968D;">"/base_link"</span>, <span style="color: #15968D;">"/ball"</span>, <span style="color: #15968D;">ros</span>::Time(0), transform);
+}
+</pre>
+</div>
+</section>
+<section id="slide-org1b7b112">
+<h2 id="org1b7b112">Commands</h2>
+<div class="outline-text-2" id="text-org1b7b112">
+</div>
+</section>
+<section id="slide-orgecfe01d">
+<h3 id="orgecfe01d">Create a diagram</h3>
+<ul>
+<li><code>rosrun rqt_tf_tree rqt_tf_tree</code></li>
+<li>Creates a diagram of all of the tf elements</li>
+
+</ul>
+</section>
+<section id="slide-org7cb89c4">
+<h3 id="org7cb89c4"><code>tf_echo</code></h3>
+<ul>
+<li><code>rosrun tf tf_echo [source_frame] [target_frame]</code></li>
+<li>Publishes the transform to the command line</li>
+
+</ul>
+</section>
+<section id="slide-orgde468dc">
+<h2 id="orgde468dc">Node writing</h2>
+<ul>
+<li>We are going to use tf to get the pose of the ball from last week</li>
+<li>But first some questions</li>
+
+</ul>
+</section>
+<section id="slide-org61d14f8">
+<h3 id="org61d14f8">What is the package name?</h3>
+<div class="outline-text-3" id="text-org61d14f8">
+</div>
+</section>
+<section id="slide-org06b7509">
+<h4 id="org06b7509"><code>follower_2</code></h4>
+</section>
+<section id="slide-org4bd3672">
+<h3 id="org4bd3672">What are the executables</h3>
+<div class="outline-text-3" id="text-org4bd3672">
+</div>
+</section>
+<section id="slide-org14b3472">
+<h4 id="org14b3472"><code>tf_pub follower_2</code></h4>
+</section>
+<section id="slide-orga037ae2">
+<h3 id="orga037ae2">What topics locator does listen to?</h3>
+<div class="outline-text-3" id="text-orga037ae2">
+</div>
+</section>
+<section id="slide-org7108ca3">
+<h4 id="org7108ca3"><code>hal/gazebo/model_states</code></h4>
+</section>
+<section id="slide-org3fd17f7">
+<h3 id="org3fd17f7">What type of message is <code>hal/gazebo/model_states</code></h3>
+<div class="outline-text-3" id="text-org3fd17f7">
+</div>
+</section>
+<section id="slide-org5344282">
+<h4 id="org5344282"><code>gazebo_msgs::ModelStates</code></h4>
+</section>
+<section id="slide-org1a1015b">
+<h3 id="org1a1015b">What would the line for the launch file look like to launch locator</h3>
+<div class="outline-text-3" id="text-org1a1015b">
+</div>
+</section>
+<section id="slide-org3428ed4">
+<h4 id="org3428ed4">&lt;node name="<code>tf_pub</code>" pkg="<code>follower_2</code>" type="<code>tf_pub</code>"&gt;</h4>
+</section>
+<section id="slide-orgf9a42ec">
+<h3 id="orgf9a42ec">What would the line for the launch file look like to launch locator</h3>
+<div class="outline-text-3" id="text-orgf9a42ec">
+</div>
+</section>
+<section id="slide-orgf1ce009">
+<h4 id="orgf1ce009">&lt;node name="<code>follower_2</code>" pkg="<code>follower_2</code>" type="<code>follower_2</code>"&gt;</h4>
+</section>
+<section id="slide-org3d567c1">
+<h3 id="org3d567c1">Will this work?</h3>
+<ul>
+<li>&lt;node name="namenamename" pkg="<code>follower_2</code>" type="<code>tf_pub</code>" output="screen"/&gt;</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="https://robojackets.github.io/reveal.js/lib/js/head.min.js"></script>
+<script src="https://robojackets.github.io/reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: false,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+width: 1440,
+height: 800,
+margin: 0.15,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'fast',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://robojackets.github.io/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+]
+});
+</script>
+</body>
+</html>
