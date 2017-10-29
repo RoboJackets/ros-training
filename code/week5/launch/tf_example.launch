@@ -1,8 +1,5 @@
 <?xml version="1.0"?>
 
 <launch>
-  <node name="follower_2" pkg="follower_2" type="follower_2" output="screen">
-  </node>
-  <node name="tf_pub" pkg="follower_2" type="tf_pub" output="screen">
-  </node>
+
 </launch>
