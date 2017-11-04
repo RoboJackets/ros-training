@@ -8,7 +8,6 @@
 - How do we make this work in practice
 - Walkthrough of the current controls code
 - Advice on Tuning
-#TODO GIFS
 * Control Theory
 - How do we reliably get from point A (our current state) to point B (our
   desired state)?
