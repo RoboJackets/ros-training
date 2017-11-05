@@ -220,20 +220,7 @@ Things I wish I could cover but it wouldnt be realistic: (writing these down in 
 
 # Finding the blue in an image
 
-```c++
-Mat findBlue(const Mat& frameBGR) {
-      const Scalar blue_low{78, 50, 70};
-      const Scalar blue_high{138, 255, 255};
-      Mat frameBlurred;
-      GaussianBlur(frameBGR, frameBlurred, Size{7,7}, 0);
-      Mat frameHSV;
-      cvtColor(frameBlurred, frameHSV, CV_BGR2HSV);
-      Mat output_blue = Mat::zeros(frameHSV.height, frameHSV.width, CV_8U);
-      inRange(frameHSV, blue_low, blue_high, output_blue);
-      erode(output_blue, output_blue, erosion_kernel_blue);
-      return output_blue;
-}
-```
+<https://github.com/RoboJackets/ros-training/blob/master/code/week6/src/findBlue.cpp>
 
 
 # Roboracing Computer Vision
