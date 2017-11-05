@@ -2,6 +2,13 @@
 #+AUTHOR: Sahit Chintalapudi
 #+EMAIL: schintalapudi@gatech.edu
 
+* Cameras
+- TODO general
+** Stereo
+- Can calculate the distances to things
+  - Finds the same features on the frames
+  - known distance in between cameras
+- TODO include picture of stereo
 * Computer Vision
 - We have the knowledge in C++ to describe the logic we might want a robot to
   have. But we need to be able to make sense of what the robot sees and
@@ -10,20 +17,31 @@
   (and a few other languages)
 - I guess our ability to see has been ++'d
 
-
+* OpenCV
+- Industrial standard for image processing
+- TODO LOGO
 * What does an Image look like to your computer?
 - OpenCV stores images in an object called a /Mat/
-- A Mat is an array with rows and columns. In a grayscale image, each element
+- A Mat is an array with rows and columns. Each element
   of the Mat is a pixel in the image and its location in the Mat corresponds
   to its location in the image
-- If the image is grayscale, then a pixel is an int from 0 (black) to 255
-  (white)
 - Computers have no concept of "2d", so Images in memory are /continuous/.
   This means each row of the image is appended onto the end of the last. To
   iterate through a Mat you just get a pointer to the beginning of the first
   row and keep track of your row number by how far you've traversed.
-
-* Color Images
+- TODO graphic of linearization
+* Color Types
+- There are many different formats for an image
+  - Grey scale
+  - RGB
+  - HSV
+** Grey scale
+- An image where each pixel is only white to black
+- Range [0-255]
+  - 255 is white
+  - 0 is black
+- TODO picture
+** Color Images
 - Color images don't embed the color of a pixel in one element. Often, you'll
   find each pixel represented in BGR (Blue component, Green Component, Red
   Component) form. So now, each row of a color image is 3 times as long as a
@@ -31,13 +49,14 @@
 - [[https://i.imgur.com/QlokNTv.png]]
 - Images don't have to be stored in just BGR format!
 
-* HSV Images
+** HSV Images
 - Each Pixel in a color image has a hue, a saturation, and a luminosity.
 - Even though our cameras read in images with RGB, converting them to HSV is
   easy with OpenCV
+- TODO explain hue saturation and luninosity
 [[https://image.slidesharecdn.com/01presentationhuehistograms-150707215651-lva1-app6892/95/about-perception-and-hue-histograms-in-hsv-space-5-638.jpg]]
 
-* Why do we use HSV
+*** Why do we use HSV
 - HSV encodes image data in a way that is resistant to changes in color
 - To put it another way, on a sunny day an image will contain more red, more
   blue, and more green than on a cloudy day. All three channels are affected.
@@ -64,3 +83,4 @@ Mat findBlue(const Mat& frameBGR) {
 * Roboracing Computer Vision
 [[https://github.com/RoboJackets/roboracing-software/blob/master/iarrc/src/color_detector/color_detector.cpp][Roboracing
 Color Detector]]
+* Drawing a box around an ball
