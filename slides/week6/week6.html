@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Week 6</title>
+<meta name="author" content="(Sahit Chintalapudi)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/theme/white.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://robojackets.github.io/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Week 6</h1>
+</section>
+
+<section id="slide-orga682c92">
+<h2 id="orga682c92">What are we doing today</h2>
+<ul>
+<li>What is Controls?</li>
+<li>The Ideal PID Equation</li>
+<li>How do we make this work in practice</li>
+<li>Walkthrough of the current controls code</li>
+<li>Advice on Tuning</li>
+
+</ul>
+</section>
+<section id="slide-org75a835a">
+<h2 id="org75a835a">Control Theory</h2>
+<ul>
+<li>How do we reliably get from point A (our current state) to point B (our
+desired state)?</li>
+<li>We call the difference between desired and current state at a given time
+<span class="underline">error</span></li>
+<li>The desired state is also referred to as the <span class="underline">setpoint</span></li>
+
+</ul>
+
+</section>
+<section id="slide-orgbc8c31b">
+<h3 id="orgbc8c31b">Closed Loop Controls</h3>
+<ul>
+<li>The output of our motor, referred to as its <b>effort</b> is what we have
+control over.  Effort is typically something measured as a PWM signal</li>
+<li>We get feedback on the state of the robot from sensors. For example, an
+encoder gives us ticks/second or an accelerometer would tell us g-forces.
+These tell us the <i>state</i> of the robot.</li>
+<li>We want to inform the effort of the motor based on the measured robot
+state.</li>
+
+</ul>
+</section>
+<section id="slide-orgb675bb1">
+<h3 id="orgb675bb1">Why do we need to study this?</h3>
+<ul>
+<li>Our robot will be operating in a variety of conditions
+<ul>
+<li>Differences in battery voltage or driving surface means that the same
+motor effort can result in different speeds. We need to account for this</li>
+<li>We want our robots motion to be accurate and consistent despite changing
+conditions.</li>
+
+</ul></li>
+<li>We want our robot's behavior to be "smooth".</li>
+
+</ul>
+</section>
+<section id="slide-org196007d">
+<h3 id="org196007d">A Simple Example: bang-bang controller</h3>
+<div class="org-src-container">
+
+<pre  class="src src-C++">effort &lt;- Fixed Output
+threshold &lt;- Margin of Error
+setpoint &lt;- desired state
+<span style="color: #598249;">while</span>(<span style="color: #15968D;">true</span>) {
+      <span style="color: #598249;">if</span> (current_state &lt; setpoint - threshold) {
+            output(effort);
+      } <span style="color: #598249;">else</span> <span style="color: #598249;">if</span> (current_state &gt; setpoint + threshold) {
+            output(-effort);
+      } <span style="color: #598249;">else</span> {
+            output(0);
+      }
+      update_current_state();
+}
+</pre>
+</div>
+<aside class="notes">
+<p>
+Pros:
+      Gets us more or less to our setpoint
+      Can account for changing conditions
+Cons:
+      Bumpy rides ahead (not differentiable)
+</p>
+
+</aside>
+
+</section>
+<section id="slide-org064021d">
+<h2 id="org064021d">The PID Controller</h2>
+<ul>
+<li>Let's vary our motor effort so that the robot's motion isn't as jerky</li>
+<li>We're going to build a black box that takes a function of error over time
+and spits out motor effort</li>
+<li>More specifically:</li>
+
+</ul>
+
+<div class="figure">
+<p><img src="https://www.researchgate.net/profile/Vishnu_Divakar/publication/281746636/figure/fig4/AS:284649973665803@1444877250888/Figure-5-PID-Equation.png" alt="Figure-5-PID-Equation.png" />
+</p>
+</div>
+</section>
+<section id="slide-org2d49383">
+<h3 id="org2d49383">The Proportional Component</h3>
+<ul>
+<li>As we get closer to the setpoint, slow down!</li>
+<li>The rate at which we slow down is given by Kp</li>
+<li>This is good because we don't see the same boucing back and forth as
+bang-bang</li>
+<li>This is bad because we'll never quite hit our setpoint (SP).</li>
+
+</ul>
+<aside class="notes">
+<p>
+The problem with just a P controller is called steady state error
+The problem isn't as bad with a threshold
+</p>
+
+</aside>
+</section>
+<section id="slide-org6ef8b10">
+<h3 id="org6ef8b10">The Integral Component</h3>
+<ul>
+<li>Very low error for a long period of time</li>
+<li>Add up previous errors and produce an output proportional to that sum</li>
+<li>Pro: We now reach our setpoint!</li>
+<li>Con: An I gain that's too high will lead to oscillation about the setpoint</li>
+
+</ul>
+<aside class="notes">
+<p>
+This and the D component will have to get sketched up on a whiteboard
+Note that the summing we are doing here is basically LRAM
+</p>
+
+</aside>
+</section>
+<section id="slide-orgad59661">
+<h3 id="orgad59661">The Derivative Component</h3>
+<ul>
+<li>Rather than carrying about the error itself, try to keep the rate at which
+the error is changing stable</li>
+<li>This helps keep the PID controller smooth</li>
+<li>It can also help offset some of the oscillation seen from the I component</li>
+
+</ul>
+
+</section>
+<section id="slide-orgdb7b335">
+<h2 id="orgdb7b335">Making this work in practice</h2>
+<ul>
+<li>We can define our state in terms of speed or distance travelled, but speed
+makes more sense.</li>
+<li>In the I component don't sum over all the old values, just the most recent
+ones.</li>
+<li>Rather than having your motor effort being output by this PID Controller,
+have the PID Controller dictate the change in motor effort.</li>
+<li>Often, just a PD controller does the trick</li>
+
+</ul>
+<aside class="notes">
+<p>
+If you have a wide enough margin for error - i.e steering angle - just a P
+controller can cut it
+</p>
+
+</aside>
+
+</section>
+<section id="slide-orgc8fb65d">
+<h2 id="orgc8fb65d">How do we do it right now?</h2>
+<ul>
+<li><a href="https://github.com/robojackets/roboracing-firmware">https://github.com/robojackets/roboracing-firmware</a></li>
+
+</ul>
+
+</section>
+<section id="slide-orgbd8c306">
+<h2 id="orgbd8c306">Some advice on tuning</h2>
+<aside class="notes">
+<p>
+This is more of an art than a science
+</p>
+
+</aside>
+<ul>
+<li>When starting, set I&amp;D to 0 and just increment P until you're happy with
+thethe behavior</li>
+<li>You shouldn't have to recompile/redeploy software everytime you want to
+tweak these gains. Launchfile paramaters are your friends!</li>
+<li>Rqt (specifically rqt<sub>plot</sub>) is a really useful tool to look at how your
+error is changing</li>
+
+</ul>
+
+<aside class="notes">
+<p>
+Things I wish I could cover but it wouldnt be realistic: (writing these down
+in case we do advanced spring sessions)
+Motion Profiling (not enough time)
+Gain Scheduling (not enough time)
+LQR (Wut. How even)
+Making our "current<sub>state</sub>" estimate more realistic via Kalman Filters or
+something of that nature. (out of scope + not enough time)
+</p>
+
+</aside>
+</section>
+</section>
+</div>
+</div>
+<script src="https://robojackets.github.io/reveal.js/lib/js/head.min.js"></script>
+<script src="https://robojackets.github.io/reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: false,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+width: 1440,
+height: 800,
+margin: 0.15,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'fast',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://robojackets.github.io/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+]
+});
+</script>
+</body>
+</html>
