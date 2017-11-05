@@ -5,6 +5,8 @@
 -   How do we make this work in practice
 -   Walkthrough of the current controls code
 -   Advice on Tuning
+-   Cameras
+-   OpenCV
 
 
 # Control Theory
@@ -116,11 +118,11 @@ If you have a wide enough margin for error - i.e steering angle - just a P contr
 # Some advice on tuning
 
 <div class="NOTES">
-This is more of an art than a science
+This is more of an art than a science. Take them through rqt<sub>plot</sub>
 
 </div>
 
--   When starting, set I&D to 0 and just increment P until you're happy with thethe behavior
+-   When starting, set I&D to 0 and just increment P until you're happy with the behavior
 -   You shouldn't have to recompile/redeploy software everytime you want to tweak these gains. Launchfile paramaters are your friends!
 -   Rqt (specifically rqt<sub>plot</sub>) is a really useful tool to look at how your error is changing
 
@@ -128,3 +130,115 @@ This is more of an art than a science
 Things I wish I could cover but it wouldnt be realistic: (writing these down in case we do advanced spring sessions) Motion Profiling (not enough time) Gain Scheduling (not enough time) LQR (Wut. How even) Making our "current<sub>state</sub>" estimate more realistic via Kalman Filters or something of that nature. (out of scope + not enough time)
 
 </div>
+
+
+# Cameras
+
+-   An image is a collection of pixels
+
+
+## Stereo
+
+-   Can calculate the distances to things
+    -   Finds the same features on the frames
+    -   known distance in between cameras
+-   Sensitive to amount of features
+
+![img](https://i2.wp.com/scorpion.tordivel.no/images/3D-Lens-Calculator-Sketch.png)
+
+
+# Computer Vision
+
+-   We have the knowledge in C++ to describe the logic we might want a robot to have. But we need to be able to make sense of what the robot sees and classify it before we can act on this logic.
+-   Cue OpenCV, an open source computer vision library with bindings for C++ (and a few other languages)
+-   I guess our ability to see has been ++'d
+
+
+# OpenCV
+
+-   Industrial standard for image processing
+
+![img](https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/OpenCV_Logo_with_text_svg_version.svg/1200px-OpenCV_Logo_with_text_svg_version.svg.png)
+
+
+# What does an Image look like to your computer?
+
+-   OpenCV stores images in an object called a *Mat*
+-   A Mat is an array with rows and columns. Each element of the Mat is a pixel in the image and its location in the Mat corresponds to its location in the image
+-   Computers have no concept of "2d", so Images in memory are *continuous*. This means each row of the image is appended onto the end of the last. To iterate through a Mat you just get a pointer to the beginning of the first row and keep track of your row number by how far you've traversed.
+
+
+# Color Types
+
+-   There are many different formats for an image
+    -   Grey scale
+    -   RGB
+    -   HSV
+
+
+## Grey scale
+
+-   An image where each pixel is only white to black
+-   Range [0-255]
+    -   255 is white
+    -   0 is black
+
+
+## Color Images
+
+-   Color images don't embed the color of a pixel in one element. Often, you'll find each pixel represented in BGR (Blue component, Green Component, Red Component) form. So now, each row of a color image is 3 times as long as a row of a black and white image.
+-   ![img](https://i.imgur.com/QlokNTv.png)
+-   Images don't have to be stored in just BGR format!
+
+
+## HSV Images
+
+-   Each Pixel in a color image has a hue, a saturation, and a luminosity.
+-   Even though our cameras read in images with RGB, converting them to HSV is easy with OpenCV
+
+![img](https://image.slidesharecdn.com/01presentationhuehistograms-150707215651-lva1-app6892/95/about-perception-and-hue-histograms-in-hsv-space-5-638.jpg)
+
+
+### HSV explained
+
+-   Hue
+    -   The actual color
+-   Saturation
+    -   Indicates the amount of grey
+-   Luminosity
+    -   How dark the color is
+
+![img](https://www.nmt.edu/tcc/help/pubs/colortheory/img/cone.png)
+
+
+### Why do we use HSV
+
+-   HSV encodes image data in a way that is resistant to changes in color
+-   To put it another way, on a sunny day an image will contain more red, more blue, and more green than on a cloudy day. All three channels are affected.
+-   On a sunny day, the saturation channel will be largely effected, but we can expect hue to remain mainly stable. This makes it easier to do searches for colors in the HSV space.
+
+
+# Finding the blue in an image
+
+```c++
+Mat findBlue(const Mat& frameBGR) {
+      const Scalar blue_low{78, 50, 70};
+      const Scalar blue_high{138, 255, 255};
+      Mat frameBlurred;
+      GaussianBlur(frameBGR, frameBlurred, Size{7,7}, 0);
+      Mat frameHSV;
+      cvtColor(frameBlurred, frameHSV, CV_BGR2HSV);
+      Mat output_blue = Mat::zeros(frameHSV.height, frameHSV.width, CV_8U);
+      inRange(frameHSV, blue_low, blue_high, output_blue);
+      erode(output_blue, output_blue, erosion_kernel_blue);
+      return output_blue;
+}
+```
+
+
+# Roboracing Computer Vision
+
+[Roboracing Color Detector](https://github.com/RoboJackets/roboracing-software/blob/master/iarrc/src/color_detector/color_detector.cpp)
+
+
+# What would make this training better?
