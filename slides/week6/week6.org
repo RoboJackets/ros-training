@@ -1,6 +1,6 @@
 #+TITLE: Week 6
-#+AUTHOR: Sahit Chintalapudi
-#+EMAIL: schintalapudi@gatech.edu
+#+AUTHOR: Sahit Chintalapudi, Jason Gibson
+#+EMAIL: schintalapudi@gatech.edu, jgibson37@gatech.edu
 
 * What are we doing today
 - What is Controls?
@@ -8,13 +8,14 @@
 - How do we make this work in practice
 - Walkthrough of the current controls code
 - Advice on Tuning
+- Cameras
+- OpenCV
 * Control Theory
 - How do we reliably get from point A (our current state) to point B (our
   desired state)?
 - We call the difference between desired and current state at a given time
   _error_
 - The desired state is also referred to as the _setpoint_
-
 ** Closed Loop Controls
 - The output of our motor, referred to as its *effort* is what we have
   control over.  Effort is typically something measured as a PWM signal
@@ -65,14 +66,14 @@ Cons:
 - The rate at which we slow down is given by Kp
 - This is good because we don't see the same boucing back and forth as
   bang-bang
-- This is bad because we'll never quite hit our setpoint (SP). 
+- This is bad because we'll never quite hit our setpoint (SP).
 #+BEGIN_NOTES
 The problem with just a P controller is called steady state error
 The problem isn't as bad with a threshold
 #+END_NOTES
 ** The Integral Component
 - Very low error for a long period of time
-- Add up previous errors and produce an output proportional to that sum 
+- Add up previous errors and produce an output proportional to that sum
 - Pro: We now reach our setpoint!
 - Con: An I gain that's too high will lead to oscillation about the setpoint
 #+BEGIN_NOTES
@@ -87,7 +88,7 @@ Note that the summing we are doing here is basically LRAM
 
 * Making this work in practice
 - We can define our state in terms of speed or distance travelled, but speed
-  makes more sense. 
+  makes more sense.
 - In the I component don't sum over all the old values, just the most recent
   ones.
 - Rather than having your motor effort being output by this PID Controller,
@@ -103,10 +104,10 @@ controller can cut it
 
 * Some advice on tuning
 #+BEGIN_NOTES
-This is more of an art than a science
+This is more of an art than a science. Take them through rqt_plot
 #+END_NOTES
 - When starting, set I&D to 0 and just increment P until you're happy with
-  thethe behavior
+  the behavior
 - You shouldn't have to recompile/redeploy software everytime you want to
   tweak these gains. Launchfile paramaters are your friends!
 - Rqt (specifically rqt_plot) is a really useful tool to look at how your
@@ -121,3 +122,93 @@ LQR (Wut. How even)
 Making our "current_state" estimate more realistic via Kalman Filters or
 something of that nature. (out of scope + not enough time)
 #+END_NOTES
+* Cameras
+- An image is a collection of pixels
+** Stereo
+- Can calculate the distances to things
+  - Finds the same features on the frames
+  - known distance in between cameras
+- Sensitive to amount of features
+[[file:https://i2.wp.com/scorpion.tordivel.no/images/3D-Lens-Calculator-Sketch.png]]
+* Computer Vision
+- We have the knowledge in C++ to describe the logic we might want a robot to
+  have. But we need to be able to make sense of what the robot sees and
+  classify it before we can act on this logic.
+- Cue OpenCV, an open source computer vision library with bindings for C++
+  (and a few other languages)
+- I guess our ability to see has been ++'d
+
+* OpenCV
+- Industrial standard for image processing
+#+ATTR_HTML: :width 30%
+[[file:https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/OpenCV_Logo_with_text_svg_version.svg/1200px-OpenCV_Logo_with_text_svg_version.svg.png]]
+* What does an Image look like to your computer?
+- OpenCV stores images in an object called a /Mat/
+- A Mat is an array with rows and columns. Each element
+  of the Mat is a pixel in the image and its location in the Mat corresponds
+  to its location in the image
+- Computers have no concept of "2d", so Images in memory are /continuous/.
+  This means each row of the image is appended onto the end of the last. To
+  iterate through a Mat you just get a pointer to the beginning of the first
+  row and keep track of your row number by how far you've traversed.
+* Color Types
+- There are many different formats for an image
+  - Grey scale
+  - RGB
+  - HSV
+** Grey scale
+- An image where each pixel is only white to black
+- Range [0-255]
+  - 255 is white
+  - 0 is black
+** Color Images
+- Color images don't embed the color of a pixel in one element. Often, you'll
+  find each pixel represented in BGR (Blue component, Green Component, Red
+  Component) form. So now, each row of a color image is 3 times as long as a
+  row of a black and white image.
+- [[https://i.imgur.com/QlokNTv.png]]
+- Images don't have to be stored in just BGR format!
+
+** HSV Images
+- Each Pixel in a color image has a hue, a saturation, and a luminosity.
+- Even though our cameras read in images with RGB, converting them to HSV is
+  easy with OpenCV
+[[https://image.slidesharecdn.com/01presentationhuehistograms-150707215651-lva1-app6892/95/about-perception-and-hue-histograms-in-hsv-space-5-638.jpg]]
+*** HSV explained
+- Hue
+  - The actual color
+- Saturation
+  - Indicates the amount of grey
+- Luminosity
+  - How dark the color is
+#+ATTR_HTML: :width 30%
+[[file:https://www.nmt.edu/tcc/help/pubs/colortheory/img/cone.png]]
+
+*** Why do we use HSV
+- HSV encodes image data in a way that is resistant to changes in color
+- To put it another way, on a sunny day an image will contain more red, more
+  blue, and more green than on a cloudy day. All three channels are affected.
+- On a sunny day, the saturation channel will be largely effected, but we can
+  expect hue to remain mainly stable. This makes it easier to do searches for
+  colors in the HSV space.
+
+* Finding the blue in an image
+#+BEGIN_SRC c++
+Mat findBlue(const Mat& frameBGR) {
+      const Scalar blue_low{78, 50, 70};
+      const Scalar blue_high{138, 255, 255};
+      Mat frameBlurred;
+      GaussianBlur(frameBGR, frameBlurred, Size{7,7}, 0);
+      Mat frameHSV;
+      cvtColor(frameBlurred, frameHSV, CV_BGR2HSV);
+      Mat output_blue = Mat::zeros(frameHSV.height, frameHSV.width, CV_8U);
+      inRange(frameHSV, blue_low, blue_high, output_blue);
+      erode(output_blue, output_blue, erosion_kernel_blue);
+      return output_blue;
+}
+#+END_SRC
+
+* Roboracing Computer Vision
+[[https://github.com/RoboJackets/roboracing-software/blob/master/iarrc/src/color_detector/color_detector.cpp][Roboracing
+Color Detector]]
+* What would make this training better?
