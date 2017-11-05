@@ -9,15 +9,11 @@ ros::Publisher image_publisher;
 cv::Mat findBlue(const cv::Mat& frameBGR) {
   const cv::Scalar blue_low{78, 50, 70};
   const cv::Scalar blue_high{138, 255, 255};
-  cv::Mat erosion_kernel_blue = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(11, 11));
 
-  cv::Mat frameBlurred;
-  GaussianBlur(frameBGR, frameBlurred, cv::Size{7,7}, 0);
   cv::Mat frameHSV;
-  cvtColor(frameBlurred, frameHSV, CV_BGR2HSV);
+  cvtColor(frameBGR, frameHSV, CV_BGR2HSV);
   cv::Mat output_blue = cv::Mat::zeros(frameHSV.size().height, frameHSV.size().width, CV_8U);
   inRange(frameHSV, blue_low, blue_high, output_blue);
-  erode(output_blue, output_blue, erosion_kernel_blue);
   return output_blue;
 }
 
