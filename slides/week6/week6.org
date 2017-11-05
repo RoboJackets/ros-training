@@ -1,6 +1,6 @@
 #+TITLE: Week 6
-#+AUTHOR: Sahit Chintalapudi
-#+EMAIL: schintalapudi@gatech.edu
+#+AUTHOR: Sahit Chintalapudi, Jason Gibson
+#+EMAIL: schintalapudi@gatech.edu, jgibson37@gatech.edu
 
 * What are we doing today
 - What is Controls?
@@ -16,8 +16,6 @@
 - We call the difference between desired and current state at a given time
   _error_
 - The desired state is also referred to as the _setpoint_
-** PID
-TODO picture and points
 ** Closed Loop Controls
 - The output of our motor, referred to as its *effort* is what we have
   control over.  Effort is typically something measured as a PWM signal
@@ -163,7 +161,6 @@ something of that nature. (out of scope + not enough time)
 - Range [0-255]
   - 255 is white
   - 0 is black
-- TODO picture
 ** Color Images
 - Color images don't embed the color of a pixel in one element. Often, you'll
   find each pixel represented in BGR (Blue component, Green Component, Red
@@ -176,8 +173,16 @@ something of that nature. (out of scope + not enough time)
 - Each Pixel in a color image has a hue, a saturation, and a luminosity.
 - Even though our cameras read in images with RGB, converting them to HSV is
   easy with OpenCV
-- TODO explain hue saturation and luninosity
 [[https://image.slidesharecdn.com/01presentationhuehistograms-150707215651-lva1-app6892/95/about-perception-and-hue-histograms-in-hsv-space-5-638.jpg]]
+*** HSV explained
+- Hue
+  - The actual color
+- Saturation
+  - Indicates the amount of grey
+- Luminosity
+  - How dark the color is
+#+ATTR_HTML: :width 30%
+[[file:https://www.nmt.edu/tcc/help/pubs/colortheory/img/cone.png]]
 
 *** Why do we use HSV
 - HSV encodes image data in a way that is resistant to changes in color
@@ -206,4 +211,4 @@ Mat findBlue(const Mat& frameBGR) {
 * Roboracing Computer Vision
 [[https://github.com/RoboJackets/roboracing-software/blob/master/iarrc/src/color_detector/color_detector.cpp][Roboracing
 Color Detector]]
-* Drawing a box around an ball
+* What would make this training better?
