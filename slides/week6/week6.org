@@ -193,20 +193,7 @@ something of that nature. (out of scope + not enough time)
   colors in the HSV space.
 
 * Finding the blue in an image
-#+BEGIN_SRC c++
-Mat findBlue(const Mat& frameBGR) {
-      const Scalar blue_low{78, 50, 70};
-      const Scalar blue_high{138, 255, 255};
-      Mat frameBlurred;
-      GaussianBlur(frameBGR, frameBlurred, Size{7,7}, 0);
-      Mat frameHSV;
-      cvtColor(frameBlurred, frameHSV, CV_BGR2HSV);
-      Mat output_blue = Mat::zeros(frameHSV.height, frameHSV.width, CV_8U);
-      inRange(frameHSV, blue_low, blue_high, output_blue);
-      erode(output_blue, output_blue, erosion_kernel_blue);
-      return output_blue;
-}
-#+END_SRC
+[[file:https://github.com/RoboJackets/ros-training/blob/master/code/week6/src/findBlue.cpp]]
 
 * Roboracing Computer Vision
 [[https://github.com/RoboJackets/roboracing-software/blob/master/iarrc/src/color_detector/color_detector.cpp][Roboracing
