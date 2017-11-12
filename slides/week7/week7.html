@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Week 7</title>
+<meta name="author" content="(Jason Gibson)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/theme/white.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://robojackets.github.io/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Week 7</h1>
+</section>
+
+<section id="slide-orgab8cc2c">
+<h2 id="orgab8cc2c">Kernel</h2>
+<ul>
+<li>A kernel is a square matrix that an image is multipled by</li>
+<li>Different kernels do different things</li>
+<li>can be used for edge detection, reducing noise, feature extraction, etc</li>
+
+</ul>
+</section>
+<section id="slide-orge2bb560">
+<h3 id="orge2bb560">Identity</h3>
+<ul>
+<li>Returns the original image</li>
+
+</ul>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+</tbody>
+</table>
+
+<div class="figure">
+<p><img src="https://i.imgur.com/YWH6NPC.png" alt="YWH6NPC.png" />
+</p>
+</div>
+</section>
+<section id="slide-org958364d">
+<h3 id="org958364d">Blur</h3>
+<ul>
+<li>used to reduce noise</li>
+
+</ul>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">1/9</td>
+<td class="org-left">1/9</td>
+<td class="org-left">1/9</td>
+</tr>
+
+<tr>
+<td class="org-left">1/9</td>
+<td class="org-left">1/9</td>
+<td class="org-left">1/9</td>
+</tr>
+
+<tr>
+<td class="org-left">1/9</td>
+<td class="org-left">1/9</td>
+<td class="org-left">1/9</td>
+</tr>
+</tbody>
+</table>
+
+<div class="figure">
+<p><img src="https://i.imgur.com/ogsHVT9.png" alt="ogsHVT9.png" />
+</p>
+</div>
+</section>
+<section id="slide-orgd28dba1">
+<h4 id="orgd28dba1">Gaussian Distribution</h4>
+<ul>
+<li>Called a normal distribution, bell curve</li>
+<li>Defined by the mean and variance</li>
+<li>Infinite expanse so we can integrate at any point
+<ul>
+<li>Calculus is hard with edges</li>
+
+</ul></li>
+
+</ul>
+
+<div class="figure">
+<p><object type="image/svg+xml" data="https://upload.wikimedia.org/wikipedia/commons/7/74/Normal_Distribution_PDF.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+</section>
+<section id="slide-orgb8831a9">
+<h4 id="orgb8831a9">Gaussian blur</h4>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">1/16</td>
+<td class="org-left">1/8</td>
+<td class="org-left">1/16</td>
+</tr>
+
+<tr>
+<td class="org-left">1/8</td>
+<td class="org-left">1/4</td>
+<td class="org-left">1/8</td>
+</tr>
+
+<tr>
+<td class="org-left">1/16</td>
+<td class="org-left">1/8</td>
+<td class="org-left">1/16</td>
+</tr>
+</tbody>
+</table>
+
+<div class="figure">
+<p><img src="https://i.imgur.com/l3lahuH.png" alt="l3lahuH.png" />
+</p>
+</div>
+</section>
+<section id="slide-orge16d2ca">
+<h4 id="orge16d2ca">Gaussian blur larger</h4>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">1/256</td>
+<td class="org-left">1/64</td>
+<td class="org-left">3/128</td>
+<td class="org-left">1/64</td>
+<td class="org-left">1/256</td>
+</tr>
+
+<tr>
+<td class="org-left">1/64</td>
+<td class="org-left">1/16</td>
+<td class="org-left">3/32</td>
+<td class="org-left">1/16</td>
+<td class="org-left">1/64</td>
+</tr>
+
+<tr>
+<td class="org-left">3/128</td>
+<td class="org-left">3/32</td>
+<td class="org-left">9/64</td>
+<td class="org-left">3/32</td>
+<td class="org-left">3/128</td>
+</tr>
+
+<tr>
+<td class="org-left">1/64</td>
+<td class="org-left">1/16</td>
+<td class="org-left">3/32</td>
+<td class="org-left">1/16</td>
+<td class="org-left">1/64</td>
+</tr>
+
+<tr>
+<td class="org-left">1/256</td>
+<td class="org-left">1/64</td>
+<td class="org-left">3/128</td>
+<td class="org-left">1/64</td>
+<td class="org-left">1/256</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="slide-orgab8545b">
+<h3 id="orgab8545b">Edge Detection</h3>
+<ul>
+<li>Gradients in images
+<ul>
+<li>Derivatives</li>
+
+</ul></li>
+<li>Good to blur before using edge detection</li>
+
+</ul>
+</section>
+<section id="slide-orgdc8cabe">
+<h4 id="orgdc8cabe">Sobel</h4>
+<ul>
+<li>Gradient calculation
+<ul>
+<li>First derivative</li>
+
+</ul></li>
+<li>Edge detection</li>
+<li>Uses to kernels and combines the results</li>
+
+</ul>
+</section>
+<section id="slide-orga255290">
+<h4 id="orga255290">Right Sobel</h4>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">-1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">-2</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-right">-1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+</tr>
+</tbody>
+</table>
+
+<div class="figure">
+<p><img src="https://i.imgur.com/n70YDco.png" alt="n70YDco.png" />
+</p>
+</div>
+</section>
+<section id="slide-org6254990">
+<h4 id="org6254990">Top Sobel</h4>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">-1</td>
+<td class="org-right">-2</td>
+<td class="org-right">-1</td>
+</tr>
+</tbody>
+</table>
+
+<div class="figure">
+<p><img src="https://i.imgur.com/0ag5YRp.png" alt="0ag5YRp.png" />
+</p>
+</div>
+</section>
+<section id="slide-org7f468a4">
+<h4 id="org7f468a4">Combination</h4>
+
+<div class="figure">
+<p><img src="https://i.imgur.com/zOUwHgY.png" alt="zOUwHgY.png" />
+</p>
+</div>
+</section>
+<section id="slide-org47041e8">
+<h4 id="org47041e8">Blurred Sobel</h4>
+
+<div class="figure">
+<p><img src="https://i.imgur.com/LapsYpb.png" alt="LapsYpb.png" />
+</p>
+</div>
+</section>
+<section id="slide-org9785109">
+<h4 id="org9785109">Laplacian</h4>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">-4</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+</tbody>
+</table>
+
+<div class="figure">
+<p><img src="https://i.imgur.com/3nHT9Uz.png" alt="3nHT9Uz.png" />
+</p>
+</div>
+</section>
+<section id="slide-org8e8a33d">
+<h4 id="org8e8a33d">Blurred Laplacian</h4>
+
+<div class="figure">
+<p><img src="https://i.imgur.com/1lRPNTa.png" alt="1lRPNTa.png" />
+</p>
+</div>
+</section>
+<section id="slide-org091d57c">
+<h2 id="org091d57c">Thresholding</h2>
+<ul>
+<li>Used before projection to get pixel we care about</li>
+<li>Used by both teams
+<ul>
+<li>Was in find blue from last week</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org4ec68eb">
+<h3 id="org4ec68eb">Binary</h3>
+<ul>
+<li>set to max if threshold is reached</li>
+
+</ul>
+<p>
+<img src="https://docs.opencv.org/3.2.0/Threshold_Tutorial_Theory_Base_Figure.png" alt="Threshold_Tutorial_Theory_Base_Figure.png" />
+<img src="https://docs.opencv.org/3.2.0/Threshold_Tutorial_Theory_Binary.png" alt="Threshold_Tutorial_Theory_Binary.png" />
+</p>
+</section>
+<section id="slide-org34c4f2c">
+<h3 id="org34c4f2c">Truncate</h3>
+<ul>
+<li>set anything above threshold to the threshold</li>
+
+</ul>
+<p>
+<img src="https://docs.opencv.org/3.2.0/Threshold_Tutorial_Theory_Base_Figure.png" alt="Threshold_Tutorial_Theory_Base_Figure.png" />
+<img src="https://docs.opencv.org/3.2.0/Threshold_Tutorial_Theory_Truncate.png" alt="Threshold_Tutorial_Theory_Truncate.png" />
+</p>
+</section>
+<section id="slide-org45e9974">
+<h2 id="org45e9974">Hough</h2>
+<ul>
+<li>Express all points in polar coordinates</li>
+<li>Looks for overlapping lines to see what is a feature we care about</li>
+
+</ul>
+</section>
+<section id="slide-orgb07bc4c">
+<h3 id="orgb07bc4c">Lines</h3>
+<p>
+<a href="https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_houghlines/py_houghlines.html">Hough Lines</a>
+</p>
+</section>
+<section id="slide-org5cf5375">
+<h3 id="org5cf5375">Circles</h3>
+<p>
+<a href="https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_houghcircles/py_houghcircles.html">Hough Circles</a>
+</p>
+</section>
+<section id="slide-org5d2f119">
+<h2 id="org5d2f119">Canny Edge</h2>
+<p>
+<a href="http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_canny/py_canny.html">Canny Edge</a>
+</p>
+</section>
+<section id="slide-orga6d4986">
+<h2 id="orga6d4986">OpenCV</h2>
+<ul>
+<li>Has good documentation</li>
+<li>Use google to search</li>
+
+</ul>
+</section>
+<section id="slide-org22e69f8">
+<h2 id="org22e69f8">Work</h2>
+<ul>
+<li>Use the template to publish images
+<ul>
+<li>use whatever technique you want</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org3b30fc3">
+<h3 id="org3b30fc3">Commands</h3>
+<div class="org-src-container">
+
+<pre  class="src src-shell">roscore
+rosbag play -l NAME
+</pre>
+</div>
+<ul>
+<li>launch file also</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="https://robojackets.github.io/reveal.js/lib/js/head.min.js"></script>
+<script src="https://robojackets.github.io/reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: false,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+width: 1440,
+height: 800,
+margin: 0.15,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'fast',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://robojackets.github.io/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+]
+});
+</script>
+</body>
+</html>
