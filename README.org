@@ -23,3 +23,5 @@
    + [[https://robojackets.github.io/ros-training/slides/week5/week5.html][Week 5]]
 6. Week 6
    + [[https://robojackets.github.io/ros-training/slides/week6/week6.html][Week 6]]
+6. Week 7
+   + [[https://robojackets.github.io/ros-training/slides/week7/week7.html][Week 7]]
