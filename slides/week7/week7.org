@@ -59,7 +59,7 @@
 [[file:https://i.imgur.com/0ag5YRp.png]]
 *** Combination
 [[file:https://i.imgur.com/zOUwHgY.png]]
-*** Blurred Spbel
+*** Blurred Sobel
 [[file:https://i.imgur.com/LapsYpb.png]]
 *** Laplacian
 #+attr_latex: :mode math :environment matrix
@@ -95,4 +95,4 @@ file:https://docs.opencv.org/3.2.0/Threshold_Tutorial_Theory_Base_Figure.png
 - Use google to search
 * Work
 - Use the template to publish images
-  - use whatever filter you want
+  - use whatever technique you want

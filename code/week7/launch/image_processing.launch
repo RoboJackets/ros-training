@@ -2,5 +2,6 @@
 
 <launch>
   <node name="image_processing" pkg="week7" type="week7" output="screen">
+    <rosparam param="kernel">[0, 1, 0, 1, -4, 1, 0, 1, 0]</rosparam>
   </node>
 </launch>
