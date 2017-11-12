@@ -21,7 +21,11 @@
 | 1/9 | 1/9 | 1/9 |
 [[file:https://i.imgur.com/ogsHVT9.png]]
 *** Gaussian Distribution
-- What is?
+- Called a normal distribution, bell curve
+- Defined by the mean and variance
+- Infinite expanse so we can integrate at any point
+  - Calculus is hard with edges
+[[file:https://upload.wikimedia.org/wikipedia/commons/7/74/Normal_Distribution_PDF.svg]]
 *** Gaussian blur
 #+attr_latex: :mode math :environment matrix
 | 1/16 | 1/8 | 1/16 |
@@ -39,7 +43,6 @@
 - Gradients in images
   - Derivatives
 - Good to blur before using edge detection
-- TODO image
 *** Sobel
 - Gradient calculation
   - First derivative
