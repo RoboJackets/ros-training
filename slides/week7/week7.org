@@ -90,4 +90,9 @@ file:https://docs.opencv.org/3.2.0/Threshold_Tutorial_Theory_Base_Figure.png
 [[file:https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_houghcircles/py_houghcircles.html][Hough Circles]]
 * Canny Edge
 [[file:http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_canny/py_canny.html][Canny Edge]]
-* ML
+* OpenCV
+- Has good documentation
+- Use google to search
+* Work
+- Use the template to publish images
+  - use whatever filter you want

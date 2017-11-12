@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+
+<launch>
+  <node name="image_processing" pkg="week7" type="week7" output="screen">
+  </node>
+</launch>
