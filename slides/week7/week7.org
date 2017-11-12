@@ -96,3 +96,9 @@ file:https://docs.opencv.org/3.2.0/Threshold_Tutorial_Theory_Base_Figure.png
 * Work
 - Use the template to publish images
   - use whatever technique you want
+** Commands
+#+BEGIN_SRC shell
+roscore
+rosbag play -l NAME
+#+END_SRC
+- launch file also
