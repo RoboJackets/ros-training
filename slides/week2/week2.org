@@ -285,6 +285,7 @@ consists of field which then consist of other fields. For example, click on
 the header, which links to message definition for a header. Note that every
 message should have a header
 #+END_NOTES
+- This is the particular pointcloud message we use in IGVC.
 - Everyone visit the
   [[http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html][PointCloud2
   message declaration]]
@@ -294,9 +295,3 @@ message should have a header
   debugging easier
 - Messages contain fields of data, some of these fields also contain fields
   of data, as they are also message types
-* =rqt_graph=
-#+BEGIN_NOTES
-make sure to launch enough nodes to make it hella complicated. talk a little bit about a code base
-#+END_NOTES
-- what if I want to see all of my nodes and messages
-- =rqt_graph=
