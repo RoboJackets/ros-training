@@ -1,6 +1,11 @@
 #+TITLE: Week 2
-#+AUTHOR: Sahit Chintalapudi, Jason Gibson
-#+EMAIL: schintalapudi@gatech.edu, jgibson37@gatech.edu
+#+AUTHOR: Sahit Chintalapudi, Jason Gibson, Andrew Tuttle
+#+EMAIL: schintalapudi@gatech.edu, jgibson37@gatech.edu, atuttle7@gatech.edu
+
+* What are we doing today?
+- Sensor of the day: Lidar
+- Coordinate Frames and Transformations mk.1
+- ROS 2: "The Electric Boogaloo" or "How I Stopped Worrying and Learned to Love XML"
 
 * Meet the lidar!
 - This sensor shines a laser light in circles and measures the return times
@@ -8,12 +13,13 @@
 - Notice that the lidar has a *rotating* component. This makes them more
   fragile the a sensor like a camera, so *they should be handled with caution*.
 #+ATTR_HTML: :width 30%
-[[file:https://cdn.sparkfun.com//assets/parts/1/2/0/0/3/14117-02a.jpg]]
+[[file:https://www.slamtec.com/images/a3/mobile/bg_1_en.png]]
 
 * Pointclouds
 - We use ROS's PCL package to interface with the LIDAR, and get messages of
   type
-  [[http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html][PointCloud2]]
+  [[http://docs.ros.org/melodic/api/sensor_msgs/html/msg/PointCloud.html][PointCloud]]
+  [[http://docs.ros.org/melodic/api/geometry_msgs/html/msg/Point32.html][Point32]]
 - A pointcloud is a data structure for holding the results found by the
   lidar (X, Y, Z)
 - This includes an array of points picked up from the the LIDAR and their
@@ -24,6 +30,14 @@
 Pull out Jason's LIDAR and run rqt
 #+END_NOTES
 - Live demo time!
+
+* Everything is Relative
+- Points are given relative to the sensor's frame of reference
+- Imagine a 3d coordinate frame with the x-axis facing the front of the lidar, the y-axis shooting off to the left, and the z-axis pointing straight up
+-How do we move points in that frame to the global frame, where our robot exsists?
+-Linear Transformations! (eww math)
+
+* Insert Transformatios Slides Here, I suggest the ones from 3630 - they're pretty clear
 
 * How do we structure ROS projects?
 #+BEGIN_NOTES
