@@ -1,4 +1,4 @@
-;;; igvc-software-training.el --- generation scripts for software-training
+;;; ros-training.el --- generation scripts for software-training
 
 ;; Copyright (C) 2016-2017 Jay Kamat
 ;; Author: Jay Kamat <jaygkamat@gmail.com>
@@ -9,7 +9,7 @@
 ;;; Commentary:
 ;;; Creates and builds org project files for robojackets igvc software training.
 
-;; To run: cask eval "(progn (require 'igvc-software-training) (igvc-software-training-publish))" in the root of the project.
+;; To run: cask eval "(progn (require 'ros-training) (ros-training-publish))" in the root of the project.
 
 (require 'ox-reveal)
 (require 'ox-publish)
@@ -33,7 +33,7 @@
     '(font-lock-function-name-face ((t (:foreground "#2F7BDE"))))
     '(font-lock-keyword-face       ((t (:foreground "#598249"))))
     '(font-lock-string-face        ((t (:foreground "#15968D"))))
-    '(font-lock-type-face		       ((t (:foreground "#598249"))))
+    '(font-lock-type-face          ((t (:foreground "#598249"))))
     '(font-lock-variable-name-face ((t (:foreground "#2F7BDE"))))
     '(font-lock-warning-face       ((t (:foreground "#bd3832" :weight bold)))))
   (setq htmlize-use-rgb-map 'force)
@@ -99,13 +99,13 @@ BODY code body"
     (not (member lang '("emacs-lisp" "python" "dot" "sh" "C" "C++"))))
   (setq org-confirm-babel-evaluate #'my-org-confirm-babel-evaluate))
 
-(defun igvc-software-training-publish ()
+(defun ros-training-publish ()
   "Simple script to export this project."
   (interactive)
   ;; Don't make backup files when generating (cask)
   (let ((make-backup-files nil))
     (org-publish-all t)))
 
-(provide 'igvc-software-training)
+(provide 'ros-training)
 
-;;; igvc-software-training.el ends here
+;;; ros-training.el ends here
