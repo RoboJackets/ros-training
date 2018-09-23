@@ -2,7 +2,7 @@
 (source org)
 (source melpa)
 
-(package-file "igvc-software-training.el")
+(package-file "ros-training.el")
 
 
 (development

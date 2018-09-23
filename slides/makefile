@@ -1,6 +1,5 @@
-
 all:
-	cask eval "(progn (require 'igvc-software-training) (igvc-software-training-publish ))"
+	cask eval "(progn (require 'ros-training) (ros-training-publish ))"
 
 install:
 	cask install
