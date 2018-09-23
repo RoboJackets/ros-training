@@ -1,6 +1,6 @@
 #+TITLE: Week 1
-#+AUTHOR: Jason Gibson and Andrew Tuttle
-#+EMAIL: jgibson37@gatech.edu and atuttle7@gatech.edu
+#+AUTHOR: Jason Gibson, Andrew Tuttle
+#+EMAIL: jgibson37@gatech.edu, atuttle7@gatech.edu
 # content heavily borrowed from robocup-training
 
 * What are we doing today?
