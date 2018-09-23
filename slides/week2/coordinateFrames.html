@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Coordinate Frames</title>
+<meta name="author" content="(Jason Gibson)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/theme/white.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://robojackets.github.io/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Coordinate Frames</h1>
+</section>
+
+<section id="slide-org6fcedf4">
+<h2 id="org6fcedf4">Reference Frames</h2>
+<ul>
+<li>every sensor has a reference frame
+<ul>
+<li>all of its data will be in that reference frame</li>
+
+</ul></li>
+<li>lidar example
+<ul>
+<li>lidar is 1 m ahead of robot center</li>
+<li>sensor reads 2m to obstacle</li>
+<li>what is the distance to the obstacle from the robot reference frame</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgb9ce316">
+<h3 id="orgb9ce316">Units of measure</h3>
+<ul>
+<li>ROS has standards for units of measure</li>
+<li><a href="http://www.ros.org/reps/rep-0103.html">REP-103</a></li>
+
+</ul>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">distance</td>
+<td class="org-left">meters</td>
+</tr>
+
+<tr>
+<td class="org-left">angle</td>
+<td class="org-left">radians</td>
+</tr>
+
+<tr>
+<td class="org-left">mass</td>
+<td class="org-left">kilograms</td>
+</tr>
+
+<tr>
+<td class="org-left">time</td>
+<td class="org-left">second</td>
+</tr>
+
+<tr>
+<td class="org-left">frequency</td>
+<td class="org-left">hertz</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-org61324e6">
+<h3 id="org61324e6">Coordinate Frames Standard</h3>
+<ul>
+<li>coordinate frames follow the right hand rule</li>
+
+</ul>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">X</td>
+<td class="org-left">forward</td>
+</tr>
+
+<tr>
+<td class="org-left">Y</td>
+<td class="org-left">Left</td>
+</tr>
+
+<tr>
+<td class="org-left">Z</td>
+<td class="org-left">Forward</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-orgb837bcd">
+<h3 id="orgb837bcd">Cardinal Directions Coordinate Frames</h3>
+<ul>
+<li>used when mapping with global information (GPS, Magnetometer)</li>
+
+</ul>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">X</td>
+<td class="org-left">North</td>
+</tr>
+
+<tr>
+<td class="org-left">Y</td>
+<td class="org-left">East</td>
+</tr>
+
+<tr>
+<td class="org-left">Z</td>
+<td class="org-left">Down</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-org9cc4c16">
+<h3 id="org9cc4c16">Orientation</h3>
+<ul>
+<li>orientation is represented as RPY or quaternions
+<ul>
+<li>Use RPY when possible and convert to quaternion later</li>
+
+</ul></li>
+<li>counter clockwise is positive yaw</li>
+<li>yaw zero is east</li>
+
+</ul>
+</section>
+<section id="slide-orga936cb8">
+<h2 id="orga936cb8">Standard Coordinate Frames</h2>
+<ul>
+<li><code>base_link</code> centered at the robot center of rotation</li>
+<li><code>odom</code> global reference frame</li>
+<li>We will talk more about this when we talk about GPS</li>
+
+</ul>
+
+</section>
+<section id="slide-org673e006">
+<h2 id="org673e006">State</h2>
+<ul>
+<li>State can be defined in a lot of ways</li>
+<li>IGVC maps obstacles in (x,y)
+<ul>
+<li>The robot uses (x,y,theta) for path planning</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org82ea0e3">
+<h2 id="org82ea0e3">Moving Between Reference Frames</h2>
+<ul>
+<li>To all coordinate frames have a transform to get from one to the other
+<ul>
+<li>Translation (x,y,z)</li>
+<li>Rotation (roll,pitch,yaw)</li>
+
+</ul></li>
+<li>IGVC only uses
+<ul>
+<li>(x,y)</li>
+<li>(yaw)</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgf7ba3c7">
+<h3 id="orgf7ba3c7">State</h3>
+<ul>
+<li>State can be defined in abstract ways</li>
+<li>Often called state vector</li>
+<li>For IGVC
+<ul>
+<li>Robot: (x,y,theta)</li>
+<li>Obstacles: (x,y)</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org6f71fd7">
+<h3 id="org6f71fd7">Rotations</h3>
+<ul>
+<li>Use the rotation matrix</li>
+<li>Multiply the state vector by the rotation matrix</li>
+
+</ul>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">0</td>
+<td class="org-left">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-left">cos(theta)</td>
+<td class="org-left">-sin(theta)</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-left">sin(theta)</td>
+<td class="org-left">cost(theta)</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-orgacc388f">
+<h3 id="orgacc388f">Translation</h3>
+<ul>
+<li>Find the difference between the reference frames</li>
+<li>Add the vector that represents the difference</li>
+
+</ul>
+
+</section>
+<section id="slide-orga395049">
+<h3 id="orga395049">Math is hard</h3>
+<ul>
+<li>Matrix math is hard</li>
+<li>ROS has a built in tool, tf
+<ul>
+<li>tf does all the matrix things for you</li>
+<li>it will give you a transform</li>
+<li>essentailly (x,y,z) (roll,pitch,yaw) between two frames</li>
+
+</ul></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="https://robojackets.github.io/reveal.js/lib/js/head.min.js"></script>
+<script src="https://robojackets.github.io/reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: false,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+width: 1440,
+height: 800,
+margin: 0.15,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'fast',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://robojackets.github.io/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+]
+});
+</script>
+</body>
+</html>

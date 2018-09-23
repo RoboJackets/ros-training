@@ -1,0 +1,104 @@
+# Reference Frames
+
+-   every sensor has a reference frame
+    -   all of its data will be in that reference frame
+-   lidar example
+    -   lidar is 1 m ahead of robot center
+    -   sensor reads 2m to obstacle
+    -   what is the distance to the obstacle from the robot reference frame
+
+
+## Units of measure
+
+-   ROS has standards for units of measure
+-   [REP-103](http://www.ros.org/reps/rep-0103.html)
+
+| distance  | meters    |
+| angle     | radians   |
+| mass      | kilograms |
+| time      | second    |
+| frequency | hertz     |
+
+
+## Coordinate Frames Standard
+
+-   coordinate frames follow the right hand rule
+
+| X | forward |
+| Y | Left    |
+| Z | Forward |
+
+
+## Cardinal Directions Coordinate Frames
+
+-   used when mapping with global information (GPS, Magnetometer)
+
+| X | North |
+| Y | East  |
+| Z | Down  |
+
+
+## Orientation
+
+-   orientation is represented as RPY or quaternions
+    -   Use RPY when possible and convert to quaternion later
+-   counter clockwise is positive yaw
+-   yaw zero is east
+
+
+# Standard Coordinate Frames
+
+-   `base_link` centered at the robot center of rotation
+-   `odom` global reference frame
+-   We will talk more about this when we talk about GPS
+
+
+# State
+
+-   State can be defined in a lot of ways
+-   IGVC maps obstacles in (x,y)
+    -   The robot uses (x,y,theta) for path planning
+
+
+# Moving Between Reference Frames
+
+-   To all coordinate frames have a transform to get from one to the other
+    -   Translation (x,y,z)
+    -   Rotation (roll,pitch,yaw)
+-   IGVC only uses
+    -   (x,y)
+    -   (yaw)
+
+
+## State
+
+-   State can be defined in abstract ways
+-   Often called state vector
+-   For IGVC
+    -   Robot: (x,y,theta)
+    -   Obstacles: (x,y)
+
+
+## Rotations
+
+-   Use the rotation matrix
+-   Multiply the state vector by the rotation matrix
+
+| 1 | 0          | 0           |
+| 0 | cos(theta) | -sin(theta) |
+| 0 | sin(theta) | cost(theta) |
+
+
+## Translation
+
+-   Find the difference between the reference frames
+-   Add the vector that represents the difference
+
+
+## Math is hard
+
+-   Matrix math is hard
+-   ROS has a built in tool, tf
+    -   tf does all the matrix things for you
+    -   it will give you a transform
+    -   essentailly (x,y,z) (roll,pitch,yaw) between two frames

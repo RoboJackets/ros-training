@@ -1,97 +1,59 @@
 # What are we doing today?
 
 -   Introductions
--   IGVC and RoboRacing Competitions
--   Setting up the IGVC/RoboRacing VM
+-   IGVC Competition
 -   Introduction to ROS
+-   Setting up the IGVC VM
+
+
+# Initial Instructions
+
+-   We have a ~3 GB file for you to download.
+-   Here is a link: <https://mega.nz/#!rl80jQoY!_8Mqr_LClq3mIExEe2OztWqoSRrkbAga0aeqHkv2dSg>
+    -   We have it on flash drives for easy installation
+-   This is a VM image. In leiu of dual-booting, this is technically a method of running linux.
 
 
 # ROS Training
 
 <div class="NOTES">
-talk about RoboJackets is one team and how training is a shared venture
+We use a lot of technologies, do not worry about it so much
 
 </div>
 
--   IGVC and RoboRacing software use similiar tech stacks
+-   IGVC's tech stack is built with a few important technologies
     -   C++
     -   Robot Operating System
-    -   OpenCV
-
-
-# Developing for IGVC/RoboRacing
-
-<div class="NOTES">
-Downloading will take a while so make sure everyone does this now. Check for anyone with a dual boot already.
-
-</div>
-
--   we use Ubuntu 16.04
--   we have a VM image that we have aready set up for you
-    -   [Download Link](https://mega.nz/#!RugyRAQR!mFFuc_B3NEjq0DCbVzqIgQupDBGUpxFNpHOd9uNz1F0)
-    -   We have flash drives if you have not already downloaded this
--   virtualbox is a virtualization software that robojackets supports
-    -   [Virtual Box](https://www.virtualbox.org/wiki/Downloads)
+    -   Tensorflow
 
 
 # Ros Training Trainers
 
-<div class="NOTES">
-Be sure to mention joint training is called ROS training
 
-</div>
+## Meet Andrew
+
+<>
+
+-   Andrew Tuttle
+    -   3rd Year, Computer Science (Threads: Theory, Intelligence)
+    -   Inside RoboJackets: IGVC Software Lead
+    -   Outside RoboJackets: Dungeon Master and general geek
+-   How to contact me
+    -   Slack: [@Andrew Tuttle](https://robojackets.slack.com/messages/D74EXN804/)
+    -   Email: [atuttle7@gatech.edu](mailto:atuttle7@gatech.edu)
 
 
-# Meet Jason
+## Meet Jason
 
 ![img](https://i.imgur.com/izC5WWA.jpg)
 
 -   Jason Gibson
-    -   Junior, Computer Science (Threads: Devices, Intelligence)
-    -   Inside RoboJackets: Training Chair, IGVC Software Lead
+    -   Senior, Computer Science (Threads: Devices, Intelligence)
+    -   Inside RoboJackets: President
     -   Outside RoboJackets: Avid lover of dad jokes
 -   How to contact me
-    -   Slack: [@jasongibson](https://robojackets.slack.com/messages/@jasongibson/)
+    -   Slack: [@Jason Gibson](https://robojackets.slack.com/messages/@Jason_Gibson/)
     -   Email: [jgibson37@gatech.edu](mailto:jgibson37@gatech.edu)
-
-
-# Meet Sahit
-
-![img](https://i.imgur.com/aqKGrKm.jpg)
-
--   Sahit Chintalapudi
-    -   Sophomore, Computer Science (Threads: Intelligence, Theory)
-    -   Roboracing Software Lead & Roboracing PR manager
-    -   S-tier Taylor Swift fanboy
--   How to contact me
-    -   Slack: [@schintalapudi](https://robojackets.slack.com/messages/@schintalapudi/)
-    -   Email: [schintalapudi@gatech.edu](mailto:schintalapudi@gatech.edu)
-
-
-# Meet Evan
-
-![img](https://i.imgur.com/50oKGjv.jpg)
-
--   Evan Bretl
-    -   2nd year, Computer Science (Threads: Intelligence, Modeling/Simulation)
-    -   Project Manager for RoboRacing
-    -   Plays a lot of volleyball
--   Contact
-    -   Slack: [@ebretl](https://robojackets.slack.com/messages/@ebretl/)
-    -   Email: [evan.bretl@gatech.edu](mailto:evan.bretl@gatech.edu)
-
-
-# Meet Matthew
-
-![img](https://i.imgur.com/gMOFiLz.jpg)
-
--   Matthew Keezer
-    -   1st year Masters, Computer Science (Threads: N/A)
-    -   IGVC member, (retired IGVC software lead)
-    -   583 games on steam, only 20% are unplayed <https://goo.gl/QzrMWZ>
--   Contact
-    -   Slack: [@rmkeezer](https://robojackets.slack.com/messages/@rmkeezer/)
-    -   Email: [rkeezer3@gatech.edu](mailto:rkeezer3@gatech.edu)
 
 
 # IGVC
@@ -131,60 +93,122 @@ mention ROS is an industrial standard
 
 -   c++ based
 -   our software can be broken down into three parts
-    -   path planning
+    -   path planning and following
     -   obstacle detection
         -   lidar
         -   computer vision
     -   mapping and localization
 -   all the details will be covered in later weeks
 
-
-# RoboRacing
-
--   International Autonomous Robot Racing Competition (Waterloo, Canada)
--   Autonomous Vehicle Competition (Denver, Colorado)
--   Both are autonomous racing competitions
--   Same sensors as IGVC but **no GPS**
-
-![img](https://i.imgur.com/8s99LgL.jpg)
-
-
-# RoboRacing Software
-
--   Consists of a few packages, but at a high level we have: vision, planning, and control.
--   the IARRC package and AVC packages contain competition specific logic (perception)
--   common has our path planner which is common between both events
--   platform consists of controls code that interfaces with the arduino
--   gazebo has the software that supports simulation
+![img](https://imgur.com/N8fUcwt.jpg)
 
 
 # ROS
 
 -   message passing interface between multiple concurrent threads
--   multitude of useful libraries
+-   We use ROS to enable information flow to and from our computer, sensors, and motors.
 
 
 # ROS Architecture
 
 <div class="NOTES">
-the arrows are topics and the circles are nodes
+topics->channels messages->videos
 
 </div>
 
--   nodes
-    -   small programs that are all running at the same time
--   topics
-    -   messages that are passed between different nodes
-
-![img](https://magiccvs.byu.edu/wiki/images/b/bb/Rqt_graph_turtle_key.png)
+-   ROS is composed of three major parts: ROSCORE, Nodes, and Topics.
 
 
-# Fork Our Repo
+# ROSCORE
 
--   RoboJackets/igvc-software (<https://github.com/RoboJackets/igvc-software>)
--   RoboJackets/roboracing-software (<https://github.com/RoboJackets/roboracing-software>)
+-   ROSCORE is the core system that controls ROS code and logical infrastructure. - ROSCORE manages the information flow throughout our program, making sure messages are sent and recieved by the proper sources and sinks, called nodes.
 
-![img](https://i.imgur.com/9Wz6RP3.png)
+
+# Nodes
+
+-   ROS nodes are programs that do all the processing work in IGVC.
+-   They collect information from sensors and perform some processing upon that information, and may or may not produce information themselves.
+-   They are managed by ROSCORE, which determines what information goes to which nodes through the third component, topics.
+
+
+# Topics
+
+-   Topics are the classifications that ROS sorts messages by.
+-   Nodes can send messages to particular topics though a process called publishing and conversely request information from a topic through a process called subscribing.
+-   ROSCORE and nodes use topics as a method of information routing, allowing nodes to retrieve specific information from ROSCORE.
+
+
+# YouTube ~ ROS?
+
+-   All this talk of publishing and subscribing reminds me of YouTube.
+
+![img](https://imgur.com/XxZ5vQx.jpg)
+
+
+# YouTube ~ ROS?
+
+-   If videos are messages, then YouTube is like ROSCORE.
+-   Nodes are like YouTube users, and topics are like channels.
+-   Users can create videos (messages) and ask YouTube (ROSCORE) to publish those messages to a particular channel (topics)
+-   Users can also ask YouTube for videos of a particular type by providing a channel name.
+
+
+# ROS talker and listener
+
+-   Let's do a quick walkthrough of a basic node
+    -   We will cover this more in detail later, ignore the syntax and see what is happening
+-   
+
+
+## Some ROS Vocab
+
+-   A <span class="underline">node</span> is a process running on your computer
+    -   you specify the behavior of the node with the C++ code you write
+-   Nodes <span class="underline">publish messages</span> on a <span class="underline">topic</span>
+    
+    -   A message is a data structure made up of fields. Messages can be
+    
+    primitive like booleans or ints, or they can contain other data structures like a PointCloud
+    
+    -   Think of a topic as the mailbox to which the messages get delivered
+-   Nodes <span class="underline">subscribe</span> to a topic to receive <span class="underline">callbacks</span> when a new message appears
+    
+    -   Subscribing to a topic entails telling ROS to call a function you
+    
+    define everytime a new message is published on this topic!
+
+
+## A ROS Publisher
+
+<div class="NOTES">
+Should we write our own? I like how well this is documented
+
+</div>
+
+-   [Example Code](https://github.com/RoboJackets/ros-training/blob/master/code/week1/src/talker.cpp)
+
+
+## Subscriber
+
+-   [Example Code](https://github.com/RoboJackets/ros-training/blob/master/code/week1/src/listener.cpp)
+
+
+## Demo!!
+
+
+# Developing for IGVC
+
+<div class="NOTES">
+Downloading will take a while so make sure everyone does this now. Check for anyone with a dual boot already.
+
+</div>
+
+-   we use Ubuntu 18.04.1
+-   we have a VM image that we have aready set up for you
+    -   [Download Link](https://mega.nz/#!rl80jQoY!_8Mqr_LClq3mIExEe2OztWqoSRrkbAga0aeqHkv2dSg)
+    -   We have flash drives if you have not already downloaded this
+-   virtualbox is a virtualization software that robojackets supports
+    -   [Virtual Box](https://www.virtualbox.org/wiki/Downloads)
 
 
 ### Ensure you have Virtualization turned on in your BIOS
@@ -237,7 +261,7 @@ the arrows are topics and the circles are nodes
 -   Double Click the Entry, or Right Click -> Start -> Normal Start
 
 
-# Fix remotes
+# ~Fix remotes
 
 -   open a terminal
 
@@ -249,6 +273,13 @@ git pull upstream
 ```
 
 
+# Fork Our Repo
+
+-   RoboJackets/igvc-software (<https://github.com/RoboJackets/igvc-software>)
+
+![img](https://i.imgur.com/9Wz6RP3.png)
+
+
 # Build Our Code
 
 -   open a terminal
@@ -256,110 +287,4 @@ git pull upstream
 ```shell
 cd catkin_ws
 catkin_make
-```
-
-
-# rviz
-
-<div class="NOTES">
-show them how to visualize things in rviz. Explain major topics. Use Gazebo. Both teams. Show rqt<sub>graph</sub> have them do it also.
-
-</div>
-
--   a visualization tool that works well for ROS
-    -   we are seeing messages our robot is sending
-
-
-# Bag Files
-
--   A bag file is a way of recording all the messages written to topics
-    -   more on that next week, for now think of them as a log file
--   We can visualize the information provided by these bag files to help test new code
-
-
-# Run Our bag IGVC
-
-<div class="NOTES">
-tell them about tab complete
-
-</div>
-
--   open terminator
-
-```shell
-roscore
-```
-
--   split terminator
-
-```shell
-cd Desktop
-rosbag play -l IGVC_sim_bag.bag
-```
-
--   split terminator
-
-```shell
-rviz
-```
-
-
-# Run Our Code IGVC
-
-<div class="NOTES">
-show them on your machine
-
-</div>
-
--   split terminator
-
-```shell
-roslaunch igvc mapper.launch
-```
-
--   split terminator
-
-```shell
-roslaunch igvc pather.launch
-```
-
-
-# Run Our bag RR
-
-<div class="NOTES">
-tell them about tab complete
-
-</div>
-
--   open terminator
-
-```shell
-roscore
-```
-
--   split terminator
-
-```shell
-cd Desktop
-rosbag play -l RR_bag.bag
-```
-
--   split terminator
-
-```shell
-rviz
-```
-
-
-# Run Our Code RR
-
-<div class="NOTES">
-show them on your machine
-
-</div>
-
--   split terminator
-
-```shell
-roslaunch avc avc.launch
 ```
