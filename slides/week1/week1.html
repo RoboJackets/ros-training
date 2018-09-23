@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <title>Week 1</title>
-<meta name="author" content="(Jason Gibson and Andrew Tuttle)"/>
+<meta name="author" content="(Jason Gibson, Andrew Tuttle)"/>
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
@@ -29,8 +29,8 @@
 <section id="sec-title-slide"><h1 class="title">Week 1</h1>
 </section>
 
-<section id="slide-org98fca0b">
-<h2 id="org98fca0b">What are we doing today?</h2>
+<section id="slide-org989a286">
+<h2 id="org989a286">What are we doing today?</h2>
 <ul>
 <li>Introductions</li>
 <li>IGVC Competition</li>
@@ -40,8 +40,8 @@
 </ul>
 
 </section>
-<section id="slide-orgdde92d8">
-<h2 id="orgdde92d8">Initial Instructions</h2>
+<section id="slide-orgbfddfb9">
+<h2 id="orgbfddfb9">Initial Instructions</h2>
 <ul>
 <li>We have a ~3 GB file for you to download.</li>
 <li>Here is a link: <a href="https://mega.nz/#!rl80jQoY!_8Mqr_LClq3mIExEe2OztWqoSRrkbAga0aeqHkv2dSg">https://mega.nz/#!rl80jQoY!_8Mqr_LClq3mIExEe2OztWqoSRrkbAga0aeqHkv2dSg</a>
@@ -54,8 +54,8 @@
 </ul>
 
 </section>
-<section id="slide-orgd93aaf6">
-<h2 id="orgd93aaf6">ROS Training</h2>
+<section id="slide-orgdc09879">
+<h2 id="orgdc09879">ROS Training</h2>
 <aside class="notes">
 <p>
 We use a lot of technologies, do not worry about it so much
@@ -74,13 +74,13 @@ We use a lot of technologies, do not worry about it so much
 </ul>
 
 </section>
-<section id="slide-org8f85d75">
-<h2 id="org8f85d75">Ros Training Trainers</h2>
-<div class="outline-text-2" id="text-org8f85d75">
+<section id="slide-org030bdc5">
+<h2 id="org030bdc5">Ros Training Trainers</h2>
+<div class="outline-text-2" id="text-org030bdc5">
 </div>
 </section>
-<section id="slide-org6e12e32">
-<h3 id="org6e12e32">Meet Andrew</h3>
+<section id="slide-org7454030">
+<h3 id="org7454030">Meet Andrew</h3>
 <p width="15%">
 <a href="" width="15%"></a>
 </p>
@@ -102,8 +102,8 @@ We use a lot of technologies, do not worry about it so much
 </ul>
 
 </section>
-<section id="slide-org4f3a4ef">
-<h3 id="org4f3a4ef">Meet Jason</h3>
+<section id="slide-org301edd4">
+<h3 id="org301edd4">Meet Jason</h3>
 
 <div class="figure">
 <p><img src="https://i.imgur.com/izC5WWA.jpg" alt="izC5WWA.jpg" width="15%" />
@@ -127,8 +127,8 @@ We use a lot of technologies, do not worry about it so much
 </ul>
 
 </section>
-<section id="slide-orge1f3206">
-<h2 id="orge1f3206">IGVC</h2>
+<section id="slide-orgb71e58c">
+<h2 id="orgb71e58c">IGVC</h2>
 <aside class="notes">
 <p>
 Talk a little bit about what the competition is like
@@ -148,8 +148,8 @@ Talk a little bit about what the competition is like
 </div>
 
 </section>
-<section id="slide-org58928c7">
-<h2 id="org58928c7">Sensors</h2>
+<section id="slide-orga32cb73">
+<h2 id="orga32cb73">Sensors</h2>
 <aside class="notes">
 <p>
 briefly mention what each sensor is
@@ -166,8 +166,8 @@ briefly mention what each sensor is
 </ul>
 
 </section>
-<section id="slide-orge6afe11">
-<h2 id="orge6afe11">IGVC Software</h2>
+<section id="slide-org29c2d0d">
+<h2 id="org29c2d0d">IGVC Software</h2>
 <aside class="notes">
 <p>
 mention ROS is an industrial standard
@@ -199,8 +199,8 @@ mention ROS is an industrial standard
 </div>
 
 </section>
-<section id="slide-org34f6af5">
-<h2 id="org34f6af5">ROS</h2>
+<section id="slide-orgb421019">
+<h2 id="orgb421019">ROS</h2>
 <ul>
 <li>message passing interface between multiple concurrent threads</li>
 <li>We use ROS to enable information flow to and from our computer, sensors, and motors.</li>
@@ -208,8 +208,8 @@ mention ROS is an industrial standard
 </ul>
 
 </section>
-<section id="slide-org0af5140">
-<h2 id="org0af5140">ROS Architecture</h2>
+<section id="slide-org3277faf">
+<h2 id="org3277faf">ROS Architecture</h2>
 <aside class="notes">
 <p>
 topics-&gt;channels
@@ -223,16 +223,16 @@ messages-&gt;videos
 </ul>
 
 </section>
-<section id="slide-orgff1f893">
-<h2 id="orgff1f893">ROSCORE</h2>
+<section id="slide-org53f8290">
+<h2 id="org53f8290">ROSCORE</h2>
 <ul>
 <li>ROSCORE is the core system that controls ROS code and logical infrastructure. - ROSCORE manages the information flow throughout our program, making sure messages are sent and recieved by the proper sources and sinks, called nodes.</li>
 
 </ul>
 
 </section>
-<section id="slide-org38a3736">
-<h2 id="org38a3736">Nodes</h2>
+<section id="slide-org7025514">
+<h2 id="org7025514">Nodes</h2>
 <ul>
 <li>ROS nodes are programs that do all the processing work in IGVC.</li>
 <li>They collect information from sensors and perform some processing upon that information, and may or may not produce information themselves.</li>
@@ -241,8 +241,8 @@ messages-&gt;videos
 </ul>
 
 </section>
-<section id="slide-orgb794c3a">
-<h2 id="orgb794c3a">Topics</h2>
+<section id="slide-org4132f98">
+<h2 id="org4132f98">Topics</h2>
 <ul>
 <li>Topics are the classifications that ROS sorts messages by.</li>
 <li>Nodes can send messages to particular topics though a process called publishing and conversely request information from a topic through a process called subscribing.</li>
@@ -251,8 +251,8 @@ messages-&gt;videos
 </ul>
 
 </section>
-<section id="slide-orgee2075f">
-<h2 id="orgee2075f">YouTube ~ ROS?</h2>
+<section id="slide-orgcf7b76a">
+<h2 id="orgcf7b76a">YouTube ~ ROS?</h2>
 <ul>
 <li>All this talk of publishing and subscribing reminds me of YouTube.</li>
 
@@ -265,8 +265,8 @@ messages-&gt;videos
 </div>
 
 </section>
-<section id="slide-orgd383102">
-<h2 id="orgd383102">YouTube ~ ROS?</h2>
+<section id="slide-org5c64af7">
+<h2 id="org5c64af7">YouTube ~ ROS?</h2>
 <ul>
 <li>If videos are messages, then YouTube is like ROSCORE.</li>
 <li>Nodes are like YouTube users, and topics are like channels.</li>
@@ -275,8 +275,8 @@ messages-&gt;videos
 
 </ul>
 </section>
-<section id="slide-org6c223f8">
-<h2 id="org6c223f8">ROS talker and listener</h2>
+<section id="slide-org12b12fd">
+<h2 id="org12b12fd">ROS talker and listener</h2>
 <ul>
 <li>Let's do a quick walkthrough of a basic node
 <ul>
@@ -288,8 +288,8 @@ messages-&gt;videos
 </ul>
 
 </section>
-<section id="slide-org7e71fea">
-<h3 id="org7e71fea">Some ROS Vocab</h3>
+<section id="slide-org2a66dfe">
+<h3 id="org2a66dfe">Some ROS Vocab</h3>
 <ul>
 <li>A <span class="underline">node</span> is a process running on your computer
 <ul>
@@ -326,8 +326,8 @@ define everytime a new message is published on this topic!
 </ul>
 
 </section>
-<section id="slide-orgc72125c">
-<h3 id="orgc72125c">A ROS Publisher</h3>
+<section id="slide-orgaa9f3da">
+<h3 id="orgaa9f3da">A ROS Publisher</h3>
 <aside class="notes">
 <p>
 Should we write our own? I like how well this is documented
@@ -340,20 +340,20 @@ Should we write our own? I like how well this is documented
 </ul>
 
 </section>
-<section id="slide-orgf11d670">
-<h3 id="orgf11d670">Subscriber</h3>
+<section id="slide-orge90c727">
+<h3 id="orge90c727">Subscriber</h3>
 <ul>
 <li><a href="https://github.com/RoboJackets/ros-training/blob/master/code/week1/src/listener.cpp">Example Code</a></li>
 
 </ul>
 
 </section>
-<section id="slide-org42b493f">
-<h3 id="org42b493f">Demo!!</h3>
+<section id="slide-orgb364ad5">
+<h3 id="orgb364ad5">Demo!!</h3>
 
 </section>
-<section id="slide-org6851fec">
-<h2 id="org6851fec">Developing for IGVC</h2>
+<section id="slide-org23d3875">
+<h2 id="org23d3875">Developing for IGVC</h2>
 <aside class="notes">
 <p>
 Downloading will take a while so make sure everyone does this now.
@@ -378,8 +378,8 @@ Check for anyone with a dual boot already.
 </ul>
 
 </section>
-<section id="slide-org3ada173">
-<h4 id="org3ada173">Ensure you have Virtualization turned on in your BIOS</h4>
+<section id="slide-org0dad03f">
+<h4 id="org0dad03f">Ensure you have Virtualization turned on in your BIOS</h4>
 <ul>
 <li><a href="http://www.howtogeek.com/213795/how-to-enable-intel-vt-x-in-your-computers-bios-or-uefi-firmware/">This</a> is a simple guide of how to do this.</li>
 <li>While this is not 100% necessary, it will make your VM much faster.</li>
@@ -388,8 +388,8 @@ Check for anyone with a dual boot already.
 </ul>
 
 </section>
-<section id="slide-orgfc05974">
-<h4 id="orgfc05974">1. Go to <code>File-&gt;Import Appliance</code></h4>
+<section id="slide-org233d1a2">
+<h4 id="org233d1a2">1. Go to <code>File-&gt;Import Appliance</code></h4>
 
 <div class="figure">
 <p><img src="https://i.imgur.com/keQmMy4.png" alt="keQmMy4.png" />
@@ -397,8 +397,8 @@ Check for anyone with a dual boot already.
 </div>
 
 </section>
-<section id="slide-orgafbe497">
-<h4 id="orgafbe497">2. Select the <code>.box</code> file you extracted earlier</h4>
+<section id="slide-orgf85a174">
+<h4 id="orgf85a174">2. Select the <code>.box</code> file you extracted earlier</h4>
 
 <div class="figure">
 <p><img src="https://i.imgur.com/3S2Pgt3.png" alt="3S2Pgt3.png" />
@@ -406,8 +406,8 @@ Check for anyone with a dual boot already.
 </div>
 
 </section>
-<section id="slide-orge154641">
-<h4 id="orge154641">3. Increase the Amount of Memory and CPU's</h4>
+<section id="slide-org395e422">
+<h4 id="org395e422">3. Increase the Amount of Memory and CPU's</h4>
 <ul>
 <li>Increase the Memory/CPU to your computer's specs. Don't allocate too much memory/cpus!</li>
 
@@ -419,18 +419,18 @@ Check for anyone with a dual boot already.
 </div>
 
 </section>
-<section id="slide-orgebc3993">
-<h4 id="orgebc3993">4. Hit <code>Import</code>!</h4>
+<section id="slide-org9779426">
+<h4 id="org9779426">4. Hit <code>Import</code>!</h4>
 
 </section>
-<section id="slide-org817bf00">
-<h4 id="org817bf00">Configure Settings of Imported Image</h4>
+<section id="slide-orgc2d2a3b">
+<h4 id="orgc2d2a3b">Configure Settings of Imported Image</h4>
 </section>
-<section id="slide-orgc5ef486">
-<h4 id="orgc5ef486">1. Right click your new virtualbox entry, and hit <code>settings</code></h4>
+<section id="slide-org0f2574a">
+<h4 id="org0f2574a">1. Right click your new virtualbox entry, and hit <code>settings</code></h4>
 </section>
-<section id="slide-org8ced736">
-<h4 id="org8ced736">2. Increase the Amount of Video RAM, and turn on 3D Acceleration</h4>
+<section id="slide-orge3b0487">
+<h4 id="orge3b0487">2. Increase the Amount of Video RAM, and turn on 3D Acceleration</h4>
 <ul>
 <li>If you do not have virtualization, virtualbox may not allow you to turn on 3D Acceleration</li>
 
@@ -441,8 +441,8 @@ Check for anyone with a dual boot already.
 </p>
 </div>
 </section>
-<section id="slide-org55f770b">
-<h4 id="org55f770b">3. Turn <b>OFF</b> <code>Remote Display</code></h4>
+<section id="slide-orgdd39db7">
+<h4 id="orgdd39db7">3. Turn <b>OFF</b> <code>Remote Display</code></h4>
 
 <div class="figure">
 <p><img src="https://i.imgur.com/cvigW2G.png" alt="cvigW2G.png" />
@@ -450,16 +450,16 @@ Check for anyone with a dual boot already.
 </div>
 
 </section>
-<section id="slide-org6001cf2">
-<h4 id="org6001cf2">Boot your new VM</h4>
+<section id="slide-org2be8508">
+<h4 id="org2be8508">Boot your new VM</h4>
 <ul>
 <li>Double Click the Entry, or Right Click -&gt; Start -&gt; Normal Start</li>
 
 </ul>
 
 </section>
-<section id="slide-org38d8776">
-<h2 id="org38d8776">~Fix remotes</h2>
+<section id="slide-orgd3ed473">
+<h2 id="orgd3ed473">~Fix remotes</h2>
 <ul>
 <li>open a terminal</li>
 
@@ -474,8 +474,8 @@ git pull upstream
 </div>
 
 </section>
-<section id="slide-orga4989bc">
-<h2 id="orga4989bc">Fork Our Repo</h2>
+<section id="slide-org0a6f679">
+<h2 id="org0a6f679">Fork Our Repo</h2>
 <ul>
 <li>RoboJackets/igvc-software (<a href="https://github.com/RoboJackets/igvc-software">https://github.com/RoboJackets/igvc-software</a>)</li>
 
@@ -487,8 +487,8 @@ git pull upstream
 </div>
 
 </section>
-<section id="slide-org502389e">
-<h2 id="org502389e">Build Our Code</h2>
+<section id="slide-orgfac3a71">
+<h2 id="orgfac3a71">Build Our Code</h2>
 <ul>
 <li>open a terminal</li>
 
