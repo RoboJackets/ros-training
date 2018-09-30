@@ -16,7 +16,9 @@ int main(int argc, char **argv)
 
   // Create a NodeHandle, This is the object used to interact with roscore (set up publishers and subscribers)
   ros::NodeHandle nh;
-
+  double x;
+  nh.getParam("lunch", x);
+  ROS_INFO("NO");
   // Creates a subscriber object called sub, it listens to topic chatter with a queue size of 1000, and tells ros what method it should call with the data chatterCallback method.
   ros::Subscriber sub = nh.subscribe("chatter", 1000, chatterCallback);
 

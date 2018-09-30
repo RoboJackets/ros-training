@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<launch>
+  <node name="listener" pkg="node_example" type="listener">
+    <param name="lunch" type="double" value="100.0"/>
+  </node>
+</launch>
