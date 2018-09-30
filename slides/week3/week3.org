@@ -140,7 +140,7 @@ uses the hall effect
 - How we decide about doing this is called a control theory.
 - These typically fall into two categories - open and closed loop.
 
-*Open Loop
+* Open Loop
 - Open loop systems do not measure the system's output, and assumes that it's reaction to a new refernece is adequate.
 - We do not use these, as our problems require considering the error in our responses.
 
