@@ -19,6 +19,7 @@ void driveCallback(const std_msgs::String::ConstPtr& msg)
   } else if(msg->data == "left") {
     speed.left_velocity = -desired_speed;
   }
+  speed.left_velocity = desired_speed;
   motor_pub.publish(speed);
 }
 
