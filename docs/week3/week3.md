@@ -1,58 +1,8 @@
 # What are we doing today?
 
--   Encoders
 -   launch files
--   Gazebo
-    -   urdf
-
-
-# Encoders
-
-<div class="NOTES">
-keep it high level. Do an example of ticks
-
-</div>
-
--   used to determine the speed of a spinning wheel
-    -   measure number of ticks during a time step
--   2 main types
-    -   optical
-    -   magnetic
-
-
-## Optical Encoders
-
-<div class="NOTES">
-sensitive to dust and broken disks
-
-</div>
-
--   uses a light and a glass wheel to measure ticks
--   generally a high tick count
--   used by IGVC and RoboRacing
-
-![img](https://i.imgur.com/d5Rx7nQ.jpg)
-
-
-## Magnetic Encoders
-
-<div class="NOTES">
-uses the hall effect
-
-</div>
-
--   uses magnets to measure ticks
--   generally lower tick count
--   requires occasional tuning
-
-![img](https://automation-insights.blog/wp-content/uploads/2015/09/bml-evalkit.jpg)
-
-
-# Update your local fork
-
-```shell
-git pull
-```
+-   Encoders
+-   PID Control
 
 
 # Launch Files
@@ -77,15 +27,6 @@ max_correspondence_distance=0.1 max_iterations=30 search_radius=0.03
 
 
 # Commandline
-
-<div class="NOTES">
-make sure to mention tab complete
-
-</div>
-
-```shell
-roslaunch igvc mapper.launch
-```
 
 ```shell
 roslaunch [PACKAGE_NAME] FILE_NAME.launch
@@ -183,168 +124,140 @@ mention that these are the tags the go under the launch tag
 | `--args`        | prints the command line arguments set in launch file |
 
 
-# Gazebo
-
--   The simulator used by both RoboRacing and IGVC
-
-![img](https://upload.wikimedia.org/wikipedia/en/thumb/1/13/Gazebo_logo.svg/1024px-Gazebo_logo.svg.png)
-
-
-# Simulation
+# Encoders
 
 <div class="NOTES">
-talk about how it crashes. Also that we can simulate friction, mass, etc
+keep it high level. Do an example of ticks
 
 </div>
 
--   simulators are wonderful
--   allow to test code in somewhat real life situations
--   not a ROS product
-    -   interacts with ROS through plugins that publish to topics
-    -   these plugins are not perfect so it crashes **a lot**
+-   used to determine the speed of a spinning wheel
+    -   measure number of ticks during a time step
+-   2 main types
+    -   optical
+    -   magnetic
 
 
-# Package Structure
-
--   `TEAM_NAME_Description`
-    -   contains the URDF file
-    -   defines the world
--   `TEAM_NAME_Control`
-    -   contains the nodes that control the environment
-
-
-# URDF
-
--   unified robot description format
--   this is what gazebo uses to generate the robot
--   XML file format
--   defines everything in a 3-dimensional grid
-
-
-# Links
+## Optical Encoders
 
 <div class="NOTES">
-take about what each is and how meshes can be used as geometries. visual is required
+sensitive to dust and broken disks
 
 </div>
 
--   links contain
-    -   required for ROS
-        -   visual geometry
-    -   required for gazebo
-        -   collision geometry
-        -   intertial geometry
+-   uses a light and a glass wheel to measure ticks
+-   generally a high tick count
+-   used by IGVC and RoboRacing
+
+![img](https://i.imgur.com/d5Rx7nQ.jpg)
 
 
-# Links Basic Example
+## Magnetic Encoders
 
 <div class="NOTES">
-make sure to launch rviz with this urdf
+uses the hall effect
 
 </div>
 
-```XML
-<robot>
-  <link name="base_link">
-    <visual>
-      <geometry>
-	<box size="0.8 0.3 0.1"/>
-      </geometry>
-    </visual>
-  </link>
-</robot>
-```
+-   uses magnets to measure ticks
+-   generally lower tick count
+-   requires occasional tuning
+
+![img](https://automation-insights.blog/wp-content/uploads/2015/09/bml-evalkit.jpg)
 
 
-# Gazebo Link
+# Speaking of Motors&#x2026;
 
-<div class="NOTES">
-launch this in gazebo
-
-</div>
-
-```XML
-<link name="body">
-  <inertial>
-    <origin xyz="0 0 0" />
-    <mass value="50.0" />
-    <inertia  ixx="0.0" ixy="0.0"  ixz="1.0"  iyy="0.0"  iyz="0.0"  izz="0.0" />
-  </inertial>
-  <visual>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
-    <geometry>
-      <mesh filename="model://urdf/meshes/Body.dae"/>
-    </geometry>
-  </visual>
-  <collision>
-    <geometry>
-      <mesh filename="model://urdf/meshes/Body.dae"/>
-    </geometry>
-  </collision>
-</link>
-```
+-   In order to drive our robot, we apply a difference in voltage across our two motors
+-   In essence, our entire codebase can be thought of a function approximating the correct mapping of sensor readings to voltage output
 
 
-# Joints
+# Control loops!
 
--   links can be connected using joints
-    -   all joints have a parents and a child
--   all positions are realtive to its parents
-    -   entire tree should have a single root
-
-
-# I AM ROOT
-
-![img](https://www.syfy.com/sites/syfy/files/wire/legacy/groot_0.jpg)
+-   Telling our robot what to do is called controlling our robot. (Highly technical phrases, I know)
+-   How we decide about doing this is called a control theory.
+-   These typically fall into two categories - open and closed loop.
 
 
-# Joint Types
+# Open Loop
 
-| type         | usage                                      |
-|------------ |------------------------------------------ |
-| `continuous` | rotates in an axis and has to limits       |
-| `fixed`      | does not move                              |
-| `floating`   | 6 degrees of freedom                       |
-| `revolute`   | rotates on an axis and has rotation limits |
+-   Open loop systems do not measure the system's output, and assumes that it's reaction to a new refernece is adequate.
+-   We do not use these, as our problems require considering the error in our responses.
 
 
-# Example Joint
+# Closed Loop
 
-```XML
-<joint name="base_link_to_left_wheel" type="continuous">
-  <parent link="base_link"/>
-  <child link="left_wheel"/>
-  <axis xyz="0 0 -1" rpy="0 0 0" />
-  <origin xyz="0 0 0" rpy="0 0 0" />
-</joint>
-```
+-   Closed loop systems use sensors to measure and correct error created by imperfect attempts at maching the reference.
+-   These are more stable, especially over time as they can correct some of the accumulated error that builds up do to imperfect knowlage.
+-   Our method of choice is PID.
 
 
-# Useful Commands
+# P
 
-<div class="NOTES">
-explain the output
-
-</div>
-
--   `check_urdf`
-    -   "compiles" the urdf and gives a printout of the tf tree
-
-```BASH
-robot name is: hal
----------- Successfully Parsed XML ---------------
-root Link: base_footprint has 4 child(ren)
-  child(1):  base_link
-  child(2):  body
-    child(1):  back_ball
-    child(2):  left_wheel
-    child(3):  right_wheel
-  child(3):  usb_cam_center
-    child(1):  optical_cam_center
-  child(4):  lidar
-```
+-   We want our response to be proportional to our error.
+-   The P term simply kicks harder the farther we are off from our target.
 
 
-# Introducing HAL
+# Eye
 
-![img](https://i.imgur.com/IGlRSWv.png)
+-   We want our response to respond to accumulated error over time - in other words, the integral of the error.
+-   The I term kicks in response to the historical error, eliminating steady-state error.
+
+
+# Dee
+
+-   We want our responses to be controlled and well-proportioned as rapid changes to system output create more error.
+-   The D term kicks against the other two terms, making sure the system's derivative does not get out of hand.
+
+
+# P + Eye + Dee spells One Helluva Closed Loop Control Theory
+
+-   This system is not perfect, but it is widely used due to its ease of implementation and effectiveness.
+-   Let's watch MIT explain it in more detail, because they are quite smart.
+-   <https://www.youtube.com/watch?v=4Y7zG48uHRo>
+
+
+# Path Planning part Uno
+
+-   Path planning is the art of plotting a course through a map.
+-   It has more going on than you might think.
+-   We will start with mapping.
+
+
+# The heck am I?
+
+-   A robots x, y, z, r, p, y in some coordinate frame is called its pose.
+-   These numbers describe position and orientation.
+-   But this is a point, and our lovable Jessi is not a simple dot.
+
+
+# C-Space
+
+-   The configuration space of the robot is the space it needs to exist in the world.
+-   Jessi's configuration space is her turn radius and physical dimensions.
+-   Here's a demo: <https://www.cs.unc.edu/~jeffi/c-space/robot.xhtml>
+
+
+# Mapping Strategies
+
+-   Occupancy grids
+-   Quadtrees
+
+
+# Occupancy Grids
+
+-   Represent the state space by a large grid
+-   Each cell contains an indication of its vacancy status.
+-   Easy to use, but wasteful. We don't care about the state space. We care about the parts of the state space we will travel through.
+
+
+# Quadtrees help with this
+
+-   Quadtrees subdivide the state space into a recursive structure that allows for variable resolution.
+-   This cuts down on search costs.
+
+
+# Great, so we have a map. Where do we go from here?
+
+
+# Next time we'll talk about searching the map for a path.

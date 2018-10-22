@@ -29,95 +29,18 @@
 <section id="sec-title-slide"><h1 class="title">Week 3</h1>
 </section>
 
-<section id="slide-orgefc4c08">
-<h2 id="orgefc4c08">What are we doing today?</h2>
+<section id="slide-orgfbb9c85">
+<h2 id="orgfbb9c85">What are we doing today?</h2>
 <ul>
-<li>Encoders</li>
 <li>launch files</li>
-<li>Gazebo
-<ul>
-<li>urdf</li>
-
-</ul></li>
+<li>Encoders</li>
+<li>PID Control</li>
 
 </ul>
 
 </section>
-<section id="slide-orgc03c71a">
-<h2 id="orgc03c71a">Encoders</h2>
-<aside class="notes">
-<p>
-keep it high level. Do an example of ticks
-</p>
-
-</aside>
-<ul>
-<li>used to determine the speed of a spinning wheel
-<ul>
-<li>measure number of ticks during a time step</li>
-
-</ul></li>
-<li>2 main types
-<ul>
-<li>optical</li>
-<li>magnetic</li>
-
-</ul></li>
-
-</ul>
-
-</section>
-<section id="slide-org0021caf">
-<h3 id="org0021caf">Optical Encoders</h3>
-<aside class="notes">
-<p>
-sensitive to dust and broken disks
-</p>
-
-</aside>
-<ul>
-<li>uses a light and a glass wheel to measure ticks</li>
-<li>generally a high tick count</li>
-<li>used by IGVC and RoboRacing</li>
-
-</ul>
-
-<div class="figure">
-<p><img src="https://i.imgur.com/d5Rx7nQ.jpg" alt="d5Rx7nQ.jpg" width="35%" />
-</p>
-</div>
-
-</section>
-<section id="slide-org33b8104">
-<h3 id="org33b8104">Magnetic Encoders</h3>
-<aside class="notes">
-<p>
-uses the hall effect
-</p>
-
-</aside>
-<ul>
-<li>uses magnets to measure ticks</li>
-<li>generally lower tick count</li>
-<li>requires occasional tuning</li>
-
-</ul>
-
-<div class="figure">
-<p><img src="https://automation-insights.blog/wp-content/uploads/2015/09/bml-evalkit.jpg" alt="bml-evalkit.jpg" width="35%" />
-</p>
-</div>
-</section>
-<section id="slide-orgf29516a">
-<h2 id="orgf29516a">Update your local fork</h2>
-<div class="org-src-container">
-
-<pre  class="src src-shell">git pull
-</pre>
-</div>
-</section>
-<section id="slide-org2e1d6a6">
-<h2 id="org2e1d6a6">Launch Files</h2>
+<section id="slide-orgd687f1d">
+<h2 id="orgd687f1d">Launch Files</h2>
 <aside class="notes">
 <p>
 mention how it can be more human understandable. Just a shorthand for rosrun
@@ -132,8 +55,8 @@ mention how it can be more human understandable. Just a shorthand for rosrun
 </ul>
 
 </section>
-<section id="slide-org0013941">
-<h2 id="org0013941">Why Launch Files</h2>
+<section id="slide-orgd471a80">
+<h2 id="orgd471a80">Why Launch Files</h2>
 <div class="org-src-container">
 
 <pre  class="src src-shell">rosrun igvc mapper ekf/base_link_frame=base_footprint mapper/topics=
@@ -142,19 +65,8 @@ mention how it can be more human understandable. Just a shorthand for rosrun
 </pre>
 </div>
 </section>
-<section id="slide-org0e917b3">
-<h2 id="org0e917b3">Commandline</h2>
-<aside class="notes">
-<p>
-make sure to mention tab complete
-</p>
-
-</aside>
-<div class="org-src-container">
-
-<pre  class="src src-shell">roslaunch igvc mapper.launch
-</pre>
-</div>
+<section id="slide-orgff20ae6">
+<h2 id="orgff20ae6">Commandline</h2>
 <div class="org-src-container">
 
 <pre  class="src src-shell">roslaunch [PACKAGE_NAME] FILE_NAME.launch
@@ -162,8 +74,8 @@ make sure to mention tab complete
 </div>
 
 </section>
-<section id="slide-org2883c12">
-<h2 id="org2883c12">Structure</h2>
+<section id="slide-org9caf0e4">
+<h2 id="org9caf0e4">Structure</h2>
 <ul>
 <li>everything is encompassed in the launch tag</li>
 
@@ -177,8 +89,8 @@ make sure to mention tab complete
 </div>
 
 </section>
-<section id="slide-orgf62cee4">
-<h2 id="orgf62cee4">Valid Tags</h2>
+<section id="slide-org216eb27">
+<h2 id="org216eb27">Valid Tags</h2>
 <aside class="notes">
 <p>
 mention that these are the tags the go under the launch tag
@@ -243,8 +155,8 @@ mention that these are the tags the go under the launch tag
 </table>
 
 </section>
-<section id="slide-org972736a">
-<h2 id="org972736a">&lt;node&gt;</h2>
+<section id="slide-orge3bf336">
+<h2 id="orge3bf336">&lt;node&gt;</h2>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -294,8 +206,8 @@ mention that these are the tags the go under the launch tag
 </div>
 
 </section>
-<section id="slide-org53262b9">
-<h2 id="org53262b9">&lt;param&gt;</h2>
+<section id="slide-org8e0a0f4">
+<h2 id="org8e0a0f4">&lt;param&gt;</h2>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -338,8 +250,8 @@ mention that these are the tags the go under the launch tag
 </div>
 
 </section>
-<section id="slide-org3da0e5b">
-<h2 id="org3da0e5b">Substitution arguments</h2>
+<section id="slide-orgae1db07">
+<h2 id="orgae1db07">Substitution arguments</h2>
 <ul>
 <li>$(env <code>ENV_VAR</code>)
 <ul>
@@ -367,8 +279,8 @@ mention that these are the tags the go under the launch tag
 </ul>
 
 </section>
-<section id="slide-org1e2bbca">
-<h2 id="org1e2bbca">Useful Commandline Arguments</h2>
+<section id="slide-org801fd84">
+<h2 id="org801fd84">Useful Commandline Arguments</h2>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -407,270 +319,211 @@ mention that these are the tags the go under the launch tag
 </table>
 
 </section>
-<section id="slide-orgac140a4">
-<h2 id="orgac140a4">Gazebo</h2>
+<section id="slide-orgde6bdb9">
+<h2 id="orgde6bdb9">Encoders</h2>
+<aside class="notes">
+<p>
+keep it high level. Do an example of ticks
+</p>
+
+</aside>
 <ul>
-<li>The simulator used by both RoboRacing and IGVC</li>
+<li>used to determine the speed of a spinning wheel
+<ul>
+<li>measure number of ticks during a time step</li>
+
+</ul></li>
+<li>2 main types
+<ul>
+<li>optical</li>
+<li>magnetic</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org3699f5b">
+<h3 id="org3699f5b">Optical Encoders</h3>
+<aside class="notes">
+<p>
+sensitive to dust and broken disks
+</p>
+
+</aside>
+<ul>
+<li>uses a light and a glass wheel to measure ticks</li>
+<li>generally a high tick count</li>
+<li>used by IGVC and RoboRacing</li>
 
 </ul>
 
 <div class="figure">
-<p><img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/13/Gazebo_logo.svg/1024px-Gazebo_logo.svg.png" alt="1024px-Gazebo_logo.svg.png" width="35%" />
+<p><img src="https://i.imgur.com/d5Rx7nQ.jpg" alt="d5Rx7nQ.jpg" width="35%" />
 </p>
 </div>
 
 </section>
-<section id="slide-orgca46429">
-<h2 id="orgca46429">Simulation</h2>
+<section id="slide-orgb3f2e7a">
+<h3 id="orgb3f2e7a">Magnetic Encoders</h3>
 <aside class="notes">
 <p>
-talk about how it crashes. Also that we can simulate friction, mass, etc
+uses the hall effect
 </p>
 
 </aside>
 <ul>
-<li>simulators are wonderful</li>
-<li>allow to test code in somewhat real life situations</li>
-<li>not a ROS product
-<ul>
-<li>interacts with ROS through plugins that publish to topics</li>
-<li>these plugins are not perfect so it crashes <b>a lot</b></li>
-
-</ul></li>
+<li>uses magnets to measure ticks</li>
+<li>generally lower tick count</li>
+<li>requires occasional tuning</li>
 
 </ul>
-
-</section>
-<section id="slide-org86e1893">
-<h2 id="org86e1893">Package Structure</h2>
-<ul>
-<li><code>TEAM_NAME_Description</code>
-<ul>
-<li>contains the URDF file</li>
-<li>defines the world</li>
-
-</ul></li>
-<li><code>TEAM_NAME_Control</code>
-<ul>
-<li>contains the nodes that control the environment</li>
-
-</ul></li>
-
-</ul>
-
-</section>
-<section id="slide-orgf8e6606">
-<h2 id="orgf8e6606">URDF</h2>
-<ul>
-<li>unified robot description format</li>
-<li>this is what gazebo uses to generate the robot</li>
-<li>XML file format</li>
-<li>defines everything in a 3-dimensional grid</li>
-
-</ul>
-
-</section>
-<section id="slide-orgd916805">
-<h2 id="orgd916805">Links</h2>
-<aside class="notes">
-<p>
-take about what each is and how meshes can be used as geometries. visual is required
-</p>
-
-</aside>
-<ul>
-<li>links contain
-<ul>
-<li>required for ROS
-<ul>
-<li>visual geometry</li>
-
-</ul></li>
-<li>required for gazebo
-<ul>
-<li>collision geometry</li>
-<li>intertial geometry</li>
-
-</ul></li>
-
-</ul></li>
-
-</ul>
-
-</section>
-<section id="slide-org7b0bcd6">
-<h2 id="org7b0bcd6">Links Basic Example</h2>
-<aside class="notes">
-<p>
-make sure to launch rviz with this urdf
-</p>
-
-</aside>
-<div class="org-src-container">
-
-<pre  class="src src-XML">&lt;robot&gt;
-  &lt;link name="base_link"&gt;
-    &lt;visual&gt;
-      &lt;geometry&gt;
-	&lt;box size="0.8 0.3 0.1"/&gt;
-      &lt;/geometry&gt;
-    &lt;/visual&gt;
-  &lt;/link&gt;
-&lt;/robot&gt;
-</pre>
-</div>
-
-</section>
-<section id="slide-orge8fb7ca">
-<h2 id="orge8fb7ca">Gazebo Link</h2>
-<aside class="notes">
-<p>
-launch this in gazebo
-</p>
-
-</aside>
-<div class="org-src-container">
-
-<pre  class="src src-XML">&lt;link name="body"&gt;
-  &lt;inertial&gt;
-    &lt;origin xyz="0 0 0" /&gt;
-    &lt;mass value="50.0" /&gt;
-    &lt;inertia  ixx="0.0" ixy="0.0"  ixz="1.0"  iyy="0.0"  iyz="0.0"  izz="0.0" /&gt;
-  &lt;/inertial&gt;
-  &lt;visual&gt;
-    &lt;origin rpy="0 0 0" xyz="0 0 0"/&gt;
-    &lt;geometry&gt;
-      &lt;mesh filename="model://urdf/meshes/Body.dae"/&gt;
-    &lt;/geometry&gt;
-  &lt;/visual&gt;
-  &lt;collision&gt;
-    &lt;geometry&gt;
-      &lt;mesh filename="model://urdf/meshes/Body.dae"/&gt;
-    &lt;/geometry&gt;
-  &lt;/collision&gt;
-&lt;/link&gt;
-</pre>
-</div>
-</section>
-<section id="slide-org9340e88">
-<h2 id="org9340e88">Joints</h2>
-<ul>
-<li>links can be connected using joints
-<ul>
-<li>all joints have a parents and a child</li>
-
-</ul></li>
-<li>all positions are realtive to its parents
-<ul>
-<li>entire tree should have a single root</li>
-
-</ul></li>
-
-</ul>
-
-</section>
-<section id="slide-org2a04d38">
-<h2 id="org2a04d38">I AM ROOT</h2>
 
 <div class="figure">
-<p><img src="https://www.syfy.com/sites/syfy/files/wire/legacy/groot_0.jpg" alt="groot_0.jpg" width="45%" />
+<p><img src="https://automation-insights.blog/wp-content/uploads/2015/09/bml-evalkit.jpg" alt="bml-evalkit.jpg" width="35%" />
 </p>
 </div>
 
 </section>
-<section id="slide-org6d2adfa">
-<h2 id="org6d2adfa">Joint Types</h2>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">type</th>
-<th scope="col" class="org-left">usage</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left"><code>continuous</code></td>
-<td class="org-left">rotates in an axis and has to limits</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>fixed</code></td>
-<td class="org-left">does not move</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>floating</code></td>
-<td class="org-left">6 degrees of freedom</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>revolute</code></td>
-<td class="org-left">rotates on an axis and has rotation limits</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="slide-org4a3d678">
-<h2 id="org4a3d678">Example Joint</h2>
-<div class="org-src-container">
-
-<pre  class="src src-XML">&lt;joint name="base_link_to_left_wheel" type="continuous"&gt;
-  &lt;parent link="base_link"/&gt;
-  &lt;child link="left_wheel"/&gt;
-  &lt;axis xyz="0 0 -1" rpy="0 0 0" /&gt;
-  &lt;origin xyz="0 0 0" rpy="0 0 0" /&gt;
-&lt;/joint&gt;
-</pre>
-</div>
-
-</section>
-<section id="slide-org2abad13">
-<h2 id="org2abad13">Useful Commands</h2>
-<aside class="notes">
-<p>
-explain the output
-</p>
-
-</aside>
+<section id="slide-org1ee9a8c">
+<h2 id="org1ee9a8c">Speaking of Motors&#x2026;</h2>
 <ul>
-<li><code>check_urdf</code>
-<ul>
-<li>"compiles" the urdf and gives a printout of the tf tree</li>
-
-</ul></li>
+<li>In order to drive our robot, we apply a difference in voltage across our two motors</li>
+<li>In essence, our entire codebase can be thought of a function approximating the correct mapping of sensor readings to voltage output</li>
 
 </ul>
-<div class="org-src-container">
-
-<pre  class="src src-BASH">robot name is: hal
----------- Successfully Parsed XML ---------------
-root Link: base_footprint has 4 child(ren)
-  child(1):  base_link
-  child(2):  body
-    child(1):  back_ball
-    child(2):  left_wheel
-    child(3):  right_wheel
-  child(3):  usb_cam_center
-    child(1):  optical_cam_center
-  child(4):  lidar
-</pre>
-</div>
 
 </section>
-<section id="slide-orgdcaf097">
-<h2 id="orgdcaf097">Introducing HAL</h2>
+<section id="slide-orgd6c20cc">
+<h2 id="orgd6c20cc">Control loops!</h2>
+<ul>
+<li>Telling our robot what to do is called controlling our robot. (Highly technical phrases, I know)</li>
+<li>How we decide about doing this is called a control theory.</li>
+<li>These typically fall into two categories - open and closed loop.</li>
 
-<div class="figure">
-<p><img src="https://i.imgur.com/IGlRSWv.png" alt="IGlRSWv.png" width="55%" />
-</p>
-</div>
+</ul>
+
+</section>
+<section id="slide-org5f39fc2">
+<h2 id="org5f39fc2">Open Loop</h2>
+<ul>
+<li>Open loop systems do not measure the system's output, and assumes that it's reaction to a new refernece is adequate.</li>
+<li>We do not use these, as our problems require considering the error in our responses.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgab2d856">
+<h2 id="orgab2d856">Closed Loop</h2>
+<ul>
+<li>Closed loop systems use sensors to measure and correct error created by imperfect attempts at maching the reference.</li>
+<li>These are more stable, especially over time as they can correct some of the accumulated error that builds up do to imperfect knowlage.</li>
+<li>Our method of choice is PID.</li>
+
+</ul>
+
+</section>
+<section id="slide-org6776519">
+<h2 id="org6776519">P</h2>
+<ul>
+<li>We want our response to be proportional to our error.</li>
+<li>The P term simply kicks harder the farther we are off from our target.</li>
+
+</ul>
+
+</section>
+<section id="slide-org4706b77">
+<h2 id="org4706b77">Eye</h2>
+<ul>
+<li>We want our response to respond to accumulated error over time - in other words, the integral of the error.</li>
+<li>The I term kicks in response to the historical error, eliminating steady-state error.</li>
+
+</ul>
+
+</section>
+<section id="slide-org8992d0e">
+<h2 id="org8992d0e">Dee</h2>
+<ul>
+<li>We want our responses to be controlled and well-proportioned as rapid changes to system output create more error.</li>
+<li>The D term kicks against the other two terms, making sure the system's derivative does not get out of hand.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgb5ee28c">
+<h2 id="orgb5ee28c">P + Eye + Dee spells One Helluva Closed Loop Control Theory</h2>
+<ul>
+<li>This system is not perfect, but it is widely used due to its ease of implementation and effectiveness.</li>
+<li>Let's watch MIT explain it in more detail, because they are quite smart.</li>
+<li><a href="https://www.youtube.com/watch?v=4Y7zG48uHRo">https://www.youtube.com/watch?v=4Y7zG48uHRo</a></li>
+
+</ul>
+
+</section>
+<section id="slide-org6fd499b">
+<h2 id="org6fd499b">Path Planning part Uno</h2>
+<ul>
+<li>Path planning is the art of plotting a course through a map.</li>
+<li>It has more going on than you might think.</li>
+<li>We will start with mapping.</li>
+
+</ul>
+
+</section>
+<section id="slide-org55cac08">
+<h2 id="org55cac08">The heck am I?</h2>
+<ul>
+<li>A robots x, y, z, r, p, y in some coordinate frame is called its pose.</li>
+<li>These numbers describe position and orientation.</li>
+<li>But this is a point, and our lovable Jessi is not a simple dot.</li>
+
+</ul>
+
+</section>
+<section id="slide-org07c49e8">
+<h2 id="org07c49e8">C-Space</h2>
+<ul>
+<li>The configuration space of the robot is the space it needs to exist in the world.</li>
+<li>Jessi's configuration space is her turn radius and physical dimensions.</li>
+<li>Here's a demo: <a href="https://www.cs.unc.edu/~jeffi/c-space/robot.xhtml">https://www.cs.unc.edu/~jeffi/c-space/robot.xhtml</a></li>
+
+</ul>
+
+</section>
+<section id="slide-orga80d939">
+<h2 id="orga80d939">Mapping Strategies</h2>
+<ul>
+<li>Occupancy grids</li>
+<li>Quadtrees</li>
+
+</ul>
+
+</section>
+<section id="slide-orgee3deed">
+<h2 id="orgee3deed">Occupancy Grids</h2>
+<ul>
+<li>Represent the state space by a large grid</li>
+<li>Each cell contains an indication of its vacancy status.</li>
+<li>Easy to use, but wasteful. We don't care about the state space. We care about the parts of the state space we will travel through.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgb532eaf">
+<h2 id="orgb532eaf">Quadtrees help with this</h2>
+<ul>
+<li>Quadtrees subdivide the state space into a recursive structure that allows for variable resolution.</li>
+<li>This cuts down on search costs.</li>
+
+</ul>
+
+</section>
+<section id="slide-org7ac53e0">
+<h2 id="org7ac53e0">Great, so we have a map. Where do we go from here?</h2>
+
+</section>
+<section id="slide-orgf95cbc2">
+<h2 id="orgf95cbc2">Next time we'll talk about searching the map for a path.</h2>
 </section>
 </section>
 </div>
