@@ -1,14 +1,20 @@
+# What are we doing today?
+
+-   Sensor of the day: Lidar
+-   Coordinate Frames and Transformations mk.1
+-   ROS 2: "The Electric Boogaloo" or "How I Stopped Worrying and Learned to Love XML"
+
+
 # Meet the lidar!
 
 -   This sensor shines a laser light in circles and measures the return times from the pulses to give us a 3D model of our world
 -   Notice that the lidar has a **rotating** component. This makes them more fragile the a sensor like a camera, so **they should be handled with caution**.
 
-![img](https://cdn.sparkfun.com//assets/parts/1/2/0/0/3/14117-02a.jpg)
+![img](https://www.slamtec.com/images/a3/mobile/bg_1_en.png)
 
 
 # Pointclouds
 
--   We use ROS's PCL package to interface with the LIDAR, and get messages of type [PointCloud2](http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html)
 -   A pointcloud is a data structure for holding the results found by the lidar (X, Y, Z)
 -   This includes an array of points picked up from the the LIDAR and their cartesian coordinates relative to the LIDAR
 
@@ -21,6 +27,56 @@ Pull out Jason's LIDAR and run rqt
 </div>
 
 -   Live demo time!
+
+
+# Everything is Relative
+
+-   Points are given relative to the sensor's frame of reference
+-   Imagine a 3d coordinate frame with the x-axis facing the front of the lidar, the y-axis shooting off to the left, and the z-axis pointing straight up
+
+-How do we move points in that frame to the global frame, where our robot exsists? -Linear Transformations! (eww math)
+
+
+# Insert Transformatios Slides Here, I suggest the ones from 3630 - they're pretty clear
+
+
+# ROS Messages!
+
+-   Before, we set up a simple message type that held just a simple string.
+-   We'll see that again shortly.
+-   A ROS message is the object that holds the data that a node wants to send across ROS
+-   There are two main parts:
+    -   A Header, which holds meta information about the message, such as when it was sent
+    -   A Data field, which holds the actual information that we are interested in
+
+
+# Headers - Timestamps
+
+-   Headers are super useful, escpecially for their timestamps.
+-   Since the robot is running all of its nodes and sensors in parallel, it is possible to get messages that are out of date
+-   Consider a robot pulbishing it's position twice a second and publishing pointclouds every second.
+-   Performing time-blind computation on those pointclouds would result in bad mapping, as the robot could be facing a different direction than when the pointcloud was measured.
+
+
+# Headers - Timestamp
+
+-   By syncing the timestamps of the position and pointcloud messages, we can correct (mostly) for this error - while messages might not be exactly in sync the difference in time between the closest messgages is often neglible.
+
+
+# Headers - FrameID
+
+-   In addition, headers contain a frame id which can specify which reference frame this message was created in, which allows our code to easily transform data across our robot's reference frames.
+
+
+# Data
+
+-   The data contained wihin a message is dependent on that data type, so checking the ros docs is important in determining how to treat different messages.
+
+
+# Data - Pointcloud
+
+-   We use ROS's PCL package to interface with the LIDAR, and get messages of type [[<http://docs.ros.org/melodic/api/sensor_msgs/html/msg/PointCloud.html>][PointCloud]
+-   The array in the PointCloud contains data of type [Point32](http://docs.ros.org/melodic/api/geometry_msgs/html/msg/Point32.html)
 
 
 # How do we structure ROS projects?
@@ -106,7 +162,7 @@ walk them through the file and show them the parts of it
   <name>node_example</name>
   <version>0.0.1</version>
   <description>
-  basic publisher and subscriber for IGVC and RR ROS training
+  basic publisher and subscriber for IGVC training
   </description>
   <author>Jason Gibson</author>
   <maintainer email="jgibson37@gatech.edu">Jason Gibson</maintainer>
@@ -288,6 +344,7 @@ Talk them through the layout of the message. Show them that messages can consist
 
 </div>
 
+-   This is the particular pointcloud message we use in IGVC.
 -   Everyone visit the [PointCloud2 message declaration](http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html)
 
 
@@ -295,14 +352,3 @@ Talk them through the layout of the message. Show them that messages can consist
 
 -   Messages should always have headers. Haveing a timestamp makes logging and debugging easier
 -   Messages contain fields of data, some of these fields also contain fields of data, as they are also message types
-
-
-# `rqt_graph`
-
-<div class="NOTES">
-make sure to launch enough nodes to make it hella complicated. talk a little bit about a code base
-
-</div>
-
--   what if I want to see all of my nodes and messages
--   `rqt_graph`

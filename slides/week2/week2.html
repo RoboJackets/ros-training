@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <title>Week 2</title>
-<meta name="author" content="(Sahit Chintalapudi, Jason Gibson)"/>
+<meta name="author" content="(Sahit Chintalapudi, Jason Gibson, Andrew Tuttle)"/>
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
@@ -29,8 +29,18 @@
 <section id="sec-title-slide"><h1 class="title">Week 2</h1>
 </section>
 
-<section id="slide-org6f3b86c">
-<h2 id="org6f3b86c">Meet the lidar!</h2>
+<section id="slide-org4b468e2">
+<h2 id="org4b468e2">What are we doing today?</h2>
+<ul>
+<li>Sensor of the day: Lidar</li>
+<li>Coordinate Frames and Transformations mk.1</li>
+<li>ROS 2: "The Electric Boogaloo" or "How I Stopped Worrying and Learned to Love XML"</li>
+
+</ul>
+
+</section>
+<section id="slide-orgf043efc">
+<h2 id="orgf043efc">Meet the lidar!</h2>
 <ul>
 <li>This sensor shines a laser light in circles and measures the return times
 from the pulses to give us a 3D model of our world</li>
@@ -40,17 +50,14 @@ fragile the a sensor like a camera, so <b>they should be handled with caution</b
 </ul>
 
 <div class="figure">
-<p><img src="https://cdn.sparkfun.com//assets/parts/1/2/0/0/3/14117-02a.jpg" alt="14117-02a.jpg" width="30%" />
+<p><img src="https://www.slamtec.com/images/a3/mobile/bg_1_en.png" alt="bg_1_en.png" width="30%" />
 </p>
 </div>
 
 </section>
-<section id="slide-org303f9f1">
-<h2 id="org303f9f1">Pointclouds</h2>
+<section id="slide-orgac37a0b">
+<h2 id="orgac37a0b">Pointclouds</h2>
 <ul>
-<li>We use ROS's PCL package to interface with the LIDAR, and get messages of
-type
-<a href="http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html">PointCloud2</a></li>
 <li>A pointcloud is a data structure for holding the results found by the
 lidar (X, Y, Z)</li>
 <li>This includes an array of points picked up from the the LIDAR and their
@@ -59,8 +66,8 @@ cartesian coordinates relative to the LIDAR</li>
 </ul>
 
 </section>
-<section id="slide-orga68edb6">
-<h2 id="orga68edb6">What does a pointcloud look like?</h2>
+<section id="slide-orgc9f09a2">
+<h2 id="orgc9f09a2">What does a pointcloud look like?</h2>
 <aside class="notes">
 <p>
 Pull out Jason's LIDAR and run rqt
@@ -73,8 +80,88 @@ Pull out Jason's LIDAR and run rqt
 </ul>
 
 </section>
-<section id="slide-orgc1f64b6">
-<h2 id="orgc1f64b6">How do we structure ROS projects?</h2>
+<section id="slide-orgb0095da">
+<h2 id="orgb0095da">Everything is Relative</h2>
+<ul>
+<li>Points are given relative to the sensor's frame of reference</li>
+<li>Imagine a 3d coordinate frame with the x-axis facing the front of the lidar, the y-axis shooting off to the left, and the z-axis pointing straight up</li>
+
+</ul>
+<p>
+-How do we move points in that frame to the global frame, where our robot exsists?
+-Linear Transformations! (eww math)
+</p>
+
+</section>
+<section id="slide-org68846bb">
+<h2 id="org68846bb">Insert Transformatios Slides Here, I suggest the ones from 3630 - they're pretty clear</h2>
+
+</section>
+<section id="slide-orgf458b72">
+<h2 id="orgf458b72">ROS Messages!</h2>
+<ul>
+<li>Before, we set up a simple message type that held just a simple string.</li>
+<li>We'll see that again shortly.</li>
+<li>A ROS message is the object that holds the data that a node wants to send across ROS</li>
+<li>There are two main parts:
+<ul>
+<li>A Header, which holds meta information about the message, such as when it was sent</li>
+<li>A Data field, which holds the actual information that we are interested in</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org9051110">
+<h2 id="org9051110">Headers - Timestamps</h2>
+<ul>
+<li>Headers are super useful, escpecially for their timestamps.</li>
+<li>Since the robot is running all of its nodes and sensors in parallel, it is possible to get messages that are out of date</li>
+<li>Consider a robot pulbishing it's position twice a second and publishing pointclouds every second.</li>
+<li>Performing time-blind computation on those pointclouds would result in bad mapping, as the robot could be facing a different direction than when the pointcloud was measured.</li>
+
+</ul>
+
+</section>
+<section id="slide-org0b0ba33">
+<h2 id="org0b0ba33">Headers - Timestamp</h2>
+<ul>
+<li>By syncing the timestamps of the position and pointcloud messages, we can correct (mostly) for this error - while messages might not be exactly in sync the difference in time between the closest messgages is often neglible.</li>
+
+</ul>
+
+</section>
+<section id="slide-orga60e208">
+<h2 id="orga60e208">Headers - FrameID</h2>
+<ul>
+<li>In addition, headers contain a frame id which can specify which reference frame this message was created in, which allows our code to easily transform data across our robot's reference frames.</li>
+
+</ul>
+
+</section>
+<section id="slide-org9854f49">
+<h2 id="org9854f49">Data</h2>
+<ul>
+<li>The data contained wihin a message is dependent on that data type, so checking the ros docs is important in determining how to treat different messages.</li>
+
+</ul>
+
+</section>
+<section id="slide-org47581a3">
+<h2 id="org47581a3">Data - Pointcloud</h2>
+<ul>
+<li>We use ROS's PCL package to interface with the LIDAR, and get messages of
+type
+[[<a href="http://docs.ros.org/melodic/api/sensor_msgs/html/msg/PointCloud.html">http://docs.ros.org/melodic/api/sensor_msgs/html/msg/PointCloud.html</a>][PointCloud]</li>
+<li>The array in the PointCloud contains data of type
+<a href="http://docs.ros.org/melodic/api/geometry_msgs/html/msg/Point32.html">Point32</a></li>
+
+</ul>
+
+</section>
+<section id="slide-orgb4b78ed">
+<h2 id="orgb4b78ed">How do we structure ROS projects?</h2>
 <aside class="notes">
 <p>
 pull open the repository and show them this literal structure
@@ -103,8 +190,8 @@ pull open the repository and show them this literal structure
 </div>
 
 </section>
-<section id="slide-org33b34ad">
-<h2 id="org33b34ad">CMakeLists file</h2>
+<section id="slide-org322cddb">
+<h2 id="org322cddb">CMakeLists file</h2>
 <aside class="notes">
 <p>
 walk them through the file and show them the parts of it
@@ -123,8 +210,8 @@ CMakeLists</a></li>
 </ul>
 
 </section>
-<section id="slide-org7beccde">
-<h2 id="org7beccde">Our CMakeLists.txt file</h2>
+<section id="slide-orgdd04c95">
+<h2 id="orgdd04c95">Our CMakeLists.txt file</h2>
 <pre  class="example">
 cmake_minimum_required(VERSION 2.8.3)
 project(node_example)
@@ -145,8 +232,8 @@ target_link_libraries(listener ${catkin_LIBRARIES})
 </pre>
 
 </section>
-<section id="slide-orge4f2df0">
-<h2 id="orge4f2df0">package.xml file</h2>
+<section id="slide-org6feefaf">
+<h2 id="org6feefaf">package.xml file</h2>
 <aside class="notes">
 <p>
 walk them through the file and show them the parts of it
@@ -165,8 +252,8 @@ package.xml</a></li>
 </ul>
 
 </section>
-<section id="slide-orgcbd05da">
-<h2 id="orgcbd05da">Our package.xml file</h2>
+<section id="slide-orgf2d02c9">
+<h2 id="orgf2d02c9">Our package.xml file</h2>
 <div class="org-src-container">
 
 <pre  class="src src-xml"><span style="color: #15968D;">&lt;?</span><span style="color: #598249;">xml</span><span style="color: #15968D;"> </span><span style="color: #15968D;">version="1.0"</span><span style="color: #15968D;">?&gt;</span>
@@ -174,7 +261,7 @@ package.xml</a></li>
   &lt;<span style="color: #2F7BDE;">name</span>&gt;node_example&lt;/<span style="color: #2F7BDE;">name</span>&gt;
   &lt;<span style="color: #2F7BDE;">version</span>&gt;0.0.1&lt;/<span style="color: #2F7BDE;">version</span>&gt;
   &lt;<span style="color: #2F7BDE;">description</span>&gt;
-  basic publisher and subscriber for IGVC and RR ROS training
+  basic publisher and subscriber for IGVC training
   &lt;/<span style="color: #2F7BDE;">description</span>&gt;
   &lt;<span style="color: #2F7BDE;">author</span>&gt;Jason Gibson&lt;/<span style="color: #2F7BDE;">author</span>&gt;
   &lt;<span style="color: #2F7BDE;">maintainer</span> <span style="color: #2F7BDE;">email</span>=<span style="color: #15968D;">"jgibson37@gatech.edu"</span>&gt;Jason Gibson&lt;/<span style="color: #2F7BDE;">maintainer</span>&gt;
@@ -191,8 +278,8 @@ package.xml</a></li>
 </div>
 
 </section>
-<section id="slide-orgff157d1">
-<h2 id="orgff157d1">Some ROS Vocab</h2>
+<section id="slide-org8b94aed">
+<h2 id="org8b94aed">Some ROS Vocab</h2>
 <ul>
 <li>A <span class="underline">node</span> is a process running on your computer
 <ul>
@@ -229,8 +316,8 @@ define everytime a new message is published on this topic!
 </ul>
 
 </section>
-<section id="slide-orgf9c1c4d">
-<h2 id="orgf9c1c4d">A ROS Publisher - Setup</h2>
+<section id="slide-orgfcd03c3">
+<h2 id="orgfcd03c3">A ROS Publisher - Setup</h2>
 <aside class="notes">
 <p>
 Should we write our own? I like how well this is documented
@@ -262,8 +349,8 @@ Should we write our own? I like how well this is documented
 </div>
 
 </section>
-<section id="slide-org4436aff">
-<h2 id="org4436aff">ROS Publisher - publishing</h2>
+<section id="slide-orge944f02">
+<h2 id="orge944f02">ROS Publisher - publishing</h2>
 <div class="org-src-container">
 
 <pre  class="src src-C++">  <span style="color: #598249;">int</span> <span style="color: #2F7BDE;">count</span> = 0;
@@ -291,8 +378,8 @@ Should we write our own? I like how well this is documented
 </div>
 
 </section>
-<section id="slide-orgb428a51">
-<h2 id="orgb428a51">Start the publisher node</h2>
+<section id="slide-org4bf8e53">
+<h2 id="org4bf8e53">Start the publisher node</h2>
 <div class="org-src-container">
 
 <pre  class="src src-sh">rosrun node_example talker
@@ -300,8 +387,8 @@ Should we write our own? I like how well this is documented
 </div>
 
 </section>
-<section id="slide-org215b5a4">
-<h2 id="org215b5a4">rosnode</h2>
+<section id="slide-orgf5635f4">
+<h2 id="orgf5635f4">rosnode</h2>
 <aside class="notes">
 <p>
 demo
@@ -335,8 +422,8 @@ demo
 </table>
 
 </section>
-<section id="slide-orge3bbbc6">
-<h2 id="orge3bbbc6">rostopic</h2>
+<section id="slide-org5fd550a">
+<h2 id="org5fd550a">rostopic</h2>
 <aside class="notes">
 <p>
 demo
@@ -390,8 +477,8 @@ demo
 </table>
 
 </section>
-<section id="slide-org5195556">
-<h2 id="org5195556">rosmsg</h2>
+<section id="slide-orgd93f4ee">
+<h2 id="orgd93f4ee">rosmsg</h2>
 <aside class="notes">
 <p>
 demo
@@ -419,8 +506,8 @@ demo
 </ul>
 
 </section>
-<section id="slide-org96c2442">
-<h2 id="org96c2442">A ROS Subscriber -  Setup</h2>
+<section id="slide-org46c841d">
+<h2 id="org46c841d">A ROS Subscriber -  Setup</h2>
 <div class="org-src-container">
 
 <pre  class="src src-C++"><span style="color: #598249;">#include</span> <span style="color: #15968D;">"ros/ros.h"</span>
@@ -434,8 +521,8 @@ demo
 </div>
 
 </section>
-<section id="slide-org5816a57">
-<h2 id="org5816a57">A ROS Subscriber - Subscribing</h2>
+<section id="slide-org00a57f6">
+<h2 id="org00a57f6">A ROS Subscriber - Subscribing</h2>
 <div class="org-src-container">
 
 <pre  class="src src-C++"><span style="color: #598249;">int</span> <span style="color: #2F7BDE;">main</span>(<span style="color: #598249;">int</span> <span style="color: #2F7BDE;">argc</span>, <span style="color: #598249;">char</span> **<span style="color: #2F7BDE;">argv</span>)
@@ -454,16 +541,16 @@ demo
 </div>
 
 </section>
-<section id="slide-orgd058fa5">
-<h2 id="orgd058fa5">Start the subscriber node</h2>
+<section id="slide-org2a59148">
+<h2 id="org2a59148">Start the subscriber node</h2>
 <div class="org-src-container">
 
 <pre  class="src src-sh">rosrun node_example listener
 </pre>
 </div>
 </section>
-<section id="slide-org2c09ba9">
-<h2 id="org2c09ba9">Let's go back to PointCloud2</h2>
+<section id="slide-org067d156">
+<h2 id="org067d156">Let's go back to PointCloud2</h2>
 <aside class="notes">
 <p>
 Talk them through the layout of the message. Show them that messages can
@@ -474,6 +561,7 @@ message should have a header
 
 </aside>
 <ul>
+<li>This is the particular pointcloud message we use in IGVC.</li>
 <li>Everyone visit the
 <a href="http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html">PointCloud2
 message declaration</a></li>
@@ -481,27 +569,13 @@ message declaration</a></li>
 </ul>
 
 </section>
-<section id="slide-org3aeeede">
-<h2 id="org3aeeede">Takeaways from the message definition</h2>
+<section id="slide-org8e75c96">
+<h2 id="org8e75c96">Takeaways from the message definition</h2>
 <ul>
 <li>Messages should always have headers. Haveing a timestamp makes logging and
 debugging easier</li>
 <li>Messages contain fields of data, some of these fields also contain fields
 of data, as they are also message types</li>
-
-</ul>
-</section>
-<section id="slide-orgdd4f65a">
-<h2 id="orgdd4f65a"><code>rqt_graph</code></h2>
-<aside class="notes">
-<p>
-make sure to launch enough nodes to make it hella complicated. talk a little bit about a code base
-</p>
-
-</aside>
-<ul>
-<li>what if I want to see all of my nodes and messages</li>
-<li><code>rqt_graph</code></li>
 
 </ul>
 </section>
