@@ -29,21 +29,19 @@
 <section id="sec-title-slide"><h1 class="title">Week 4</h1>
 </section>
 
-<section id="slide-org0dd8318">
-<h2 id="org0dd8318">What are we doing today</h2>
+<section id="slide-orgc82184b">
+<h2 id="orgc82184b">What are we doing today</h2>
 <ul>
 <li>IMU</li>
+<li>Gazebo</li>
 <li>Review what makes up a node</li>
-<li>Write a node to find an object
-<ul>
-<li>PCL</li>
-
-</ul></li>
+<li>Write a node to control a simulated robot.</li>
 
 </ul>
+
 </section>
-<section id="slide-orgcca21cf">
-<h2 id="orgcca21cf">IMU</h2>
+<section id="slide-org1484f85">
+<h2 id="org1484f85">IMU</h2>
 <ul>
 <li>Inertial measurement unit</li>
 <li>Detects linear acceleration using accelerometers</li>
@@ -54,8 +52,8 @@
 
 </ul>
 </section>
-<section id="slide-orgd9ad056">
-<h3 id="orgd9ad056">RPY</h3>
+<section id="slide-org37db238">
+<h3 id="org37db238">RPY</h3>
 <ul>
 <li>Roll, Pitch, Yaw</li>
 
@@ -66,18 +64,283 @@
 </p>
 </div>
 </section>
-<section id="slide-orgeb644fd">
-<h2 id="orgeb644fd">Review</h2>
-<div class="outline-text-2" id="text-orgeb644fd">
+<section id="slide-org1dec1af">
+<h2 id="org1dec1af">Gazebo</h2>
+<ul>
+<li>The simulator used by both RoboRacing and IGVC</li>
+
+</ul>
+
+<div class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/13/Gazebo_logo.svg/1024px-Gazebo_logo.svg.png" alt="1024px-Gazebo_logo.svg.png" width="35%" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgbb95088">
+<h2 id="orgbb95088">Simulation</h2>
+<aside class="notes">
+<p>
+talk about how it crashes. Also that we can simulate friction, mass, etc
+</p>
+
+</aside>
+<ul>
+<li>simulators are wonderful</li>
+<li>allow to test code in somewhat real life situations</li>
+<li>not a ROS product
+<ul>
+<li>interacts with ROS through plugins that publish to topics</li>
+<li>these plugins are not perfect so it crashes <b>a lot</b></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgf533478">
+<h2 id="orgf533478">Package Structure</h2>
+<ul>
+<li><code>TEAM_NAME_Description</code>
+<ul>
+<li>contains the URDF file</li>
+<li>defines the world</li>
+
+</ul></li>
+<li><code>TEAM_NAME_Control</code>
+<ul>
+<li>contains the nodes that control the environment</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org6c3f2dc">
+<h2 id="org6c3f2dc">URDF</h2>
+<ul>
+<li>unified robot description format</li>
+<li>this is what gazebo uses to generate the robot</li>
+<li>XML file format</li>
+<li>defines everything in a 3-dimensional grid</li>
+
+</ul>
+
+</section>
+<section id="slide-org915a1c7">
+<h2 id="org915a1c7">Links</h2>
+<aside class="notes">
+<p>
+take about what each is and how meshes can be used as geometries. visual is required
+</p>
+
+</aside>
+<ul>
+<li>links contain
+<ul>
+<li>required for ROS
+<ul>
+<li>visual geometry</li>
+
+</ul></li>
+<li>required for gazebo
+<ul>
+<li>collision geometry</li>
+<li>intertial geometry</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgaa2e90f">
+<h2 id="orgaa2e90f">Links Basic Example</h2>
+<aside class="notes">
+<p>
+make sure to launch rviz with this urdf
+</p>
+
+</aside>
+<div class="org-src-container">
+
+<pre  class="src src-XML">&lt;robot&gt;
+  &lt;link name="base_link"&gt;
+    &lt;visual&gt;
+      &lt;geometry&gt;
+	&lt;box size="0.8 0.3 0.1"/&gt;
+      &lt;/geometry&gt;
+    &lt;/visual&gt;
+  &lt;/link&gt;
+&lt;/robot&gt;
+</pre>
+</div>
+
+</section>
+<section id="slide-orgf3f8c20">
+<h2 id="orgf3f8c20">Gazebo Link</h2>
+<aside class="notes">
+<p>
+launch this in gazebo
+</p>
+
+</aside>
+<div class="org-src-container">
+
+<pre  class="src src-XML">&lt;link name="body"&gt;
+  &lt;inertial&gt;
+    &lt;origin xyz="0 0 0" /&gt;
+    &lt;mass value="50.0" /&gt;
+    &lt;inertia  ixx="0.0" ixy="0.0"  ixz="1.0"  iyy="0.0"  iyz="0.0"  izz="0.0" /&gt;
+  &lt;/inertial&gt;
+  &lt;visual&gt;
+    &lt;origin rpy="0 0 0" xyz="0 0 0"/&gt;
+    &lt;geometry&gt;
+      &lt;mesh filename="model://urdf/meshes/Body.dae"/&gt;
+    &lt;/geometry&gt;
+  &lt;/visual&gt;
+  &lt;collision&gt;
+    &lt;geometry&gt;
+      &lt;mesh filename="model://urdf/meshes/Body.dae"/&gt;
+    &lt;/geometry&gt;
+  &lt;/collision&gt;
+&lt;/link&gt;
+</pre>
 </div>
 </section>
-<section id="slide-org2fad8f6">
-<h3 id="org2fad8f6">What are the three files every node needs?</h3>
-<div class="outline-text-3" id="text-org2fad8f6">
+<section id="slide-org26d2488">
+<h2 id="org26d2488">Joints</h2>
+<ul>
+<li>links can be connected using joints
+<ul>
+<li>all joints have a parents and a child</li>
+
+</ul></li>
+<li>all positions are realtive to its parents
+<ul>
+<li>entire tree should have a single root</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgbd28d23">
+<h2 id="orgbd28d23">I AM ROOT</h2>
+
+<div class="figure">
+<p><img src="https://www.syfy.com/sites/syfy/files/wire/legacy/groot_0.jpg" alt="groot_0.jpg" width="45%" />
+</p>
+</div>
+
+</section>
+<section id="slide-org5e4b9d4">
+<h2 id="org5e4b9d4">Joint Types</h2>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">type</th>
+<th scope="col" class="org-left">usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>continuous</code></td>
+<td class="org-left">rotates in an axis and has to limits</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>fixed</code></td>
+<td class="org-left">does not move</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>floating</code></td>
+<td class="org-left">6 degrees of freedom</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>revolute</code></td>
+<td class="org-left">rotates on an axis and has rotation limits</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="slide-orgaf37666">
+<h2 id="orgaf37666">Example Joint</h2>
+<div class="org-src-container">
+
+<pre  class="src src-XML">&lt;joint name="base_link_to_left_wheel" type="continuous"&gt;
+  &lt;parent link="base_link"/&gt;
+  &lt;child link="left_wheel"/&gt;
+  &lt;axis xyz="0 0 -1" rpy="0 0 0" /&gt;
+  &lt;origin xyz="0 0 0" rpy="0 0 0" /&gt;
+&lt;/joint&gt;
+</pre>
+</div>
+
+</section>
+<section id="slide-org19a6fb9">
+<h2 id="org19a6fb9">Useful Commands</h2>
+<aside class="notes">
+<p>
+explain the output
+</p>
+
+</aside>
+<ul>
+<li><code>check_urdf</code>
+<ul>
+<li>"compiles" the urdf and gives a printout of the tf tree</li>
+
+</ul></li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-BASH">robot name is: hal
+---------- Successfully Parsed XML ---------------
+root Link: base_footprint has 4 child(ren)
+  child(1):  base_link
+  child(2):  body
+    child(1):  back_ball
+    child(2):  left_wheel
+    child(3):  right_wheel
+  child(3):  usb_cam_center
+    child(1):  optical_cam_center
+  child(4):  lidar
+</pre>
+</div>
+
+</section>
+<section id="slide-orgbdbf661">
+<h2 id="orgbdbf661">Introducing HAL</h2>
+
+<div class="figure">
+<p><img src="https://i.imgur.com/IGlRSWv.png" alt="IGlRSWv.png" width="55%" />
+</p>
 </div>
 </section>
-<section id="slide-org1432910">
-<h4 id="org1432910">What are the three files every node needs?</h4>
+<section id="slide-orgd76a189">
+<h2 id="orgd76a189">Review</h2>
+<div class="outline-text-2" id="text-orgd76a189">
+</div>
+</section>
+<section id="slide-orgb91f756">
+<h3 id="orgb91f756">What are the three files every node needs?</h3>
+<div class="outline-text-3" id="text-orgb91f756">
+</div>
+</section>
+<section id="slide-org39e262e">
+<h4 id="org39e262e">What are the three files every node needs?</h4>
 <ul>
 <li>CMakeLists.txt</li>
 <li>package.xml</li>
@@ -85,13 +348,13 @@
 
 </ul>
 </section>
-<section id="slide-orgc1cfcb2">
-<h3 id="orgc1cfcb2">What is in a CMakeLists.txt file?</h3>
-<div class="outline-text-3" id="text-orgc1cfcb2">
+<section id="slide-orgbb0d4e4">
+<h3 id="orgbb0d4e4">What is in a CMakeLists.txt file?</h3>
+<div class="outline-text-3" id="text-orgbb0d4e4">
 </div>
 </section>
-<section id="slide-org37da8d8">
-<h4 id="org37da8d8">What is in a CMakeLists.txt file?</h4>
+<section id="slide-org2513158">
+<h4 id="org2513158">What is in a CMakeLists.txt file?</h4>
 <ul>
 <li>How to build the node
 <ul>
@@ -102,26 +365,26 @@
 
 </ul>
 </section>
-<section id="slide-orge769086">
-<h3 id="orge769086">What is in the package.xml file?</h3>
-<div class="outline-text-3" id="text-orge769086">
+<section id="slide-org4f5af27">
+<h3 id="org4f5af27">What is in the package.xml file?</h3>
+<div class="outline-text-3" id="text-org4f5af27">
 </div>
 </section>
-<section id="slide-org42c7f42">
-<h4 id="org42c7f42">What is in the package.xml file?</h4>
+<section id="slide-org3c8ab46">
+<h4 id="org3c8ab46">What is in the package.xml file?</h4>
 <ul>
 <li>What are the dependencies of a node</li>
 <li>maintainer information, author, etc</li>
 
 </ul>
 </section>
-<section id="slide-org02b05a5">
-<h3 id="org02b05a5">What is required for a subscriber?</h3>
-<div class="outline-text-3" id="text-org02b05a5">
+<section id="slide-org9dd3561">
+<h3 id="org9dd3561">What is required for a subscriber?</h3>
+<div class="outline-text-3" id="text-org9dd3561">
 </div>
 </section>
-<section id="slide-org550170e">
-<h4 id="org550170e">What is required for a subscriber?</h4>
+<section id="slide-org66049f0">
+<h4 id="org66049f0">What is required for a subscriber?</h4>
 <ul>
 <li>Callback function</li>
 <li>Topic name</li>
@@ -129,26 +392,26 @@
 
 </ul>
 </section>
-<section id="slide-org42e2f74">
-<h3 id="org42e2f74">What is required for a publisher?</h3>
-<div class="outline-text-3" id="text-org42e2f74">
+<section id="slide-org9a4a61f">
+<h3 id="org9a4a61f">What is required for a publisher?</h3>
+<div class="outline-text-3" id="text-org9a4a61f">
 </div>
 </section>
-<section id="slide-org9eb3e62">
-<h4 id="org9eb3e62">What is required for a publisher?</h4>
+<section id="slide-orgeb32c3b">
+<h4 id="orgeb32c3b">What is required for a publisher?</h4>
 <ul>
 <li>Topic name</li>
 <li>Queue size</li>
 
 </ul>
 </section>
-<section id="slide-org6d1b9a3">
-<h3 id="org6d1b9a3">What things must be done in every node?</h3>
-<div class="outline-text-3" id="text-org6d1b9a3">
+<section id="slide-orgab142d7">
+<h3 id="orgab142d7">What things must be done in every node?</h3>
+<div class="outline-text-3" id="text-orgab142d7">
 </div>
 </section>
-<section id="slide-org42f7347">
-<h4 id="org42f7347">What things must be done in every node?</h4>
+<section id="slide-org840c2a3">
+<h4 id="org840c2a3">What things must be done in every node?</h4>
 <ul>
 <li>include ros header</li>
 <li>ros::init</li>
@@ -157,69 +420,69 @@
 
 </ul>
 </section>
-<section id="slide-orgf1008b4">
-<h3 id="orgf1008b4">How do I get what nodes are currently running?</h3>
-<div class="outline-text-3" id="text-orgf1008b4">
+<section id="slide-org84d8901">
+<h3 id="org84d8901">How do I get what nodes are currently running?</h3>
+<div class="outline-text-3" id="text-org84d8901">
 </div>
 </section>
-<section id="slide-org50d7cce">
-<h4 id="org50d7cce">How do I get what nodes are currently running?</h4>
+<section id="slide-org70d5ddc">
+<h4 id="org70d5ddc">How do I get what nodes are currently running?</h4>
 <ul>
 <li>rosnode list</li>
 
 </ul>
 </section>
-<section id="slide-org6773893">
-<h3 id="org6773893">How do I get information about a running node?</h3>
-<div class="outline-text-3" id="text-org6773893">
+<section id="slide-org5d6a9e8">
+<h3 id="org5d6a9e8">How do I get information about a running node?</h3>
+<div class="outline-text-3" id="text-org5d6a9e8">
 </div>
 </section>
-<section id="slide-orge65b090">
-<h4 id="orge65b090">How do I get information about a running node?</h4>
+<section id="slide-orgcefb91f">
+<h4 id="orgcefb91f">How do I get information about a running node?</h4>
 <ul>
 <li>rosnode info [NAME]</li>
 
 </ul>
 </section>
-<section id="slide-orgbfbd6f7">
-<h3 id="orgbfbd6f7">How do I get a list of the topic currently publishing?</h3>
-<div class="outline-text-3" id="text-orgbfbd6f7">
+<section id="slide-orgf4b52c4">
+<h3 id="orgf4b52c4">How do I get a list of the topic currently publishing?</h3>
+<div class="outline-text-3" id="text-orgf4b52c4">
 </div>
 </section>
-<section id="slide-org4e6129f">
-<h4 id="org4e6129f">How do I get a list of the topic currently publishing?</h4>
+<section id="slide-org8664956">
+<h4 id="org8664956">How do I get a list of the topic currently publishing?</h4>
 <ul>
 <li>rostopic list</li>
 
 </ul>
 </section>
-<section id="slide-orgd020360">
-<h3 id="orgd020360">How do I get how often a topic is publishing?</h3>
-<div class="outline-text-3" id="text-orgd020360">
+<section id="slide-org5e45e00">
+<h3 id="org5e45e00">How do I get how often a topic is publishing?</h3>
+<div class="outline-text-3" id="text-org5e45e00">
 </div>
 </section>
-<section id="slide-org45a66bb">
-<h4 id="org45a66bb">How do I get how often a topic is publishing?</h4>
+<section id="slide-org84e0651">
+<h4 id="org84e0651">How do I get how often a topic is publishing?</h4>
 <ul>
 <li>rostopic hz [NAME]</li>
 
 </ul>
 </section>
-<section id="slide-orgbd9ad11">
-<h3 id="orgbd9ad11">How do I get what is being published on a topic?</h3>
-<div class="outline-text-3" id="text-orgbd9ad11">
+<section id="slide-org61602a2">
+<h3 id="org61602a2">How do I get what is being published on a topic?</h3>
+<div class="outline-text-3" id="text-org61602a2">
 </div>
 </section>
-<section id="slide-org5b130b0">
-<h4 id="org5b130b0">How do I get what is being published on a topic?</h4>
+<section id="slide-org48cf774">
+<h4 id="org48cf774">How do I get what is being published on a topic?</h4>
 <ul>
 <li>rostopic echo [NAME]</li>
 
 </ul>
 
 </section>
-<section id="slide-org0c13367">
-<h2 id="org0c13367">Output</h2>
+<section id="slide-org26475d0">
+<h2 id="org26475d0">Output</h2>
 <ul>
 <li>Must have output set to screen to print out to the terminal
 <ul>
@@ -229,8 +492,8 @@
 
 </ul>
 </section>
-<section id="slide-orgb0b4ac2">
-<h3 id="orgb0b4ac2"><code>ROS_INFO</code></h3>
+<section id="slide-orga2f0a4f">
+<h3 id="orga2f0a4f"><code>ROS_INFO</code></h3>
 <ul>
 <li><code>ROS_INFO("Hello");</code></li>
 <li>Prints out whatever is inside</li>
@@ -238,16 +501,16 @@
 
 </ul>
 </section>
-<section id="slide-org3980671">
-<h3 id="org3980671"><code>ROS_INFO_STREAM</code></h3>
+<section id="slide-orga684c5c">
+<h3 id="orga684c5c"><code>ROS_INFO_STREAM</code></h3>
 <ul>
 <li><code>ROS_INFO_STREAM("x = " &lt;&lt; point.x &lt;&lt; " y = " &lt;&lt; point.y);</code></li>
 <li>You can pipe information just like with cout</li>
 
 </ul>
 </section>
-<section id="slide-org8525138">
-<h2 id="org8525138">PCL</h2>
+<section id="slide-org3f1c174">
+<h2 id="org3f1c174">PCL</h2>
 <ul>
 <li>The Point Cloud Library</li>
 <li>Standard across most ROS projects</li>
@@ -256,8 +519,8 @@
 </ul>
 
 </section>
-<section id="slide-orgbfd5b59">
-<h2 id="orgbfd5b59">What is a point cloud?</h2>
+<section id="slide-orgbd30f7f">
+<h2 id="orgbd30f7f">What is a point cloud?</h2>
 <ul>
 <li>A collection of points
 <ul>
@@ -268,8 +531,8 @@
 </ul>
 
 </section>
-<section id="slide-orgc536392">
-<h2 id="orgc536392">Write a node</h2>
+<section id="slide-org114c6b6">
+<h2 id="org114c6b6">Write a node</h2>
 <ul>
 <li>Now we want to have hal set himself facing an object</li>
 
