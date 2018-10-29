@@ -29,8 +29,8 @@
 <section id="sec-title-slide"><h1 class="title">Week 2</h1>
 </section>
 
-<section id="slide-orgdc28b84">
-<h2 id="orgdc28b84">What are we doing today?</h2>
+<section id="slide-org6e99c94">
+<h2 id="org6e99c94">What are we doing today?</h2>
 <ul>
 <li>Sensor of the day: Lidar</li>
 <li>Coordinate Frames and Transformations mk.1</li>
@@ -39,8 +39,8 @@
 </ul>
 
 </section>
-<section id="slide-org0aae39e">
-<h2 id="org0aae39e">Meet the lidar!</h2>
+<section id="slide-orgcbaca23">
+<h2 id="orgcbaca23">Meet the lidar!</h2>
 <ul>
 <li>This sensor shines a laser light in circles and measures the return times
 from the pulses to give us a 3D model of our world</li>
@@ -55,8 +55,8 @@ fragile the a sensor like a camera, so <b>they should be handled with caution</b
 </div>
 
 </section>
-<section id="slide-orge0ccb6b">
-<h2 id="orge0ccb6b">Pointclouds</h2>
+<section id="slide-org47e31c9">
+<h2 id="org47e31c9">Pointclouds</h2>
 <ul>
 <li>A pointcloud is a data structure for holding the results found by the
 lidar (X, Y, Z)</li>
@@ -66,8 +66,8 @@ cartesian coordinates relative to the LIDAR</li>
 </ul>
 
 </section>
-<section id="slide-org2282533">
-<h2 id="org2282533">What does a pointcloud look like?</h2>
+<section id="slide-org8e96441">
+<h2 id="org8e96441">What does a pointcloud look like?</h2>
 <aside class="notes">
 <p>
 Pull out Jason's LIDAR and run rqt
@@ -80,8 +80,8 @@ Pull out Jason's LIDAR and run rqt
 </ul>
 
 </section>
-<section id="slide-org77790b3">
-<h2 id="org77790b3">Everything is Relative</h2>
+<section id="slide-orgd9e169d">
+<h2 id="orgd9e169d">Everything is Relative</h2>
 <ul>
 <li>Points are given relative to the sensor's frame of reference</li>
 <li>Imagine a 3d coordinate frame with the x-axis facing the front of the lidar, the y-axis shooting off to the left, and the z-axis pointing straight up</li>
@@ -93,12 +93,12 @@ Pull out Jason's LIDAR and run rqt
 </p>
 
 </section>
-<section id="slide-org702294e">
-<h2 id="org702294e">Insert Transformatios Slides Here, I suggest the ones from 3630 - they're pretty clear</h2>
+<section id="slide-org04833cd">
+<h2 id="org04833cd">Insert Transformatios Slides Here, I suggest the ones from 3630 - they're pretty clear</h2>
 
 </section>
-<section id="slide-org27710d5">
-<h2 id="org27710d5">ROS Messages!</h2>
+<section id="slide-orgc1cb8c5">
+<h2 id="orgc1cb8c5">ROS Messages!</h2>
 <ul>
 <li>Before, we set up a simple message type that held just a simple string.</li>
 <li>We'll see that again shortly.</li>
@@ -113,8 +113,8 @@ Pull out Jason's LIDAR and run rqt
 </ul>
 
 </section>
-<section id="slide-org4b11ddb">
-<h2 id="org4b11ddb">Headers - Timestamps</h2>
+<section id="slide-org3ca6de7">
+<h2 id="org3ca6de7">Headers - Timestamps</h2>
 <ul>
 <li>Headers are super useful, escpecially for their timestamps.</li>
 <li>Since the robot is running all of its nodes and sensors in parallel, it is possible to get messages that are out of date</li>
@@ -124,32 +124,32 @@ Pull out Jason's LIDAR and run rqt
 </ul>
 
 </section>
-<section id="slide-orgccedee2">
-<h2 id="orgccedee2">Headers - Timestamp</h2>
+<section id="slide-org45b92fd">
+<h2 id="org45b92fd">Headers - Timestamp</h2>
 <ul>
 <li>By syncing the timestamps of the position and pointcloud messages, we can correct (mostly) for this error - while messages might not be exactly in sync the difference in time between the closest messgages is often neglible.</li>
 
 </ul>
 
 </section>
-<section id="slide-org8acabbc">
-<h2 id="org8acabbc">Headers - FrameID</h2>
+<section id="slide-org2380421">
+<h2 id="org2380421">Headers - FrameID</h2>
 <ul>
 <li>In addition, headers contain a frame id which can specify which reference frame this message was created in, which allows our code to easily transform data across our robot's reference frames.</li>
 
 </ul>
 
 </section>
-<section id="slide-org9edf13e">
-<h2 id="org9edf13e">Data</h2>
+<section id="slide-org7027daf">
+<h2 id="org7027daf">Data</h2>
 <ul>
 <li>The data contained wihin a message is dependent on that data type, so checking the ros docs is important in determining how to treat different messages.</li>
 
 </ul>
 
 </section>
-<section id="slide-orgadc3836">
-<h2 id="orgadc3836">Data - Pointcloud</h2>
+<section id="slide-org1e6dd94">
+<h2 id="org1e6dd94">Data - Pointcloud</h2>
 <ul>
 <li>We use ROS's PCL package to interface with the LIDAR, and get messages of
 type
@@ -160,8 +160,8 @@ type
 </ul>
 
 </section>
-<section id="slide-orgc3c0058">
-<h2 id="orgc3c0058">How do we structure ROS projects?</h2>
+<section id="slide-org8350161">
+<h2 id="org8350161">How do we structure ROS projects?</h2>
 <aside class="notes">
 <p>
 pull open the repository and show them this literal structure
@@ -190,8 +190,8 @@ pull open the repository and show them this literal structure
 </div>
 
 </section>
-<section id="slide-orgda0e356">
-<h2 id="orgda0e356">CMakeLists file</h2>
+<section id="slide-orgdf76939">
+<h2 id="orgdf76939">CMakeLists file</h2>
 <aside class="notes">
 <p>
 walk them through the file and show them the parts of it
@@ -210,8 +210,8 @@ CMakeLists</a></li>
 </ul>
 
 </section>
-<section id="slide-orgd031d6d">
-<h2 id="orgd031d6d">Our CMakeLists.txt file</h2>
+<section id="slide-orgb8498af">
+<h2 id="orgb8498af">Our CMakeLists.txt file</h2>
 <pre  class="example">
 cmake_minimum_required(VERSION 2.8.3)
 project(node_example)
@@ -232,8 +232,8 @@ target_link_libraries(listener ${catkin_LIBRARIES})
 </pre>
 
 </section>
-<section id="slide-org7269946">
-<h2 id="org7269946">package.xml file</h2>
+<section id="slide-org2245bb1">
+<h2 id="org2245bb1">package.xml file</h2>
 <aside class="notes">
 <p>
 walk them through the file and show them the parts of it
@@ -252,8 +252,8 @@ package.xml</a></li>
 </ul>
 
 </section>
-<section id="slide-org2d2414a">
-<h2 id="org2d2414a">Our package.xml file</h2>
+<section id="slide-org102f2e1">
+<h2 id="org102f2e1">Our package.xml file</h2>
 <div class="org-src-container">
 
 <pre  class="src src-xml"><span style="color: #15968D;">&lt;?</span><span style="color: #598249;">xml</span><span style="color: #15968D;"> </span><span style="color: #15968D;">version="1.0"</span><span style="color: #15968D;">?&gt;</span>
@@ -278,8 +278,8 @@ package.xml</a></li>
 </div>
 
 </section>
-<section id="slide-org2dcf5c0">
-<h2 id="org2dcf5c0">Some ROS Vocab</h2>
+<section id="slide-orgf54268b">
+<h2 id="orgf54268b">Some ROS Vocab</h2>
 <ul>
 <li>A <span class="underline">node</span> is a process running on your computer
 <ul>
@@ -316,8 +316,8 @@ define everytime a new message is published on this topic!
 </ul>
 
 </section>
-<section id="slide-org0ebe3f6">
-<h2 id="org0ebe3f6">A ROS Publisher - Setup</h2>
+<section id="slide-org6679fa5">
+<h2 id="org6679fa5">A ROS Publisher - Setup</h2>
 <aside class="notes">
 <p>
 Should we write our own? I like how well this is documented
@@ -349,8 +349,8 @@ Should we write our own? I like how well this is documented
 </div>
 
 </section>
-<section id="slide-org1e8ae41">
-<h2 id="org1e8ae41">ROS Publisher - publishing</h2>
+<section id="slide-org059f05a">
+<h2 id="org059f05a">ROS Publisher - publishing</h2>
 <div class="org-src-container">
 
 <pre  class="src src-C++">  <span style="color: #598249;">int</span> <span style="color: #2F7BDE;">count</span> = 0;
@@ -378,8 +378,8 @@ Should we write our own? I like how well this is documented
 </div>
 
 </section>
-<section id="slide-org3feba3d">
-<h2 id="org3feba3d">Start the publisher node</h2>
+<section id="slide-org7d5c0c7">
+<h2 id="org7d5c0c7">Start the publisher node</h2>
 <div class="org-src-container">
 
 <pre  class="src src-sh">rosrun node_example talker
@@ -387,8 +387,8 @@ Should we write our own? I like how well this is documented
 </div>
 
 </section>
-<section id="slide-org11a2c54">
-<h2 id="org11a2c54">rosnode</h2>
+<section id="slide-org9fa4442">
+<h2 id="org9fa4442">rosnode</h2>
 <aside class="notes">
 <p>
 demo
@@ -422,8 +422,8 @@ demo
 </table>
 
 </section>
-<section id="slide-org6e4392f">
-<h2 id="org6e4392f">rostopic</h2>
+<section id="slide-org2981355">
+<h2 id="org2981355">rostopic</h2>
 <aside class="notes">
 <p>
 demo
@@ -477,8 +477,8 @@ demo
 </table>
 
 </section>
-<section id="slide-org417ce41">
-<h2 id="org417ce41">rosmsg</h2>
+<section id="slide-orgc82b797">
+<h2 id="orgc82b797">rosmsg</h2>
 <aside class="notes">
 <p>
 demo
@@ -506,8 +506,8 @@ demo
 </ul>
 
 </section>
-<section id="slide-org96c8313">
-<h2 id="org96c8313">A ROS Subscriber -  Setup</h2>
+<section id="slide-org75729a7">
+<h2 id="org75729a7">A ROS Subscriber -  Setup</h2>
 <div class="org-src-container">
 
 <pre  class="src src-C++"><span style="color: #598249;">#include</span> <span style="color: #15968D;">"ros/ros.h"</span>
@@ -521,8 +521,8 @@ demo
 </div>
 
 </section>
-<section id="slide-org4301d9a">
-<h2 id="org4301d9a">A ROS Subscriber - Subscribing</h2>
+<section id="slide-org3d09c49">
+<h2 id="org3d09c49">A ROS Subscriber - Subscribing</h2>
 <div class="org-src-container">
 
 <pre  class="src src-C++"><span style="color: #598249;">int</span> <span style="color: #2F7BDE;">main</span>(<span style="color: #598249;">int</span> <span style="color: #2F7BDE;">argc</span>, <span style="color: #598249;">char</span> **<span style="color: #2F7BDE;">argv</span>)
@@ -541,16 +541,16 @@ demo
 </div>
 
 </section>
-<section id="slide-org7e165ff">
-<h2 id="org7e165ff">Start the subscriber node</h2>
+<section id="slide-org0c7f348">
+<h2 id="org0c7f348">Start the subscriber node</h2>
 <div class="org-src-container">
 
 <pre  class="src src-sh">rosrun node_example listener
 </pre>
 </div>
 </section>
-<section id="slide-org88f3896">
-<h2 id="org88f3896">Let's go back to PointCloud2</h2>
+<section id="slide-org51dc893">
+<h2 id="org51dc893">Let's go back to PointCloud2</h2>
 <aside class="notes">
 <p>
 Talk them through the layout of the message. Show them that messages can
@@ -569,8 +569,8 @@ message declaration</a></li>
 </ul>
 
 </section>
-<section id="slide-org4e05d6b">
-<h2 id="org4e05d6b">Takeaways from the message definition</h2>
+<section id="slide-org2627c1a">
+<h2 id="org2627c1a">Takeaways from the message definition</h2>
 <ul>
 <li>Messages should always have headers. Haveing a timestamp makes logging and
 debugging easier</li>

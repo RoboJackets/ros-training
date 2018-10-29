@@ -29,8 +29,8 @@
 <section id="sec-title-slide"><h1 class="title">Week 5</h1>
 </section>
 
-<section id="slide-orgee99007">
-<h2 id="orgee99007">What are we doing today</h2>
+<section id="slide-org81ce336">
+<h2 id="org81ce336">What are we doing today</h2>
 <ul>
 <li>Look at solutions from last week</li>
 <li>GPS</li>
@@ -41,11 +41,11 @@
 &#x2013;Sensor models and statistics
 </p>
 </section>
-<section id="slide-orgdb81855">
-<h2 id="orgdb81855">Solutions from last week</h2>
+<section id="slide-org81177a1">
+<h2 id="org81177a1">Solutions from last week</h2>
 </section>
-<section id="slide-orgc42b1fe">
-<h2 id="orgc42b1fe">GPS</h2>
+<section id="slide-org0c9be6a">
+<h2 id="org0c9be6a">GPS</h2>
 <ul>
 <li>Global positioning system</li>
 <li>Created by the military</li>
@@ -62,8 +62,8 @@
 
 </ul>
 </section>
-<section id="slide-orgd28a974">
-<h3 id="orgd28a974">Filters and base stations</h3>
+<section id="slide-org37781ce">
+<h3 id="org37781ce">Filters and base stations</h3>
 <ul>
 <li>Make assumptions to correct for noise</li>
 <li>Base station (RTK, real time kinematic)
@@ -77,8 +77,8 @@
 
 </ul>
 </section>
-<section id="slide-org6d28c1c">
-<h3 id="org6d28c1c">Almanacs</h3>
+<section id="slide-org81699f7">
+<h3 id="org81699f7">Almanacs</h3>
 <ul>
 <li>Where to look for the satellites
 <ul>
@@ -90,16 +90,16 @@
 
 </ul>
 </section>
-<section id="slide-org553604c">
-<h3 id="org553604c">Localization</h3>
+<section id="slide-org63823ad">
+<h3 id="org63823ad">Localization</h3>
 <ul>
 <li>Localization refers to the art of determining a robot's pose.</li>
 <li>The simplest method is called dead reckoning</li>
 
 </ul>
 </section>
-<section id="slide-orgc385b01">
-<h3 id="orgc385b01">Dead Reckoning</h3>
+<section id="slide-org8a3f780">
+<h3 id="org8a3f780">Dead Reckoning</h3>
 <ul>
 <li>Assume that the P(robot does what it is asked | we gave a command) = 1</li>
 <li>We simply track our requested changes in state and sum them.</li>
@@ -108,8 +108,8 @@
 
 </ul>
 </section>
-<section id="slide-org1327e17">
-<h3 id="org1327e17">Sensors</h3>
+<section id="slide-org856a45b">
+<h3 id="org856a45b">Sensors</h3>
 <ul>
 <li>Any tool we can use to incorporate new information about our world is a sensor</li>
 <li>However, in general, these are unreliable.</li>
@@ -117,8 +117,8 @@
 
 </ul>
 </section>
-<section id="slide-org1800f74">
-<h3 id="org1800f74">Bayes Theorem</h3>
+<section id="slide-org78e7084">
+<h3 id="org78e7084">Bayes Theorem</h3>
 <ul>
 <li>X = observation</li>
 <li>Z = evidence</li>
@@ -127,56 +127,56 @@
 
 </ul>
 </section>
-<section id="slide-org6b3f2a9">
-<h3 id="org6b3f2a9">Law of total proabability</h3>
+<section id="slide-orgee4087c">
+<h3 id="orgee4087c">Law of total proabability</h3>
 <ul>
 <li>P(Z) = sum(P(Z|X) for X in problem space)</li>
 
 </ul>
 </section>
-<section id="slide-org1babb32">
-<h3 id="org1babb32">Sensor model</h3>
+<section id="slide-org994d1de">
+<h3 id="org994d1de">Sensor model</h3>
 <ul>
 <li>Consists of a probabilty distribution that gives us P(sensor|reality)</li>
 <li>Either continous or discrete</li>
 
 </ul>
 </section>
-<section id="slide-orga9d029d">
-<h3 id="orga9d029d">Example</h3>
+<section id="slide-orge1aadca">
+<h3 id="orge1aadca">Example</h3>
 </section>
-<section id="slide-org5e6fd94">
-<h3 id="org5e6fd94">How do we update this information?</h3>
+<section id="slide-org523be8f">
+<h3 id="org523be8f">How do we update this information?</h3>
 <ul>
 <li>Given new sensor data, how can we calculate P(X|Z1, Z2,&#x2026;, ZN)?</li>
 
 </ul>
 </section>
-<section id="slide-orga95b653">
-<h3 id="orga95b653">Recursive Updating</h3>
+<section id="slide-orga08e43f">
+<h3 id="orga08e43f">Recursive Updating</h3>
 <ul>
 <li>P(X|Z1-&gt;ZN) = P(ZN|X, Z1-&gt;ZN-1)*P(X|Z1-&gt;ZN-1) / P(ZN|Z1-&gt;ZN-1)</li>
 <li>This can be simplifed through the Markov Assumption</li>
 
 </ul>
 </section>
-<section id="slide-orgd7b4ca0">
-<h3 id="orgd7b4ca0">Markov Assumption</h3>
+<section id="slide-org7a76738">
+<h3 id="org7a76738">Markov Assumption</h3>
 <ul>
 <li>The past has no effect on the present, so P(ZN|X, Z1-&gt;ZN-1) = P(ZN|X)</li>
 
 </ul>
 </section>
-<section id="slide-orgdb82289">
-<h3 id="orgdb82289">Finally</h3>
+<section id="slide-orgc98c24a">
+<h3 id="orgc98c24a">Finally</h3>
 <ul>
 <li>P(X|Z1-&gt;ZN) = P(ZN|X)*P(X|Z1-&gt;ZN-1)/P(ZN)</li>
 <li>This rule allows us to model our sensor's tendancy to be bad</li>
 
 </ul>
 </section>
-<section id="slide-orgdebe235">
-<h3 id="orgdebe235">Example</h3>
+<section id="slide-orgb70ec26">
+<h3 id="orgb70ec26">Example</h3>
 <ul>
 <li>P(open) = P(closed) = .5</li>
 <li>P(Z1|open) = .6</li>
@@ -187,31 +187,31 @@
 
 </ul>
 </section>
-<section id="slide-org2bef5c0">
-<h3 id="org2bef5c0">Example Cont.</h3>
+<section id="slide-org5f6c11a">
+<h3 id="org5f6c11a">Example Cont.</h3>
 <ul>
 <li>P(open|Z1,Z2) = P(Z2|open)*P(open|Z1) / (P(Z2|open)*P(open) + P(Z2|closed)*P(closed))</li>
 <li>P(open|Z1,Z2) = .8</li>
 
 </ul>
 </section>
-<section id="slide-org718b95c">
-<h3 id="org718b95c">Actions</h3>
+<section id="slide-org23d6960">
+<h3 id="org23d6960">Actions</h3>
 <ul>
 <li>Sensors give us confidence as described before</li>
 <li>Actions cause us to lose confidence</li>
 
 </ul>
 </section>
-<section id="slide-org24f5294">
-<h3 id="org24f5294">Stochastic Movement</h3>
+<section id="slide-orgff0f486">
+<h3 id="orgff0f486">Stochastic Movement</h3>
 <ul>
 <li>Robots typically don't do exactly what you want</li>
 
 </ul>
 </section>
-<section id="slide-org9ee8f39">
-<h3 id="org9ee8f39">Door Example, Again</h3>
+<section id="slide-org31d6a6b">
+<h3 id="org31d6a6b">Door Example, Again</h3>
 <ul>
 <li>P(open|Z1,Z2) = .8</li>
 <li>P(open|open,push) = .1</li>
@@ -221,8 +221,8 @@
 
 </ul>
 </section>
-<section id="slide-org73b1793">
-<h3 id="org73b1793">Cont.</h3>
+<section id="slide-org4628da6">
+<h3 id="org4628da6">Cont.</h3>
 <ul>
 <li>P(open|Z1,Z2, push) = P(open|open, push)*P(open|Z1,Z2) + P(open|closed, push)*P(closed|Z1,Z2)</li>
 
@@ -231,31 +231,31 @@
 &#x2013;	= .1*.8 + 0*.2 = .08
 </p>
 </section>
-<section id="slide-orgac435a5">
-<h3 id="orgac435a5">Big Takeaway</h3>
+<section id="slide-org3b865b4">
+<h3 id="org3b865b4">Big Takeaway</h3>
 <ul>
 <li>Through modeling sensors, we can accurately reflect our confidence gain</li>
 <li>Through modeling actions, we can accurately reflect our conifdence loss</li>
 
 </ul>
 </section>
-<section id="slide-org5408f73">
-<h3 id="org5408f73">Revist Mapping</h3>
+<section id="slide-orga8a45f6">
+<h3 id="orga8a45f6">Revist Mapping</h3>
 <ul>
 <li>We use probabilistic occupancy grids, which mean we use statistics to model our confidence in what we sense and store these confidences in a grid.</li>
 
 </ul>
 </section>
-<section id="slide-org223d9cc">
-<h3 id="org223d9cc">Localization</h3>
+<section id="slide-org4d08acb">
+<h3 id="org4d08acb">Localization</h3>
 <ul>
 <li>Current solution: Kalman Filter</li>
 <li>Proposed solution: Particle Filter</li>
 
 </ul>
 </section>
-<section id="slide-orgdb9ea92">
-<h3 id="orgdb9ea92">Particle Filters</h3>
+<section id="slide-org73d76af">
+<h3 id="org73d76af">Particle Filters</h3>
 <ul>
 <li>Particles are proposed poses</li>
 <li>Step one: initialze particles</li>
@@ -267,8 +267,8 @@
 
 </ul>
 </section>
-<section id="slide-org414a341">
-<h3 id="org414a341">Challenges</h3>
+<section id="slide-org773829e">
+<h3 id="org773829e">Challenges</h3>
 <ul>
 <li>Landmark detection</li>
 <li>Sensor model</li>
@@ -276,8 +276,8 @@
 
 </ul>
 </section>
-<section id="slide-orgdd5cc10">
-<h3 id="orgdd5cc10">Kalman Filters</h3>
+<section id="slide-org2a1ce98">
+<h3 id="org2a1ce98">Kalman Filters</h3>
 <ul>
 <li>Assumes all noise is gaussain and filters sensor readings based on that</li>
 <li>Essentially combines an old and new distribution to get a new mean and variance and builds a estimated distribution with those</li>

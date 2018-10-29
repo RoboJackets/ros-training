@@ -29,8 +29,8 @@
 <section id="sec-title-slide"><h1 class="title">Coordinate Frames</h1>
 </section>
 
-<section id="slide-orgad74081">
-<h2 id="orgad74081">Reference Frames</h2>
+<section id="slide-org0654d5c">
+<h2 id="org0654d5c">Reference Frames</h2>
 <ul>
 <li>every sensor has a reference frame
 <ul>
@@ -48,8 +48,8 @@
 </ul>
 
 </section>
-<section id="slide-org744d14d">
-<h3 id="org744d14d">Units of measure</h3>
+<section id="slide-org8ec66dd">
+<h3 id="org8ec66dd">Units of measure</h3>
 <ul>
 <li>ROS has standards for units of measure</li>
 <li><a href="http://www.ros.org/reps/rep-0103.html">REP-103</a></li>
@@ -92,8 +92,8 @@
 </table>
 
 </section>
-<section id="slide-orgd67e58e">
-<h3 id="orgd67e58e">Coordinate Frames Standard</h3>
+<section id="slide-org6519cd6">
+<h3 id="org6519cd6">Coordinate Frames Standard</h3>
 <ul>
 <li>coordinate frames follow the right hand rule</li>
 
@@ -125,8 +125,8 @@
 </table>
 
 </section>
-<section id="slide-orge68ebda">
-<h3 id="orge68ebda">Cardinal Directions Coordinate Frames</h3>
+<section id="slide-orgba34bb0">
+<h3 id="orgba34bb0">Cardinal Directions Coordinate Frames</h3>
 <ul>
 <li>used when mapping with global information (GPS, Magnetometer)</li>
 
@@ -158,8 +158,8 @@
 </table>
 
 </section>
-<section id="slide-org5b3dd30">
-<h3 id="org5b3dd30">Orientation</h3>
+<section id="slide-org1076083">
+<h3 id="org1076083">Orientation</h3>
 <ul>
 <li>orientation is represented as RPY or quaternions
 <ul>
@@ -171,8 +171,8 @@
 
 </ul>
 </section>
-<section id="slide-org1b86f7c">
-<h2 id="org1b86f7c">Standard Coordinate Frames</h2>
+<section id="slide-org9631761">
+<h2 id="org9631761">Standard Coordinate Frames</h2>
 <ul>
 <li><code>base_link</code> centered at the robot center of rotation</li>
 <li><code>odom</code> global reference frame</li>
@@ -181,8 +181,8 @@
 </ul>
 
 </section>
-<section id="slide-orge57994d">
-<h2 id="orge57994d">State</h2>
+<section id="slide-org87aa0cb">
+<h2 id="org87aa0cb">State</h2>
 <ul>
 <li>State can be defined in a lot of ways</li>
 <li>IGVC maps obstacles in (x,y)
@@ -194,8 +194,8 @@
 </ul>
 
 </section>
-<section id="slide-orge4d5a74">
-<h2 id="orge4d5a74">Moving Between Reference Frames</h2>
+<section id="slide-orgba38d62">
+<h2 id="orgba38d62">Moving Between Reference Frames</h2>
 <ul>
 <li>To all coordinate frames have a transform to get from one to the other
 <ul>
@@ -213,8 +213,8 @@
 </ul>
 
 </section>
-<section id="slide-org187e9b1">
-<h3 id="org187e9b1">State</h3>
+<section id="slide-org9dab206">
+<h3 id="org9dab206">State</h3>
 <ul>
 <li>State can be defined in abstract ways</li>
 <li>Often called state vector</li>
@@ -228,8 +228,8 @@
 </ul>
 
 </section>
-<section id="slide-org37b3973">
-<h3 id="org37b3973">Rotations</h3>
+<section id="slide-org03d5add">
+<h3 id="org03d5add">Rotations</h3>
 <ul>
 <li>Use the rotation matrix</li>
 <li>Multiply the state vector by the rotation matrix</li>
@@ -267,8 +267,8 @@
 </table>
 
 </section>
-<section id="slide-org7d9b17f">
-<h3 id="org7d9b17f">Translation</h3>
+<section id="slide-org2a5e938">
+<h3 id="org2a5e938">Translation</h3>
 <ul>
 <li>Find the difference between the reference frames</li>
 <li>Add the vector that represents the difference</li>
@@ -276,8 +276,8 @@
 </ul>
 
 </section>
-<section id="slide-org943ffeb">
-<h3 id="org943ffeb">Math is hard</h3>
+<section id="slide-org8bb10e3">
+<h3 id="org8bb10e3">Math is hard</h3>
 <ul>
 <li>Matrix math is hard</li>
 <li>ROS has a built in tool, tf

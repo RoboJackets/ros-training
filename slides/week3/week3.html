@@ -29,8 +29,8 @@
 <section id="sec-title-slide"><h1 class="title">Week 3</h1>
 </section>
 
-<section id="slide-org0e6eab8">
-<h2 id="org0e6eab8">What are we doing today?</h2>
+<section id="slide-orgc6aca27">
+<h2 id="orgc6aca27">What are we doing today?</h2>
 <ul>
 <li>launch files</li>
 <li>Encoders</li>
@@ -39,8 +39,8 @@
 </ul>
 
 </section>
-<section id="slide-orgcaebd50">
-<h2 id="orgcaebd50">Launch Files</h2>
+<section id="slide-org29c7888">
+<h2 id="org29c7888">Launch Files</h2>
 <aside class="notes">
 <p>
 mention how it can be more human understandable. Just a shorthand for rosrun
@@ -55,8 +55,8 @@ mention how it can be more human understandable. Just a shorthand for rosrun
 </ul>
 
 </section>
-<section id="slide-org8c4d420">
-<h2 id="org8c4d420">Why Launch Files</h2>
+<section id="slide-org84edb6f">
+<h2 id="org84edb6f">Why Launch Files</h2>
 <div class="org-src-container">
 
 <pre  class="src src-shell">rosrun igvc mapper ekf/base_link_frame=base_footprint mapper/topics=
@@ -65,8 +65,8 @@ mention how it can be more human understandable. Just a shorthand for rosrun
 </pre>
 </div>
 </section>
-<section id="slide-org31361e7">
-<h2 id="org31361e7">Commandline</h2>
+<section id="slide-orgcb3756b">
+<h2 id="orgcb3756b">Commandline</h2>
 <div class="org-src-container">
 
 <pre  class="src src-shell">roslaunch [PACKAGE_NAME] FILE_NAME.launch
@@ -74,8 +74,8 @@ mention how it can be more human understandable. Just a shorthand for rosrun
 </div>
 
 </section>
-<section id="slide-org2559808">
-<h2 id="org2559808">Structure</h2>
+<section id="slide-orged2ebfc">
+<h2 id="orged2ebfc">Structure</h2>
 <ul>
 <li>everything is encompassed in the launch tag</li>
 
@@ -89,8 +89,8 @@ mention how it can be more human understandable. Just a shorthand for rosrun
 </div>
 
 </section>
-<section id="slide-org2423fe0">
-<h2 id="org2423fe0">Valid Tags</h2>
+<section id="slide-orgb6458fe">
+<h2 id="orgb6458fe">Valid Tags</h2>
 <aside class="notes">
 <p>
 mention that these are the tags the go under the launch tag
@@ -155,8 +155,8 @@ mention that these are the tags the go under the launch tag
 </table>
 
 </section>
-<section id="slide-orga4f8c49">
-<h2 id="orga4f8c49">&lt;node&gt;</h2>
+<section id="slide-org9f725cc">
+<h2 id="org9f725cc">&lt;node&gt;</h2>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -206,8 +206,8 @@ mention that these are the tags the go under the launch tag
 </div>
 
 </section>
-<section id="slide-orgee12f46">
-<h2 id="orgee12f46">&lt;param&gt;</h2>
+<section id="slide-org4f24a0a">
+<h2 id="org4f24a0a">&lt;param&gt;</h2>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -250,8 +250,8 @@ mention that these are the tags the go under the launch tag
 </div>
 
 </section>
-<section id="slide-orgb6628f1">
-<h2 id="orgb6628f1">Substitution arguments</h2>
+<section id="slide-org5a2cdf0">
+<h2 id="org5a2cdf0">Substitution arguments</h2>
 <ul>
 <li>$(env <code>ENV_VAR</code>)
 <ul>
@@ -279,8 +279,8 @@ mention that these are the tags the go under the launch tag
 </ul>
 
 </section>
-<section id="slide-org41cdeb8">
-<h2 id="org41cdeb8">Useful Commandline Arguments</h2>
+<section id="slide-org7f22341">
+<h2 id="org7f22341">Useful Commandline Arguments</h2>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -319,8 +319,8 @@ mention that these are the tags the go under the launch tag
 </table>
 
 </section>
-<section id="slide-org37268b1">
-<h2 id="org37268b1">Encoders</h2>
+<section id="slide-org16ffd90">
+<h2 id="org16ffd90">Encoders</h2>
 <aside class="notes">
 <p>
 keep it high level. Do an example of ticks
@@ -343,8 +343,8 @@ keep it high level. Do an example of ticks
 </ul>
 
 </section>
-<section id="slide-orgaf2665e">
-<h3 id="orgaf2665e">Optical Encoders</h3>
+<section id="slide-orgf811bbd">
+<h3 id="orgf811bbd">Optical Encoders</h3>
 <aside class="notes">
 <p>
 sensitive to dust and broken disks
@@ -364,8 +364,8 @@ sensitive to dust and broken disks
 </div>
 
 </section>
-<section id="slide-orgd3188c5">
-<h3 id="orgd3188c5">Magnetic Encoders</h3>
+<section id="slide-org9fa3f66">
+<h3 id="org9fa3f66">Magnetic Encoders</h3>
 <aside class="notes">
 <p>
 uses the hall effect
@@ -385,8 +385,8 @@ uses the hall effect
 </div>
 
 </section>
-<section id="slide-orgaa53151">
-<h2 id="orgaa53151">Speaking of Motors&#x2026;</h2>
+<section id="slide-org08cdbac">
+<h2 id="org08cdbac">Speaking of Motors&#x2026;</h2>
 <ul>
 <li>In order to drive our robot, we apply a difference in voltage across our two motors</li>
 <li>In essence, our entire codebase can be thought of a function approximating the correct mapping of sensor readings to voltage output</li>
@@ -394,8 +394,8 @@ uses the hall effect
 </ul>
 
 </section>
-<section id="slide-org0e92dee">
-<h2 id="org0e92dee">Control loops!</h2>
+<section id="slide-orgcde38d5">
+<h2 id="orgcde38d5">Control loops!</h2>
 <ul>
 <li>Telling our robot what to do is called controlling our robot. (Highly technical phrases, I know)</li>
 <li>How we decide about doing this is called a control theory.</li>
@@ -404,8 +404,8 @@ uses the hall effect
 </ul>
 
 </section>
-<section id="slide-orgb07f87a">
-<h2 id="orgb07f87a">Open Loop</h2>
+<section id="slide-org8a893db">
+<h2 id="org8a893db">Open Loop</h2>
 <ul>
 <li>Open loop systems do not measure the system's output, and assumes that it's reaction to a new refernece is adequate.</li>
 <li>We do not use these, as our problems require considering the error in our responses.</li>
@@ -413,8 +413,8 @@ uses the hall effect
 </ul>
 
 </section>
-<section id="slide-orgb3e702f">
-<h2 id="orgb3e702f">Closed Loop</h2>
+<section id="slide-orgf88ef7f">
+<h2 id="orgf88ef7f">Closed Loop</h2>
 <ul>
 <li>Closed loop systems use sensors to measure and correct error created by imperfect attempts at maching the reference.</li>
 <li>These are more stable, especially over time as they can correct some of the accumulated error that builds up do to imperfect knowlage.</li>
@@ -423,8 +423,8 @@ uses the hall effect
 </ul>
 
 </section>
-<section id="slide-org1de1bcc">
-<h2 id="org1de1bcc">P</h2>
+<section id="slide-org75a7088">
+<h2 id="org75a7088">P</h2>
 <ul>
 <li>We want our response to be proportional to our error.</li>
 <li>The P term simply kicks harder the farther we are off from our target.</li>
@@ -432,8 +432,8 @@ uses the hall effect
 </ul>
 
 </section>
-<section id="slide-org7900652">
-<h2 id="org7900652">Eye</h2>
+<section id="slide-org4954854">
+<h2 id="org4954854">Eye</h2>
 <ul>
 <li>We want our response to respond to accumulated error over time - in other words, the integral of the error.</li>
 <li>The I term kicks in response to the historical error, eliminating steady-state error.</li>
@@ -441,8 +441,8 @@ uses the hall effect
 </ul>
 
 </section>
-<section id="slide-orga35f83b">
-<h2 id="orga35f83b">Dee</h2>
+<section id="slide-org00cc0e1">
+<h2 id="org00cc0e1">Dee</h2>
 <ul>
 <li>We want our responses to be controlled and well-proportioned as rapid changes to system output create more error.</li>
 <li>The D term kicks against the other two terms, making sure the system's derivative does not get out of hand.</li>
@@ -450,8 +450,8 @@ uses the hall effect
 </ul>
 
 </section>
-<section id="slide-orged4c0d7">
-<h2 id="orged4c0d7">P + Eye + Dee spells One Helluva Closed Loop Control Theory</h2>
+<section id="slide-orge80a600">
+<h2 id="orge80a600">P + Eye + Dee spells One Helluva Closed Loop Control Theory</h2>
 <ul>
 <li>This system is not perfect, but it is widely used due to its ease of implementation and effectiveness.</li>
 <li>Let's watch MIT explain it in more detail, because they are quite smart.</li>
@@ -460,8 +460,8 @@ uses the hall effect
 </ul>
 
 </section>
-<section id="slide-org22171c8">
-<h2 id="org22171c8">Path Planning part Uno</h2>
+<section id="slide-orge62d68b">
+<h2 id="orge62d68b">Path Planning part Uno</h2>
 <ul>
 <li>Path planning is the art of plotting a course through a map.</li>
 <li>It has more going on than you might think.</li>
@@ -470,8 +470,8 @@ uses the hall effect
 </ul>
 
 </section>
-<section id="slide-orgeebe833">
-<h2 id="orgeebe833">The heck am I?</h2>
+<section id="slide-orgc59960d">
+<h2 id="orgc59960d">The heck am I?</h2>
 <ul>
 <li>A robots x, y, z, r, p, y in some coordinate frame is called its pose.</li>
 <li>These numbers describe position and orientation.</li>
@@ -480,8 +480,8 @@ uses the hall effect
 </ul>
 
 </section>
-<section id="slide-org4ad665b">
-<h2 id="org4ad665b">C-Space</h2>
+<section id="slide-orgf6fa26a">
+<h2 id="orgf6fa26a">C-Space</h2>
 <ul>
 <li>The configuration space of the robot is the space it needs to exist in the world.</li>
 <li>Jessi's configuration space is her turn radius and physical dimensions.</li>
@@ -490,8 +490,8 @@ uses the hall effect
 </ul>
 
 </section>
-<section id="slide-org6a45f28">
-<h2 id="org6a45f28">Mapping Strategies</h2>
+<section id="slide-orgb09cc2b">
+<h2 id="orgb09cc2b">Mapping Strategies</h2>
 <ul>
 <li>Occupancy grids</li>
 <li>Quadtrees</li>
@@ -499,8 +499,8 @@ uses the hall effect
 </ul>
 
 </section>
-<section id="slide-org19e2e05">
-<h2 id="org19e2e05">Occupancy Grids</h2>
+<section id="slide-orgd1bab9b">
+<h2 id="orgd1bab9b">Occupancy Grids</h2>
 <ul>
 <li>Represent the state space by a large grid</li>
 <li>Each cell contains an indication of its vacancy status.</li>
@@ -509,8 +509,8 @@ uses the hall effect
 </ul>
 
 </section>
-<section id="slide-orgf21671e">
-<h2 id="orgf21671e">Quadtrees help with this</h2>
+<section id="slide-orgc575d41">
+<h2 id="orgc575d41">Quadtrees help with this</h2>
 <ul>
 <li>Quadtrees subdivide the state space into a recursive structure that allows for variable resolution.</li>
 <li>This cuts down on search costs.</li>
@@ -518,12 +518,12 @@ uses the hall effect
 </ul>
 
 </section>
-<section id="slide-org85a1201">
-<h2 id="org85a1201">Great, so we have a map. Where do we go from here?</h2>
+<section id="slide-org696b73d">
+<h2 id="org696b73d">Great, so we have a map. Where do we go from here?</h2>
 
 </section>
-<section id="slide-orgd8006c2">
-<h2 id="orgd8006c2">Next time we'll talk about searching the map for a path.</h2>
+<section id="slide-orgab20230">
+<h2 id="orgab20230">Next time we'll talk about searching the map for a path.</h2>
 </section>
 </section>
 </div>
