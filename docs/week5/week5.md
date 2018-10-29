@@ -2,9 +2,9 @@
 
 -   Look at solutions from last week
 -   GPS
--   Review command line tools
--   How tf?
--   Write a node to find an object using tf
+-   Localization
+
+&#x2013;Sensor models and statistics
 
 
 # Solutions from last week
@@ -15,7 +15,7 @@
 -   Global positioning system
 -   Created by the military
 -   Triangulates postion based on multiple satellites
-    -   Relies on atmoic clocks
+    -   Relies on atomic clocks
     -   satellites publish times and receivers use equation to find its position
         -   Requires 4 satellites, typically want closer to 7
 
@@ -38,250 +38,151 @@
 -   Based off of last location
 
 
-# Review
+## Localization
 
+-   Localization refers to the art of determining a robot's pose.
+-   The simplest method is called dead reckoning
 
-## What are the three files every node needs?
 
+## Dead Reckoning
 
-### What are the three files every node needs?
+-   Assume that the P(robot does what it is asked | we gave a command) = 1
+-   We simply track our requested changes in state and sum them.
+-   This suffers greatly from accumulated error.
+-   Instead, we should incorporate information about our world through sensors
 
--   CMakeLists.txt
--   package.xml
--   a source file
 
+## Sensors
 
-## What is in a CMakeLists.txt file?
+-   Any tool we can use to incorporate new information about our world is a sensor
+-   However, in general, these are unreliable.
+-   By modeling their behavior, we can better represent the world
 
 
-### What is in a CMakeLists.txt file?
+## Bayes Theorem
 
--   How to build the node
-    -   Defines the structure of the package for the compile
-    -   Linking the executable ROS nodes to the appropriate libraries (OpenCV, PCL, etc..)
+-   X = observation
+-   Z = evidence
+-   P(x|z) = P(z|x)\*P(X)/P(Z)
+-   By controlling for the probability of erronous readings, we can model the world more effectively.
 
 
-## What is in the package.xml file?
+## Law of total proabability
 
+-   P(Z) = sum(P(Z|X) for X in problem space)
 
-### What is in the package.xml file?
 
--   What are the dependencies of a node
--   maintainer information, author, etc
+## Sensor model
 
+-   Consists of a probabilty distribution that gives us P(sensor|reality)
+-   Either continous or discrete
 
-## What is required for a subscriber?
 
+## Example
 
-### What is required for a subscriber?
 
--   Callback function
--   Topic name
--   Queue size
+## How do we update this information?
 
+-   Given new sensor data, how can we calculate P(X|Z1, Z2,&#x2026;, ZN)?
 
-## What is required for a publisher?
 
+## Recursive Updating
 
-### What is required for a publisher?
+-   P(X|Z1->ZN) = P(ZN|X, Z1->ZN-1)\*P(X|Z1->ZN-1) / P(ZN|Z1->ZN-1)
+-   This can be simplifed through the Markov Assumption
 
--   Topic name
--   Queue size
 
+## Markov Assumption
 
-## What things must be done in every node?
+-   The past has no effect on the present, so P(ZN|X, Z1->ZN-1) = P(ZN|X)
 
 
-### What things must be done in every node?
+## Finally
 
--   include ros header
--   ros::init
--   Create NodeHandle
--   ros spin
+-   P(X|Z1->ZN) = P(ZN|X)\*P(X|Z1->ZN-1)/P(ZN)
+-   This rule allows us to model our sensor's tendancy to be bad
 
 
-## How do I get what nodes are currently running?
+## Example
 
+-   P(open) = P(closed) = .5
+-   P(Z1|open) = .6
+-   P(Z1|closed) = .3
+-   P(open|Z1) = P(Z1|open)\*P(open)/(P(Z1|open)\*P(open) + P(Z1|closed)\*P(closed))
+-   = .67
+-   P(closed|Z1) = 1-.67=.33
 
-### How do I get what nodes are currently running?
 
--   rosnode list
+## Example Cont.
 
+-   P(open|Z1,Z2) = P(Z2|open)\*P(open|Z1) / (P(Z2|open)\*P(open) + P(Z2|closed)\*P(closed))
+-   P(open|Z1,Z2) = .8
 
-## How do I get information about a running node?
 
+## Actions
 
-### How do I get information about a running node?
+-   Sensors give us confidence as described before
+-   Actions cause us to lose confidence
 
--   rosnode info [NAME]
 
+## Stochastic Movement
 
-## How do I get a list of the topic currently publishing?
+-   Robots typically don't do exactly what you want
 
 
-### How do I get a list of the topic currently publishing?
+## Door Example, Again
 
--   rostopic list
+-   P(open|Z1,Z2) = .8
+-   P(open|open,push) = .1
+-   P(open|closed,push) = 0
+-   P(closed|closed,push) = 1
+-   P(closed|open, push) = .9
 
 
-## How do I get how often a topic is publishing?
+## Cont.
 
+-   P(open|Z1,Z2, push) = P(open|open, push)\*P(open|Z1,Z2) + P(open|closed, push)\*P(closed|Z1,Z2)
 
-### How do I get how often a topic is publishing?
+&#x2013; = .1\*.8 + 0\*.2 = .08
 
--   rostopic hz [NAME]
 
+## Big Takeaway
 
-## How do I get what is being published on a topic?
+-   Through modeling sensors, we can accurately reflect our confidence gain
+-   Through modeling actions, we can accurately reflect our conifdence loss
 
 
-### How do I get what is being published on a topic?
+## Revist Mapping
 
--   rostopic echo [NAME]
+-   We use probabilistic occupancy grids, which mean we use statistics to model our confidence in what we sense and store these confidences in a grid.
 
 
-# Transforms
+## Localization
 
--   This is going to be very high level
-    -   Lots of linear algebra
+-   Current solution: Kalman Filter
+-   Proposed solution: Particle Filter
 
 
-## Coordinate frame
+## Particle Filters
 
--   A (X,Y,Z) point in space and an orientation that things are relative to
--   You can have multiple in the same world
--   [standards](http://www.ros.org/reps/rep-0103.html#coordinate-frame-conventions)
+-   Particles are proposed poses
+-   Step one: initialze particles
+-   Step two: Sense
+-   Step three: Weight particles based on their quality based on sensor model
+-   Step four: Resample particles with replacement
+-   Step five: Move and apply motion update based on action model
+-   Step six: Repeat
 
 
-## Pose
+## Challenges
 
--   Name for location of a robot relative to a coordinate frame
--   (X,Y,Z) (R,P,Y)
+-   Landmark detection
+-   Sensor model
+-   Action model
 
 
-## All data is in a coordinate frame
+## Kalman Filters
 
--   Remember the lidar from last week?
-    -   That data was in reference to the lidar
-
-
-## UTM
-
--   Universal Transverse Mercator coordinate system
-    -   Used by IGVC
--   Divides the entire world into a grid
--   Referred to as northing (+Y) easting (+X)
-    -   Same as geographic coordinate frame
-
-
-## Example coordinate frames
-
-| standard | X       | Y       | Z       |
-|-------- |------- |------- |------- |
-| urdf     | forward | left    | up      |
-| UTM      | right   | forward | up      |
-| camera   | left    | up      | forward |
-
-
-## Using tf2 to do transforms
-
--   Calculating coordinate transforms is hard
--   Let ROS do it for you
-    -   Yay tf
-
-
-### transform direction
-
--   Always transforms from one coordiante frame to another
--   Each link is its own coordinate frame
--   transform the coordinate frame `"frame_id"` into `"child_frame_id"`
-
-
-### Wait!
-
--   You usually have to wait for the transform to become available
-
-```C++
-tf::TransformListener tf_listener;
-// transfroms source -> target
-// target, source, when to do it, how long to wait
-if(tf_listener.waitForTransform("[TARGET]", "[SOURCE]", ros::Time(0), ros::Duration(3.0))) {
-// DO it
-}
-```
-
-
-### Do It
-
-```C++
-tf::TransformListener tf_listener;
-// transfroms source -> target
-// target, source, when to do it, how long to wait
-if(tf_listener.waitForTransform("[TARGET]", "[SOURCE]", ros::Time(0), ros::Duration(3.0))) {
-  // source -> target
-  // target, source, when, result
-  tf_listener.lookupTransform("/base_link", "/ball", ros::Time(0), transform);
-}
-```
-
-
-# Commands
-
-
-## Create a diagram
-
--   `rosrun rqt_tf_tree rqt_tf_tree`
--   Creates a diagram of all of the tf elements
-
-
-## `tf_echo`
-
--   `rosrun tf tf_echo [source_frame] [target_frame]`
--   Publishes the transform to the command line
-
-
-# Node writing
-
--   We are going to use tf to get the pose of the ball from last week
--   But first some questions
-
-
-## What is the package name?
-
-
-### `follower_2`
-
-
-## What are the executables
-
-
-### `tf_pub follower_2`
-
-
-## What topics locator does listen to?
-
-
-### `hal/gazebo/model_states`
-
-
-## What type of message is `hal/gazebo/model_states`
-
-
-### `gazebo_msgs::ModelStates`
-
-
-## What would the line for the launch file look like to launch locator
-
-
-### <node name="`tf_pub`" pkg="`follower_2`" type="`tf_pub`">
-
-
-## What would the line for the launch file look like to launch locator
-
-
-### <node name="`follower_2`" pkg="`follower_2`" type="`follower_2`">
-
-
-## Will this work?
-
--   <node name="namenamename" pkg="`follower_2`" type="`tf_pub`" output="screen"/>
+-   Assumes all noise is gaussain and filters sensor readings based on that
+-   Essentially combines an old and new distribution to get a new mean and variance and builds a estimated distribution with those
+-   Relies on tuned covariance parameters that are used to determine how sensor readings vary with respect to one another

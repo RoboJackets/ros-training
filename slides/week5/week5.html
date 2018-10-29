@@ -29,28 +29,29 @@
 <section id="sec-title-slide"><h1 class="title">Week 5</h1>
 </section>
 
-<section id="slide-orgabf0a5a">
-<h2 id="orgabf0a5a">What are we doing today</h2>
+<section id="slide-orgee99007">
+<h2 id="orgee99007">What are we doing today</h2>
 <ul>
 <li>Look at solutions from last week</li>
 <li>GPS</li>
-<li>Review command line tools</li>
-<li>How tf?</li>
-<li>Write a node to find an object using tf</li>
+<li>Localization</li>
 
 </ul>
+<p>
+&#x2013;Sensor models and statistics
+</p>
 </section>
-<section id="slide-org89be85d">
-<h2 id="org89be85d">Solutions from last week</h2>
+<section id="slide-orgdb81855">
+<h2 id="orgdb81855">Solutions from last week</h2>
 </section>
-<section id="slide-org028726a">
-<h2 id="org028726a">GPS</h2>
+<section id="slide-orgc42b1fe">
+<h2 id="orgc42b1fe">GPS</h2>
 <ul>
 <li>Global positioning system</li>
 <li>Created by the military</li>
 <li>Triangulates postion based on multiple satellites
 <ul>
-<li>Relies on atmoic clocks</li>
+<li>Relies on atomic clocks</li>
 <li>satellites publish times and receivers use equation to find its position
 <ul>
 <li>Requires 4 satellites, typically want closer to 7</li>
@@ -61,8 +62,8 @@
 
 </ul>
 </section>
-<section id="slide-org6a38dea">
-<h3 id="org6a38dea">Filters and base stations</h3>
+<section id="slide-orgd28a974">
+<h3 id="orgd28a974">Filters and base stations</h3>
 <ul>
 <li>Make assumptions to correct for noise</li>
 <li>Base station (RTK, real time kinematic)
@@ -76,8 +77,8 @@
 
 </ul>
 </section>
-<section id="slide-orgc38619b">
-<h3 id="orgc38619b">Almanacs</h3>
+<section id="slide-org6d28c1c">
+<h3 id="org6d28c1c">Almanacs</h3>
 <ul>
 <li>Where to look for the satellites
 <ul>
@@ -89,393 +90,198 @@
 
 </ul>
 </section>
-<section id="slide-orgbccba1e">
-<h2 id="orgbccba1e">Review</h2>
-<div class="outline-text-2" id="text-orgbccba1e">
-</div>
-</section>
-<section id="slide-org9a899c4">
-<h3 id="org9a899c4">What are the three files every node needs?</h3>
-<div class="outline-text-3" id="text-org9a899c4">
-</div>
-</section>
-<section id="slide-org1657911">
-<h4 id="org1657911">What are the three files every node needs?</h4>
+<section id="slide-org553604c">
+<h3 id="org553604c">Localization</h3>
 <ul>
-<li>CMakeLists.txt</li>
-<li>package.xml</li>
-<li>a source file</li>
+<li>Localization refers to the art of determining a robot's pose.</li>
+<li>The simplest method is called dead reckoning</li>
 
 </ul>
 </section>
-<section id="slide-orga61bfc2">
-<h3 id="orga61bfc2">What is in a CMakeLists.txt file?</h3>
-<div class="outline-text-3" id="text-orga61bfc2">
-</div>
-</section>
-<section id="slide-org5153d05">
-<h4 id="org5153d05">What is in a CMakeLists.txt file?</h4>
+<section id="slide-orgc385b01">
+<h3 id="orgc385b01">Dead Reckoning</h3>
 <ul>
-<li>How to build the node
-<ul>
-<li>Defines the structure of the package for the compile</li>
-<li>Linking the executable ROS nodes to the appropriate libraries (OpenCV, PCL, etc..)</li>
-
-</ul></li>
+<li>Assume that the P(robot does what it is asked | we gave a command) = 1</li>
+<li>We simply track our requested changes in state and sum them.</li>
+<li>This suffers greatly from accumulated error.</li>
+<li>Instead, we should incorporate information about our world through sensors</li>
 
 </ul>
 </section>
-<section id="slide-orga956c01">
-<h3 id="orga956c01">What is in the package.xml file?</h3>
-<div class="outline-text-3" id="text-orga956c01">
-</div>
-</section>
-<section id="slide-orgb1a187e">
-<h4 id="orgb1a187e">What is in the package.xml file?</h4>
+<section id="slide-org1327e17">
+<h3 id="org1327e17">Sensors</h3>
 <ul>
-<li>What are the dependencies of a node</li>
-<li>maintainer information, author, etc</li>
+<li>Any tool we can use to incorporate new information about our world is a sensor</li>
+<li>However, in general, these are unreliable.</li>
+<li>By modeling their behavior, we can better represent the world</li>
 
 </ul>
 </section>
-<section id="slide-org2f5885d">
-<h3 id="org2f5885d">What is required for a subscriber?</h3>
-<div class="outline-text-3" id="text-org2f5885d">
-</div>
-</section>
-<section id="slide-org83b01b9">
-<h4 id="org83b01b9">What is required for a subscriber?</h4>
+<section id="slide-org1800f74">
+<h3 id="org1800f74">Bayes Theorem</h3>
 <ul>
-<li>Callback function</li>
-<li>Topic name</li>
-<li>Queue size</li>
+<li>X = observation</li>
+<li>Z = evidence</li>
+<li>P(x|z) = P(z|x)*P(X)/P(Z)</li>
+<li>By controlling for the probability of erronous readings, we can model the world more effectively.</li>
 
 </ul>
 </section>
-<section id="slide-orge2af1c4">
-<h3 id="orge2af1c4">What is required for a publisher?</h3>
-<div class="outline-text-3" id="text-orge2af1c4">
-</div>
-</section>
-<section id="slide-org322a0db">
-<h4 id="org322a0db">What is required for a publisher?</h4>
+<section id="slide-org6b3f2a9">
+<h3 id="org6b3f2a9">Law of total proabability</h3>
 <ul>
-<li>Topic name</li>
-<li>Queue size</li>
+<li>P(Z) = sum(P(Z|X) for X in problem space)</li>
 
 </ul>
 </section>
-<section id="slide-org8570cb6">
-<h3 id="org8570cb6">What things must be done in every node?</h3>
-<div class="outline-text-3" id="text-org8570cb6">
-</div>
-</section>
-<section id="slide-orgc9ad220">
-<h4 id="orgc9ad220">What things must be done in every node?</h4>
+<section id="slide-org1babb32">
+<h3 id="org1babb32">Sensor model</h3>
 <ul>
-<li>include ros header</li>
-<li>ros::init</li>
-<li>Create NodeHandle</li>
-<li>ros spin</li>
+<li>Consists of a probabilty distribution that gives us P(sensor|reality)</li>
+<li>Either continous or discrete</li>
 
 </ul>
 </section>
-<section id="slide-org18612e4">
-<h3 id="org18612e4">How do I get what nodes are currently running?</h3>
-<div class="outline-text-3" id="text-org18612e4">
-</div>
+<section id="slide-orga9d029d">
+<h3 id="orga9d029d">Example</h3>
 </section>
-<section id="slide-org5ceabf0">
-<h4 id="org5ceabf0">How do I get what nodes are currently running?</h4>
+<section id="slide-org5e6fd94">
+<h3 id="org5e6fd94">How do we update this information?</h3>
 <ul>
-<li>rosnode list</li>
+<li>Given new sensor data, how can we calculate P(X|Z1, Z2,&#x2026;, ZN)?</li>
 
 </ul>
 </section>
-<section id="slide-org6b5c9cb">
-<h3 id="org6b5c9cb">How do I get information about a running node?</h3>
-<div class="outline-text-3" id="text-org6b5c9cb">
-</div>
-</section>
-<section id="slide-org5c88ec6">
-<h4 id="org5c88ec6">How do I get information about a running node?</h4>
+<section id="slide-orga95b653">
+<h3 id="orga95b653">Recursive Updating</h3>
 <ul>
-<li>rosnode info [NAME]</li>
+<li>P(X|Z1-&gt;ZN) = P(ZN|X, Z1-&gt;ZN-1)*P(X|Z1-&gt;ZN-1) / P(ZN|Z1-&gt;ZN-1)</li>
+<li>This can be simplifed through the Markov Assumption</li>
 
 </ul>
 </section>
-<section id="slide-org7722bb9">
-<h3 id="org7722bb9">How do I get a list of the topic currently publishing?</h3>
-<div class="outline-text-3" id="text-org7722bb9">
-</div>
-</section>
-<section id="slide-orgfbc5edf">
-<h4 id="orgfbc5edf">How do I get a list of the topic currently publishing?</h4>
+<section id="slide-orgd7b4ca0">
+<h3 id="orgd7b4ca0">Markov Assumption</h3>
 <ul>
-<li>rostopic list</li>
+<li>The past has no effect on the present, so P(ZN|X, Z1-&gt;ZN-1) = P(ZN|X)</li>
 
 </ul>
 </section>
-<section id="slide-org73916f3">
-<h3 id="org73916f3">How do I get how often a topic is publishing?</h3>
-<div class="outline-text-3" id="text-org73916f3">
-</div>
-</section>
-<section id="slide-org97d9d50">
-<h4 id="org97d9d50">How do I get how often a topic is publishing?</h4>
+<section id="slide-orgdb82289">
+<h3 id="orgdb82289">Finally</h3>
 <ul>
-<li>rostopic hz [NAME]</li>
+<li>P(X|Z1-&gt;ZN) = P(ZN|X)*P(X|Z1-&gt;ZN-1)/P(ZN)</li>
+<li>This rule allows us to model our sensor's tendancy to be bad</li>
 
 </ul>
 </section>
-<section id="slide-org747d74a">
-<h3 id="org747d74a">How do I get what is being published on a topic?</h3>
-<div class="outline-text-3" id="text-org747d74a">
-</div>
-</section>
-<section id="slide-org256776d">
-<h4 id="org256776d">How do I get what is being published on a topic?</h4>
+<section id="slide-orgdebe235">
+<h3 id="orgdebe235">Example</h3>
 <ul>
-<li>rostopic echo [NAME]</li>
+<li>P(open) = P(closed) = .5</li>
+<li>P(Z1|open) = .6</li>
+<li>P(Z1|closed) = .3</li>
+<li>P(open|Z1) = P(Z1|open)*P(open)/(P(Z1|open)*P(open) + P(Z1|closed)*P(closed))</li>
+<li>= .67</li>
+<li>P(closed|Z1) = 1-.67=.33</li>
 
 </ul>
 </section>
-<section id="slide-orgfc7eecb">
-<h2 id="orgfc7eecb">Transforms</h2>
+<section id="slide-org2bef5c0">
+<h3 id="org2bef5c0">Example Cont.</h3>
 <ul>
-<li>This is going to be very high level
-<ul>
-<li>Lots of linear algebra</li>
-
-</ul></li>
+<li>P(open|Z1,Z2) = P(Z2|open)*P(open|Z1) / (P(Z2|open)*P(open) + P(Z2|closed)*P(closed))</li>
+<li>P(open|Z1,Z2) = .8</li>
 
 </ul>
 </section>
-<section id="slide-org1351cc0">
-<h3 id="org1351cc0">Coordinate frame</h3>
+<section id="slide-org718b95c">
+<h3 id="org718b95c">Actions</h3>
 <ul>
-<li>A (X,Y,Z) point in space and an orientation that things are relative to</li>
-<li>You can have multiple in the same world</li>
-<li><a href="http://www.ros.org/reps/rep-0103.html#coordinate-frame-conventions">standards</a></li>
+<li>Sensors give us confidence as described before</li>
+<li>Actions cause us to lose confidence</li>
 
 </ul>
 </section>
-<section id="slide-org7faa82b">
-<h3 id="org7faa82b">Pose</h3>
+<section id="slide-org24f5294">
+<h3 id="org24f5294">Stochastic Movement</h3>
 <ul>
-<li>Name for location of a robot relative to a coordinate frame</li>
-<li>(X,Y,Z) (R,P,Y)</li>
+<li>Robots typically don't do exactly what you want</li>
 
 </ul>
 </section>
-<section id="slide-org596d6fb">
-<h3 id="org596d6fb">All data is in a coordinate frame</h3>
+<section id="slide-org9ee8f39">
+<h3 id="org9ee8f39">Door Example, Again</h3>
 <ul>
-<li>Remember the lidar from last week?
-<ul>
-<li>That data was in reference to the lidar</li>
-
-</ul></li>
+<li>P(open|Z1,Z2) = .8</li>
+<li>P(open|open,push) = .1</li>
+<li>P(open|closed,push) = 0</li>
+<li>P(closed|closed,push) = 1</li>
+<li>P(closed|open, push) = .9</li>
 
 </ul>
 </section>
-<section id="slide-org7a1c68e">
-<h3 id="org7a1c68e">UTM</h3>
+<section id="slide-org73b1793">
+<h3 id="org73b1793">Cont.</h3>
 <ul>
-<li>Universal Transverse Mercator coordinate system
-<ul>
-<li>Used by IGVC</li>
+<li>P(open|Z1,Z2, push) = P(open|open, push)*P(open|Z1,Z2) + P(open|closed, push)*P(closed|Z1,Z2)</li>
 
-</ul></li>
-<li>Divides the entire world into a grid</li>
-<li>Referred to as northing (+Y) easting (+X)
+</ul>
+<p>
+&#x2013;	= .1*.8 + 0*.2 = .08
+</p>
+</section>
+<section id="slide-orgac435a5">
+<h3 id="orgac435a5">Big Takeaway</h3>
 <ul>
-<li>Same as geographic coordinate frame</li>
-
-</ul></li>
+<li>Through modeling sensors, we can accurately reflect our confidence gain</li>
+<li>Through modeling actions, we can accurately reflect our conifdence loss</li>
 
 </ul>
 </section>
-<section id="slide-orgd2c3c0a">
-<h3 id="orgd2c3c0a">Example coordinate frames</h3>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">standard</th>
-<th scope="col" class="org-left">X</th>
-<th scope="col" class="org-left">Y</th>
-<th scope="col" class="org-left">Z</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">urdf</td>
-<td class="org-left">forward</td>
-<td class="org-left">left</td>
-<td class="org-left">up</td>
-</tr>
-
-<tr>
-<td class="org-left">UTM</td>
-<td class="org-left">right</td>
-<td class="org-left">forward</td>
-<td class="org-left">up</td>
-</tr>
-
-<tr>
-<td class="org-left">camera</td>
-<td class="org-left">left</td>
-<td class="org-left">up</td>
-<td class="org-left">forward</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="slide-org4d5f358">
-<h3 id="org4d5f358">Using tf2 to do transforms</h3>
+<section id="slide-org5408f73">
+<h3 id="org5408f73">Revist Mapping</h3>
 <ul>
-<li>Calculating coordinate transforms is hard</li>
-<li>Let ROS do it for you
-<ul>
-<li>Yay tf</li>
-
-</ul></li>
+<li>We use probabilistic occupancy grids, which mean we use statistics to model our confidence in what we sense and store these confidences in a grid.</li>
 
 </ul>
 </section>
-<section id="slide-orge81dca3">
-<h4 id="orge81dca3">transform direction</h4>
+<section id="slide-org223d9cc">
+<h3 id="org223d9cc">Localization</h3>
 <ul>
-<li>Always transforms from one coordiante frame to another</li>
-<li>Each link is its own coordinate frame</li>
-<li>transform the coordinate frame <code>"frame_id"</code> into <code>"child_frame_id"</code></li>
+<li>Current solution: Kalman Filter</li>
+<li>Proposed solution: Particle Filter</li>
 
 </ul>
 </section>
-<section id="slide-orge0f54f4">
-<h4 id="orge0f54f4">Wait!</h4>
+<section id="slide-orgdb9ea92">
+<h3 id="orgdb9ea92">Particle Filters</h3>
 <ul>
-<li>You usually have to wait for the transform to become available</li>
-
-</ul>
-<div class="org-src-container">
-
-<pre  class="src src-C++"><span style="color: #15968D;">tf</span>::<span style="color: #598249;">TransformListener</span> <span style="color: #2F7BDE;">tf_listener</span>;
-<span style="color: #5e6263;">// </span><span style="color: #5e6263;">transfroms source -&gt; target</span>
-<span style="color: #5e6263;">// </span><span style="color: #5e6263;">target, source, when to do it, how long to wait</span>
-<span style="color: #598249;">if</span>(tf_listener.waitForTransform(<span style="color: #15968D;">"[TARGET]"</span>, <span style="color: #15968D;">"[SOURCE]"</span>, <span style="color: #15968D;">ros</span>::Time(0), <span style="color: #15968D;">ros</span>::Duration(3.0))) {
-<span style="color: #5e6263;">// </span><span style="color: #5e6263;">DO it</span>
-}
-</pre>
-</div>
-</section>
-<section id="slide-orge0875a4">
-<h4 id="orge0875a4">Do It</h4>
-<div class="org-src-container">
-
-<pre  class="src src-C++"><span style="color: #15968D;">tf</span>::<span style="color: #598249;">TransformListener</span> <span style="color: #2F7BDE;">tf_listener</span>;
-<span style="color: #5e6263;">// </span><span style="color: #5e6263;">transfroms source -&gt; target</span>
-<span style="color: #5e6263;">// </span><span style="color: #5e6263;">target, source, when to do it, how long to wait</span>
-<span style="color: #598249;">if</span>(tf_listener.waitForTransform(<span style="color: #15968D;">"[TARGET]"</span>, <span style="color: #15968D;">"[SOURCE]"</span>, <span style="color: #15968D;">ros</span>::Time(0), <span style="color: #15968D;">ros</span>::Duration(3.0))) {
-  <span style="color: #5e6263;">// </span><span style="color: #5e6263;">source -&gt; target</span>
-  <span style="color: #5e6263;">// </span><span style="color: #5e6263;">target, source, when, result</span>
-  tf_listener.lookupTransform(<span style="color: #15968D;">"/base_link"</span>, <span style="color: #15968D;">"/ball"</span>, <span style="color: #15968D;">ros</span>::Time(0), transform);
-}
-</pre>
-</div>
-</section>
-<section id="slide-orgc520918">
-<h2 id="orgc520918">Commands</h2>
-<div class="outline-text-2" id="text-orgc520918">
-</div>
-</section>
-<section id="slide-org67ef45c">
-<h3 id="org67ef45c">Create a diagram</h3>
-<ul>
-<li><code>rosrun rqt_tf_tree rqt_tf_tree</code></li>
-<li>Creates a diagram of all of the tf elements</li>
+<li>Particles are proposed poses</li>
+<li>Step one: initialze particles</li>
+<li>Step two: Sense</li>
+<li>Step three: Weight particles based on their quality based on sensor model</li>
+<li>Step four: Resample particles with replacement</li>
+<li>Step five: Move and apply motion update based on action model</li>
+<li>Step six: Repeat</li>
 
 </ul>
 </section>
-<section id="slide-orgc715bb4">
-<h3 id="orgc715bb4"><code>tf_echo</code></h3>
+<section id="slide-org414a341">
+<h3 id="org414a341">Challenges</h3>
 <ul>
-<li><code>rosrun tf tf_echo [source_frame] [target_frame]</code></li>
-<li>Publishes the transform to the command line</li>
+<li>Landmark detection</li>
+<li>Sensor model</li>
+<li>Action model</li>
 
 </ul>
 </section>
-<section id="slide-org636fca6">
-<h2 id="org636fca6">Node writing</h2>
+<section id="slide-orgdd5cc10">
+<h3 id="orgdd5cc10">Kalman Filters</h3>
 <ul>
-<li>We are going to use tf to get the pose of the ball from last week</li>
-<li>But first some questions</li>
-
-</ul>
-</section>
-<section id="slide-org0e6b4d0">
-<h3 id="org0e6b4d0">What is the package name?</h3>
-<div class="outline-text-3" id="text-org0e6b4d0">
-</div>
-</section>
-<section id="slide-org29435be">
-<h4 id="org29435be"><code>follower_2</code></h4>
-</section>
-<section id="slide-org41760e1">
-<h3 id="org41760e1">What are the executables</h3>
-<div class="outline-text-3" id="text-org41760e1">
-</div>
-</section>
-<section id="slide-orgd2407e2">
-<h4 id="orgd2407e2"><code>tf_pub follower_2</code></h4>
-</section>
-<section id="slide-orgdeb2b15">
-<h3 id="orgdeb2b15">What topics locator does listen to?</h3>
-<div class="outline-text-3" id="text-orgdeb2b15">
-</div>
-</section>
-<section id="slide-org47e8d75">
-<h4 id="org47e8d75"><code>hal/gazebo/model_states</code></h4>
-</section>
-<section id="slide-org823abe2">
-<h3 id="org823abe2">What type of message is <code>hal/gazebo/model_states</code></h3>
-<div class="outline-text-3" id="text-org823abe2">
-</div>
-</section>
-<section id="slide-orgb1d4815">
-<h4 id="orgb1d4815"><code>gazebo_msgs::ModelStates</code></h4>
-</section>
-<section id="slide-orgbd6df96">
-<h3 id="orgbd6df96">What would the line for the launch file look like to launch locator</h3>
-<div class="outline-text-3" id="text-orgbd6df96">
-</div>
-</section>
-<section id="slide-org48966ad">
-<h4 id="org48966ad">&lt;node name="<code>tf_pub</code>" pkg="<code>follower_2</code>" type="<code>tf_pub</code>"&gt;</h4>
-</section>
-<section id="slide-org7150e23">
-<h3 id="org7150e23">What would the line for the launch file look like to launch locator</h3>
-<div class="outline-text-3" id="text-org7150e23">
-</div>
-</section>
-<section id="slide-orgab6f7c1">
-<h4 id="orgab6f7c1">&lt;node name="<code>follower_2</code>" pkg="<code>follower_2</code>" type="<code>follower_2</code>"&gt;</h4>
-</section>
-<section id="slide-orgd0d9269">
-<h3 id="orgd0d9269">Will this work?</h3>
-<ul>
-<li>&lt;node name="namenamename" pkg="<code>follower_2</code>" type="<code>tf_pub</code>" output="screen"/&gt;</li>
+<li>Assumes all noise is gaussain and filters sensor readings based on that</li>
+<li>Essentially combines an old and new distribution to get a new mean and variance and builds a estimated distribution with those</li>
+<li>Relies on tuned covariance parameters that are used to determine how sensor readings vary with respect to one another</li>
 
 </ul>
 </section>

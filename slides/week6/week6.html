@@ -29,8 +29,8 @@
 <section id="sec-title-slide"><h1 class="title">Week 6</h1>
 </section>
 
-<section id="slide-org43ebf01">
-<h2 id="org43ebf01">What are we doing today</h2>
+<section id="slide-org6d31f14">
+<h2 id="org6d31f14">What are we doing today</h2>
 <ul>
 <li>What is Controls?</li>
 <li>The Ideal PID Equation</li>
@@ -42,8 +42,8 @@
 
 </ul>
 </section>
-<section id="slide-orgf9e8b34">
-<h2 id="orgf9e8b34">Control Theory</h2>
+<section id="slide-org3be7c36">
+<h2 id="org3be7c36">Control Theory</h2>
 <ul>
 <li>How do we reliably get from point A (our current state) to point B (our
 desired state)?</li>
@@ -53,8 +53,8 @@ desired state)?</li>
 
 </ul>
 </section>
-<section id="slide-org7300324">
-<h3 id="org7300324">Closed Loop Controls</h3>
+<section id="slide-orgc540a34">
+<h3 id="orgc540a34">Closed Loop Controls</h3>
 <ul>
 <li>The output of our motor, referred to as its <b>effort</b> is what we have
 control over.  Effort is typically something measured as a PWM signal</li>
@@ -66,8 +66,8 @@ state.</li>
 
 </ul>
 </section>
-<section id="slide-org32518ac">
-<h3 id="org32518ac">Why do we need to study this?</h3>
+<section id="slide-orgf203e2d">
+<h3 id="orgf203e2d">Why do we need to study this?</h3>
 <ul>
 <li>Our robot will be operating in a variety of conditions
 <ul>
@@ -81,8 +81,8 @@ conditions.</li>
 
 </ul>
 </section>
-<section id="slide-org0b97362">
-<h3 id="org0b97362">A Simple Example: bang-bang controller</h3>
+<section id="slide-org6f8bacf">
+<h3 id="org6f8bacf">A Simple Example: bang-bang controller</h3>
 <div class="org-src-container">
 
 <pre  class="src src-C++">effort &lt;- Fixed Output
@@ -112,8 +112,8 @@ Cons:
 </aside>
 
 </section>
-<section id="slide-orgd443038">
-<h2 id="orgd443038">The PID Controller</h2>
+<section id="slide-orgb1eb52f">
+<h2 id="orgb1eb52f">The PID Controller</h2>
 <ul>
 <li>Let's vary our motor effort so that the robot's motion isn't as jerky</li>
 <li>We're going to build a black box that takes a function of error over time
@@ -127,8 +127,8 @@ and spits out motor effort</li>
 </p>
 </div>
 </section>
-<section id="slide-org8a71f78">
-<h3 id="org8a71f78">The Proportional Component</h3>
+<section id="slide-org91a4f80">
+<h3 id="org91a4f80">The Proportional Component</h3>
 <ul>
 <li>As we get closer to the setpoint, slow down!</li>
 <li>The rate at which we slow down is given by Kp</li>
@@ -145,8 +145,8 @@ The problem isn't as bad with a threshold
 
 </aside>
 </section>
-<section id="slide-org5317ca6">
-<h3 id="org5317ca6">The Integral Component</h3>
+<section id="slide-org9e63f50">
+<h3 id="org9e63f50">The Integral Component</h3>
 <ul>
 <li>Very low error for a long period of time</li>
 <li>Add up previous errors and produce an output proportional to that sum</li>
@@ -162,8 +162,8 @@ Note that the summing we are doing here is basically LRAM
 
 </aside>
 </section>
-<section id="slide-org21e8865">
-<h3 id="org21e8865">The Derivative Component</h3>
+<section id="slide-org2b8ef53">
+<h3 id="org2b8ef53">The Derivative Component</h3>
 <ul>
 <li>Rather than carrying about the error itself, try to keep the rate at which
 the error is changing stable</li>
@@ -173,8 +173,8 @@ the error is changing stable</li>
 </ul>
 
 </section>
-<section id="slide-org9e8763f">
-<h2 id="org9e8763f">Making this work in practice</h2>
+<section id="slide-org1589925">
+<h2 id="org1589925">Making this work in practice</h2>
 <ul>
 <li>We can define our state in terms of speed or distance travelled, but speed
 makes more sense.</li>
@@ -194,16 +194,16 @@ controller can cut it
 </aside>
 
 </section>
-<section id="slide-org1ad2814">
-<h2 id="org1ad2814">How do we do it right now?</h2>
+<section id="slide-org5ce2238">
+<h2 id="org5ce2238">How do we do it right now?</h2>
 <ul>
 <li><a href="https://github.com/robojackets/roboracing-firmware">https://github.com/robojackets/roboracing-firmware</a></li>
 
 </ul>
 
 </section>
-<section id="slide-org34b1a77">
-<h2 id="org34b1a77">Some advice on tuning</h2>
+<section id="slide-org3d11d6f">
+<h2 id="org3d11d6f">Some advice on tuning</h2>
 <aside class="notes">
 <p>
 This is more of an art than a science. Take them through rqt<sub>plot</sub>
@@ -233,15 +233,15 @@ something of that nature. (out of scope + not enough time)
 
 </aside>
 </section>
-<section id="slide-org7ab6d91">
-<h2 id="org7ab6d91">Cameras</h2>
+<section id="slide-org87bbd88">
+<h2 id="org87bbd88">Cameras</h2>
 <ul>
 <li>An image is a collection of pixels</li>
 
 </ul>
 </section>
-<section id="slide-orgfa06a1e">
-<h3 id="orgfa06a1e">Stereo</h3>
+<section id="slide-org058be35">
+<h3 id="org058be35">Stereo</h3>
 <ul>
 <li>Can calculate the distances to things
 <ul>
@@ -258,8 +258,8 @@ something of that nature. (out of scope + not enough time)
 </p>
 </div>
 </section>
-<section id="slide-org424906b">
-<h2 id="org424906b">Computer Vision</h2>
+<section id="slide-org4d84460">
+<h2 id="org4d84460">Computer Vision</h2>
 <ul>
 <li>We have the knowledge in C++ to describe the logic we might want a robot to
 have. But we need to be able to make sense of what the robot sees and
@@ -271,8 +271,8 @@ classify it before we can act on this logic.</li>
 </ul>
 
 </section>
-<section id="slide-org44358ac">
-<h2 id="org44358ac">OpenCV</h2>
+<section id="slide-org3f39f9e">
+<h2 id="org3f39f9e">OpenCV</h2>
 <ul>
 <li>Industrial standard for image processing</li>
 
@@ -283,8 +283,8 @@ classify it before we can act on this logic.</li>
 </p>
 </div>
 </section>
-<section id="slide-org690c5ed">
-<h2 id="org690c5ed">What does an Image look like to your computer?</h2>
+<section id="slide-orgfb88e06">
+<h2 id="orgfb88e06">What does an Image look like to your computer?</h2>
 <ul>
 <li>OpenCV stores images in an object called a <i>Mat</i></li>
 <li>A Mat is an array with rows and columns. Each element
@@ -297,8 +297,8 @@ row and keep track of your row number by how far you've traversed.</li>
 
 </ul>
 </section>
-<section id="slide-org330594c">
-<h2 id="org330594c">Color Types</h2>
+<section id="slide-org6ac7994">
+<h2 id="org6ac7994">Color Types</h2>
 <ul>
 <li>There are many different formats for an image
 <ul>
@@ -310,8 +310,8 @@ row and keep track of your row number by how far you've traversed.</li>
 
 </ul>
 </section>
-<section id="slide-org5d811be">
-<h3 id="org5d811be">Grey scale</h3>
+<section id="slide-orgf23bf8e">
+<h3 id="orgf23bf8e">Grey scale</h3>
 <ul>
 <li>An image where each pixel is only white to black</li>
 <li>Range [0-255]
@@ -323,8 +323,8 @@ row and keep track of your row number by how far you've traversed.</li>
 
 </ul>
 </section>
-<section id="slide-org4c73dc1">
-<h3 id="org4c73dc1">Color Images</h3>
+<section id="slide-org944ab0a">
+<h3 id="org944ab0a">Color Images</h3>
 <ul>
 <li>Color images don't embed the color of a pixel in one element. Often, you'll
 find each pixel represented in BGR (Blue component, Green Component, Red
@@ -336,8 +336,8 @@ row of a black and white image.</li>
 </ul>
 
 </section>
-<section id="slide-org19bc92c">
-<h3 id="org19bc92c">HSV Images</h3>
+<section id="slide-org0ba1116">
+<h3 id="org0ba1116">HSV Images</h3>
 <ul>
 <li>Each Pixel in a color image has a hue, a saturation, and a luminosity.</li>
 <li>Even though our cameras read in images with RGB, converting them to HSV is
@@ -350,8 +350,8 @@ easy with OpenCV</li>
 </p>
 </div>
 </section>
-<section id="slide-org5f0bbe1">
-<h4 id="org5f0bbe1">HSV explained</h4>
+<section id="slide-orgae84fa6">
+<h4 id="orgae84fa6">HSV explained</h4>
 <ul>
 <li>Hue
 <ul>
@@ -377,8 +377,8 @@ easy with OpenCV</li>
 </div>
 
 </section>
-<section id="slide-orgcbe711b">
-<h4 id="orgcbe711b">Why do we use HSV</h4>
+<section id="slide-org7779bd4">
+<h4 id="org7779bd4">Why do we use HSV</h4>
 <ul>
 <li>HSV encodes image data in a way that is resistant to changes in color</li>
 <li>To put it another way, on a sunny day an image will contain more red, more
@@ -390,22 +390,22 @@ colors in the HSV space.</li>
 </ul>
 
 </section>
-<section id="slide-org0961724">
-<h2 id="org0961724">Finding the blue in an image</h2>
+<section id="slide-orgf26ec20">
+<h2 id="orgf26ec20">Finding the blue in an image</h2>
 <p>
 <a href="https://github.com/RoboJackets/ros-training/blob/master/code/week6/src/findBlue.cpp">https://github.com/RoboJackets/ros-training/blob/master/code/week6/src/findBlue.cpp</a>
 </p>
 
 </section>
-<section id="slide-org0022d50">
-<h2 id="org0022d50">Roboracing Computer Vision</h2>
+<section id="slide-orgfe7581f">
+<h2 id="orgfe7581f">Roboracing Computer Vision</h2>
 <p>
 <a href="https://github.com/RoboJackets/roboracing-software/blob/master/iarrc/src/color_detector/color_detector.cpp">Roboracing
 Color Detector</a>
 </p>
 </section>
-<section id="slide-orgfb8d0b3">
-<h2 id="orgfb8d0b3">What would make this training better?</h2>
+<section id="slide-org7a966b9">
+<h2 id="org7a966b9">What would make this training better?</h2>
 </section>
 </section>
 </div>
