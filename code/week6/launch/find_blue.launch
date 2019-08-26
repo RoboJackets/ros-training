@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-
-<launch>
-  <node name="find_blue" pkg="find_blue" type="find_blue" output="screen">
-  </node>
-</launch>

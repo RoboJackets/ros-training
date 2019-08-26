@@ -1,0 +1,11 @@
+<launch>
+    <node pkg="igvc_buzzsim" type="buzzsim" name="buzzsim" output="screen">
+        <param name="config_path" value="$(find igvc_training_exercises)/config/week6/world.yml" />
+        <param name="world_name" value="simple" />
+<!--        <param name="world_name" value="complex" />-->
+    </node>
+
+    <node pkg="igvc_training_exercises" type="week6" name="week6" output="screen">
+
+    </node>
+</launch>

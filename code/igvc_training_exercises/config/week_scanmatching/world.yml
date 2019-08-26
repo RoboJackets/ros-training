@@ -1,0 +1,59 @@
+publish_imu: &publish_pose_and_lidar
+  pose: true
+  lidar: true
+
+limits: &limits
+  acceleration:
+    linear: 5
+    angular: 5
+  twist:
+    linear: 2
+    angular: 2
+
+lidar_options: &lidar_options
+  angle_width: 3.1415926 # End angle - start angle. Rad
+  range: 10
+  angular_resolution: 0.01 # Rad
+
+obstacles: &obstacles
+  - type: barrel
+    center: [-3.2, 0.5]
+  - type: barrel
+    center: [-5.0, 1.5]
+  - type: barrel
+    center: [1.0, -2.5]
+  - type: barrel
+    center: [3.0, -0.5]
+  - type: barrel
+    center: [2.5, 1.2]
+  - type: barrel
+    center: [4.2, -8.0]
+  - type: barrel
+    center: [6.0, 0.3]
+  - type: barrel
+    center: [9.2, -0.7]
+  - type: barrel
+    center: [8.8, 4.7]
+  - type: barrel
+    center: [12, -0.8]
+
+oswin: &oswin
+  lidar: *lidar_options
+  lidar_painter:
+    visualization_ratio: 5
+  state:
+    pose:
+      position:
+        x: 0
+        y: 0
+    twist:
+      linear: 0
+      angular: 0
+  limits: *limits
+  publishers: *publish_pose_and_lidar
+
+worlds:
+  scanmatching_localization:
+    turtles:
+      oswin: *oswin
+    obstacles: *obstacles

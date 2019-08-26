@@ -1,0 +1,8 @@
+<launch>
+    <node pkg="igvc_buzzsim" type="buzzsim" name="buzzsim" required="true">
+        <param name="config_path" value="$(find igvc_training_exercises)/config/week_scanmatching/world.yml" />
+        <param name="world_name" value="scanmatching_localization" />
+    </node>
+
+    <node pkg="igvc_training_exercises" type="week_scanmatching" name="week_scanmatching" output="screen"/>
+</launch>
