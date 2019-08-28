@@ -1,7 +1,7 @@
 find_package(SUITESPARSE)
 find_package(G2O)
 
-if (${SUITESPARSE_FOUND} AND ${G2O_FOUND})
+if (SUITESPARSE_FOUND AND G2O_FOUND)
   message(STATUS "Found suitesparse and g2o, compiling week_slam")
   find_package(Eigen3 3.3 REQUIRED)
   add_executable(week_slam
