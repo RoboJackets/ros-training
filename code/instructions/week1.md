@@ -22,7 +22,19 @@ path planning.
 Before we write our own node, let's first launch an existing node. Because the ROS ecosystem
 is quite large, we can easily use ROS nodes which other people have written for our own projects.
 
-Let's start by launching the `buzzsim` simulator that we will make use of the coming few weeks:
+The first thing we need to do is run `roscore`:
+```bash
+roscore
+```
+
+Don't worry about what `roscore` is. You can think of it as something that handles all the ros functionality behind the
+scenes. Without launching `roscore` first, you'll see an error along the lines of:
+```
+[ERROR] [1567021515.828919061]: [registerPublisher] Failed to contact master at [localhost:11311].  Retrying...
+```
+
+Let's start by launching the `buzzsim` simulator that we will make use of the coming few weeks. Run this in another
+window:
 ```bash
 rosrun igvc_buzzsim buzzsim
 ```
@@ -31,6 +43,24 @@ Here, `buzzsim` is the name of the **executable**, while `igvc_buzzsim` is the n
 
 You can think of a **ROS package** as an organizational unit under which we can put ROS nodes,
 libraries, scripts and more.
+
+If you get the error:
+```
+[rospack] Error: package 'igvc_buzzsim' not found
+```
+
+then this means that you have not sourced the file at `catkin_ws/devel/setup.bash` (or `catkin_ws/devel/setup.zsh` if
+you're using zsh):
+```bash
+cd catkin_ws # Or wherever your catkin_ws is located
+source devel/setup.bash
+```
+
+You can do the following to have the command run for you automatically, replacing `catkin_ws` with the path to where
+your `catkin_ws` is located.
+```bash
+echo "source catkin_ws/devel/setup.bash" >> ~/.bashrc
+```
 
 After launching the node, you should see the simulator window open up:
 ![buzzsim](buzzsim.png)
