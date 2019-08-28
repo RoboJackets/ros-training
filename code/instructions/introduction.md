@@ -10,6 +10,13 @@ cd src
 git clone https://github.com/RoboJackets/ros-training.git
 ```
 
+Install dependencies:
+```bash
+sudo apt install libcgal-dev
+cd catkin_ws # cd to where your catkin workspace is located
+rosdep install --from-paths src --ignore-src -y 
+```
+
 Build the simulator and the exercises:
 ```bash
 cd catkin_ws # cd to where your catkin workspace is located
