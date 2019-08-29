@@ -22,4 +22,6 @@
     <depend>tf_conversions</depend>
     <depend>std_msgs</depend>
     <depend>igvc_buzzsim</depend>
+
+    <exec_depend>teleop_twist_keyboard</exec_depend>
 </package>
