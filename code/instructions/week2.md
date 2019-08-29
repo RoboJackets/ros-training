@@ -391,5 +391,15 @@ the message.
   or use the teleop_twist_keyboard command with the topic set to "/oswin/velocity_unsafe" to test it out')
 </details>
 
-And that's it for this week! [Next week](week3.md), we'll learn about launch files and PID, and get to (properly) play with the
+## Summary
+And that's it for this week!
+
+This week, we learnt about:
+- [Writing a ROS node](#hello-world-with-ros-and-c)
+- [Writing a ROS publisher](#writing-a-simple-publisher)
+- [Writing a ROS subscriber](#writing-a-simple-subscriber)
+
+And hopefully we've had some practice with writing a few nodes, publishers and subscribers.
+
+[Next week](week3.md), we'll learn about launch files and PID, and get to (properly) play with the
 simulator.

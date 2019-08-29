@@ -313,6 +313,14 @@ And by putting the three equations for control output above, we get:
 
 where **u** stands for the _control output_.
 
-And that's it for this week! We've learnt about `roslaunch` and `.launch` files, ROS parameters, PID control and
-basic control theory, and we've written our own PID controller for the simulator. [Next week](week4.md) we'll learn
+## Summary
+And that's it for this week!
+
+We've learnt about:
+- [PID control and basic control theory](#the-pid-algorithm---proportional-controller)
+- [`roslaunch` and `.launch` files](#launching-buzzsim-with-roslaunch)
+- [ROS parameters](#ros-parameters)
+- [Written our own PID controller](#exercise-implementing-a-proportional-controller-in-ros)
+
+[Next week](week4.md) we'll learn
 about reference frames, the IMU, and localization with dead reckoning by integrating IMU data.

@@ -185,5 +185,13 @@ angular:
 Try playing around with the the `x` part of `linear` and the `z` part of `angular`, and seeing how the turtle
 moves.
 
-And that is it for week 1 of the exercises. In [week2](week2.md), we'll be looking at how to write **ROS Publishers**
+## Summary
+And that is it for week 1 of the exercises.
+
+This week, we learnt about:
+- [Launching ROS Nodes](#ros-nodes-and-launching-buzzsim)
+- [ROS Topics and `teleop_twist_keyboard`](#ros-topics-and-keyboard-teleop)
+- [The `rostopic` tool](#the-rostopic-tool)
+
+In [week2](week2.md), we'll be looking at how to write **ROS Publishers**
 and **ROS Subscribers** in C++.

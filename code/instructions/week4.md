@@ -161,3 +161,17 @@ publishing.
 
 Try moving the robot again using `teleop_twist_keyboard`. You should notice both the turtle in the simulator and the
 red arrow moving, and hopefully the red arrows will be in the same location as the turtle in the simulator.
+
+<!-- TODO: Add tf::Publisher -->
+
+## Summary
+And that's it for this week!
+
+We learnt about:
+- [The IMU](#imu)
+- [Coordinate Frames](#coordinate-frames-and-the-imu)
+- [Localization with Dead Reckoning](#localization-with-dead-reckoning)
+- [Implemented dead reckoning in ROS](#exercise-implementing-dead-reckoning-using-an-imu-in-ros)
+- [rviz](#visualizing-our-localization-algorithm-with-rviz)
+
+<!-- TODO: Week5 -->
