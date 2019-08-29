@@ -4,7 +4,8 @@ teach the basics of ROS as well as a few simple robotics concepts.
 
 ## Prerequisites
 This tutorial assumes that you have **ROS melodic** installed. If you haven't installed it, refer to
-[these instructions](http://wiki.ros.org/melodic/Installation/Ubuntu) for installation instructions.
+[ros-installation.md](ros-installation.md) for installation instructions. Alternatively, refer to
+[these instructions](http://wiki.ros.org/melodic/Installation/Ubuntu) for the complete set of installation instructions.
 
 ## Getting Started
 Clone the repo into a catkin workspace:
