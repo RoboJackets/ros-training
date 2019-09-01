@@ -31,13 +31,9 @@ sudo apt install ros-melodic-desktop-full
 ## Initialize rosdep
 Before you can use ROS, you will need to initialize rosdep. rosdep enables you to easily install system dependencies
 for source you want to compile and is required to run some core components in ROS. 
-
-## Environment setup
-It's convenient if the ROS environment variables are automatically added to your bash session every time
-a new shell is launched: 
 ```bash
-echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-source ~/.bashrc
+sudo rosdep init
+rosdep update
 ```
 
 ## Next steps
