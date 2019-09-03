@@ -169,9 +169,17 @@ And that's it for this week!
 
 We learnt about:
 - [The IMU](#imu)
+    + Measures **acceleration**, **angular velocity**, and **orientation**
+    + Has an **accelerometer**, **gyroscope** and **magnetomer**
 - [Coordinate Frames](#coordinate-frames-and-the-imu)
+    + Coordinate Frames defines a set of direction relative to some object
+    + Understanding the basics of the REP 103 standards for Coordinate Frames
 - [Localization with Dead Reckoning](#localization-with-dead-reckoning)
+    + Using kinematics equations to locate ourselves
 - [Implemented dead reckoning in ROS](#exercise-implementing-dead-reckoning-using-an-imu-in-ros)
+    + `nav_msgs::Odometry` message type for odometry information
+    + Turned something theoretical to something that was working again!
 - [rviz](#visualizing-our-localization-algorithm-with-rviz)
+    + Use `rviz` to visualize what's happening
 
 <!-- TODO: Week5 -->

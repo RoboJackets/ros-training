@@ -1,4 +1,4 @@
-# Setting up a catkin workspace
+#Setting up a catkin workspace
 
 ## Environment setup
 It's convenient if the ROS environment variables are automatically added to your bash session every time
@@ -30,7 +30,7 @@ To make sure your workspace is properly overlayed by the setup script,
 make sure ROS_PACKAGE_PATH environment variable includes the directory you're in. 
 ```bash
 echo $ROS_PACKAGE_PATH
-# Result should be: /home/youruser/catkin_ws/src:/opt/ros/kinetic/share
+# Result should be: /home/youruser/catkin_ws/src:/opt/ros/melodic/share
 ```
 
 ## Environment setup pt. 2

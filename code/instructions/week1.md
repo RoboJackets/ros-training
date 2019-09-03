@@ -190,8 +190,15 @@ And that is it for week 1 of the exercises.
 
 This week, we learnt about:
 - [Launching ROS Nodes](#ros-nodes-and-launching-buzzsim)
+    + `rosrun <package-name> <node-name>`, ie. `rosrun igvc_buzzsim buzzsim`
 - [ROS Topics and `teleop_twist_keyboard`](#ros-topics-and-keyboard-teleop)
+    + A ROS topic is like an address that messages are sent to
+    + A ROS node can **subscribe** and **publish** messages to any topic
+    + Each topic has a message type.
 - [The `rostopic` tool](#the-rostopic-tool)
+    + `rostopic list` to list available topics
+    + `rostopic echo` to listen to topics
+    + `rostopic pub` to publish to topics
 
 In [week2](week2.md), we'll be looking at how to write **ROS Publishers**
 and **ROS Subscribers** in C++.

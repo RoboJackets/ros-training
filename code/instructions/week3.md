@@ -318,9 +318,18 @@ And that's it for this week!
 
 We've learnt about:
 - [PID control and basic control theory](#the-pid-algorithm---proportional-controller)
+    + Controlling a **Process Variable** to equal some **Set Point**
+    + The **P**roportional **I**ntegral **D**erivative algorithm as a simple controller
+    + Understanding what a controller does in the context of a car
 - [`roslaunch` and `.launch` files](#launching-buzzsim-with-roslaunch)
+    + Using `roslaunch <ros package> <launch file>` to launch a `.roslaunch` file
+    + `<node>` tags to define ROS nodes to be launched in a `.roslaunch` file
 - [ROS parameters](#ros-parameters)
+    + Using `nh.getParam` to get parameters defined in a launch file
+    + Adding parameters to the launch file with the `<launch>` tag
 - [Written our own PID controller](#exercise-implementing-a-proportional-controller-in-ros)
+    + Implementing something we just learnt about in theory!
+    + And it works!
 
 [Next week](week4.md) we'll learn
 about reference frames, the IMU, and localization with dead reckoning by integrating IMU data.

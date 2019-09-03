@@ -396,8 +396,16 @@ And that's it for this week!
 
 This week, we learnt about:
 - [Writing a ROS node](#hello-world-with-ros-and-c)
+    + Using `ros::init(argc, argv, "NODE NAME HERE");` to create a ROS Node
+    + `ros::spin()` so that nodes don't exit
 - [Writing a ROS publisher](#writing-a-simple-publisher)
+    + Creating a `ros::NodeHandle` to allow Nodes to do ROS things
+    + Using `nh.advertise` to create a publisher
+    + Using the `.publish` method on a publisher to publish a message on a topic
 - [Writing a ROS subscriber](#writing-a-simple-subscriber)
+    + Using `nh.subscribe` to create a subscriber
+    + Creating a **callback function** to receive messages from the subscribed topic
+    + `ros::spin()` as a "behind-the-scenes" method that calls the callbacks you defined
 
 And hopefully we've had some practice with writing a few nodes, publishers and subscribers.
 
