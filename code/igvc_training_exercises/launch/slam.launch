@@ -1,0 +1,13 @@
+<launch>
+        <node pkg="igvc_training_exercises" type="week_slam" name="week_slam" output="screen" >
+            <param name="landmark_registration/new_landmark_threshold" value="0.85" />
+
+            <param name="barrel_ransac/threshold" value="0.2" />
+            <param name="barrel_ransac/iterations" value="5000" />
+            <param name="barrel_ransac/max_barrels" value="10" />
+            <param name="barrel_ransac/max_error" value="0.2" />
+            <param name="barrel_ransac/max_barrel_radius" value="0.52" />
+            <param name="barrel_ransac/min_barrel_radius" value="0.48" />
+            <param name="barrel_ransac/min_scan_points" value="5" />
+        </node>
+</launch>

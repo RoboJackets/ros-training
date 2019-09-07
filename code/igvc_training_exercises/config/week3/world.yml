@@ -1,0 +1,57 @@
+zero_twist: &zero_twist
+  linear: 0
+  angular: 0
+
+limits: &limits
+  acceleration:
+    linear: 5
+    angular: 5
+  twist:
+    linear: 2
+    angular: 2
+
+publish_pose: &publish_pose
+  pose: true
+
+oswin: &oswin
+  state:
+    pose:
+      position:
+        x: -5
+        y: 0
+    twist: *zero_twist
+  limits: *limits
+  publishers: *publish_pose
+
+stationary_kyle: &stationary_kyle
+  state:
+    pose:
+      position:
+        x: 0
+        y: 0
+    twist: *zero_twist
+  limits: *limits
+  publishers: *publish_pose
+
+moving_kyle: &moving_kyle
+  state:
+    pose:
+      position:
+        x: -2
+        y: 0
+    twist:
+      linear: 1
+      angular: 0
+  limits: *limits
+  publishers: *publish_pose
+
+worlds:
+  stationary:
+    turtles:
+      oswin: *oswin
+      kyle: *stationary_kyle
+  moving:
+    turtles:
+      oswin: *oswin
+      kyle: *moving_kyle
+

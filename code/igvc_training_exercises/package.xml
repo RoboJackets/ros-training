@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package format="2">
+    <name>igvc_training_exercises</name>
+    <version>0.0.0</version>
+    <description>Exercises using buzzsim for IGVC ROS training</description>
+
+    <maintainer email="oswinso@gmail.com">Oswin So</maintainer>
+
+    <license>MIT</license>
+
+
+    <url type="website">http://www.robojackets.org</url>
+    <url type="website">http://www.github.com/robojackets/igvc-software</url>
+    <url type="website">http://robojackets.github.io/igvc-software</url>
+
+    <author email="oswinso@gmail.com">Oswin So</author>
+
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <depend>roscpp</depend>
+    <depend>tf</depend>
+    <depend>tf_conversions</depend>
+    <depend>std_msgs</depend>
+    <depend>igvc_buzzsim</depend>
+
+    <exec_depend>teleop_twist_keyboard</exec_depend>
+</package>

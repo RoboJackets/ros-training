@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package format="2">
+    <name>igvc_buzzsim</name>
+    <version>0.0.0</version>
+    <description>Custom turtlesim-esque simulator for IGVC ROS training</description>
+
+    <maintainer email="oswinso@gmail.com">Oswin So</maintainer>
+
+    <license>MIT</license>
+
+
+    <url type="website">http://www.robojackets.org</url>
+    <url type="website">http://www.github.com/robojackets/igvc-software</url>
+    <url type="website">http://robojackets.github.io/igvc-software</url>
+
+    <author email="oswinso@gmail.com">Oswin So</author>
+
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <depend>roscpp</depend>
+    <depend>roslib</depend>
+    <depend>pcl_ros</depend>
+    <depend>geometry_msgs</depend>
+    <depend>std_msgs</depend>
+    <depend>turtlesim</depend>
+    <depend>std_srvs</depend>
+
+    <exec_depend>message_runtime</exec_depend>
+</package>

@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-
-<launch>
-  <node name="follower" pkg="follower" type="follower" output="screen">
-    <param name="desired_speed" type="double" value="0.3"/>
-  </node>
-
-</launch>
