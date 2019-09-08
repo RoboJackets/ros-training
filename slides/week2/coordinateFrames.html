@@ -7,9 +7,9 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="https://revealjs.com/css/reveal.css"/>
 
-<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/theme/white.css" id="theme"/>
+<link rel="stylesheet" href="https://revealjs.com/css/theme/white.css" id="theme"/>
 
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
@@ -18,7 +18,7 @@
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = 'https://robojackets.github.io/reveal.js/css/print/pdf.css';
+        link.href = 'https://revealjs.com/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
@@ -29,8 +29,8 @@
 <section id="sec-title-slide"><h1 class="title">Coordinate Frames</h1>
 </section>
 
-<section id="slide-orgfd0d9ef">
-<h2 id="orgfd0d9ef">Reference Frames</h2>
+<section id="slide-org03b475d">
+<h2 id="org03b475d">Reference Frames</h2>
 <ul>
 <li>every sensor has a reference frame
 <ul>
@@ -48,8 +48,8 @@
 </ul>
 
 </section>
-<section id="slide-org3d9112f">
-<h3 id="org3d9112f">Units of measure</h3>
+<section id="slide-orge0ba68f">
+<h3 id="orge0ba68f">Units of measure</h3>
 <ul>
 <li>ROS has standards for units of measure</li>
 <li><a href="http://www.ros.org/reps/rep-0103.html">REP-103</a></li>
@@ -92,8 +92,8 @@
 </table>
 
 </section>
-<section id="slide-orgd868de1">
-<h3 id="orgd868de1">Coordinate Frames Standard</h3>
+<section id="slide-org9b1b82e">
+<h3 id="org9b1b82e">Coordinate Frames Standard</h3>
 <ul>
 <li>coordinate frames follow the right hand rule</li>
 
@@ -125,8 +125,8 @@
 </table>
 
 </section>
-<section id="slide-orgf1ab147">
-<h3 id="orgf1ab147">Cardinal Directions Coordinate Frames</h3>
+<section id="slide-orgec8ff90">
+<h3 id="orgec8ff90">Cardinal Directions Coordinate Frames</h3>
 <ul>
 <li>used when mapping with global information (GPS, Magnetometer)</li>
 
@@ -158,8 +158,8 @@
 </table>
 
 </section>
-<section id="slide-org1b085cf">
-<h3 id="org1b085cf">Orientation</h3>
+<section id="slide-org2cd8fd6">
+<h3 id="org2cd8fd6">Orientation</h3>
 <ul>
 <li>orientation is represented as RPY or quaternions
 <ul>
@@ -171,8 +171,8 @@
 
 </ul>
 </section>
-<section id="slide-org39afc35">
-<h2 id="org39afc35">Standard Coordinate Frames</h2>
+<section id="slide-orgd148a78">
+<h2 id="orgd148a78">Standard Coordinate Frames</h2>
 <ul>
 <li><code>base_link</code> centered at the robot center of rotation</li>
 <li><code>odom</code> global reference frame</li>
@@ -181,8 +181,8 @@
 </ul>
 
 </section>
-<section id="slide-orge451301">
-<h2 id="orge451301">State</h2>
+<section id="slide-org5e0287b">
+<h2 id="org5e0287b">State</h2>
 <ul>
 <li>State can be defined in a lot of ways</li>
 <li>IGVC maps obstacles in (x,y)
@@ -194,8 +194,8 @@
 </ul>
 
 </section>
-<section id="slide-org0341fff">
-<h2 id="org0341fff">Moving Between Reference Frames</h2>
+<section id="slide-org1301ebe">
+<h2 id="org1301ebe">Moving Between Reference Frames</h2>
 <ul>
 <li>To all coordinate frames have a transform to get from one to the other
 <ul>
@@ -213,8 +213,8 @@
 </ul>
 
 </section>
-<section id="slide-org3fea68d">
-<h3 id="org3fea68d">State</h3>
+<section id="slide-org5235a71">
+<h3 id="org5235a71">State</h3>
 <ul>
 <li>State can be defined in abstract ways</li>
 <li>Often called state vector</li>
@@ -228,8 +228,8 @@
 </ul>
 
 </section>
-<section id="slide-orgd946974">
-<h3 id="orgd946974">Rotations</h3>
+<section id="slide-orga5af3eb">
+<h3 id="orga5af3eb">Rotations</h3>
 <ul>
 <li>Use the rotation matrix</li>
 <li>Multiply the state vector by the rotation matrix</li>
@@ -267,8 +267,8 @@
 </table>
 
 </section>
-<section id="slide-org4f4d565">
-<h3 id="org4f4d565">Translation</h3>
+<section id="slide-org76f77db">
+<h3 id="org76f77db">Translation</h3>
 <ul>
 <li>Find the difference between the reference frames</li>
 <li>Add the vector that represents the difference</li>
@@ -276,8 +276,8 @@
 </ul>
 
 </section>
-<section id="slide-org901c360">
-<h3 id="org901c360">Math is hard</h3>
+<section id="slide-org0c08bb5">
+<h3 id="org0c08bb5">Math is hard</h3>
 <ul>
 <li>Matrix math is hard</li>
 <li>ROS has a built in tool, tf
@@ -293,7 +293,7 @@
 </section>
 </div>
 </div>
-<script src="https://robojackets.github.io/reveal.js/js/reveal.js"></script>
+<script src="https://revealjs.com/js/reveal.js"></script>
 
 <script>
 // Full list of configuration options available here:
@@ -307,7 +307,7 @@ multiplex: {
 
 // Optional libraries used to extend on reveal.js
 dependencies: [
- { src: 'https://robojackets.github.io/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://revealjs.com/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
 ]
 });
 </script>

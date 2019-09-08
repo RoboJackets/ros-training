@@ -7,9 +7,9 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="https://revealjs.com/css/reveal.css"/>
 
-<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/theme/white.css" id="theme"/>
+<link rel="stylesheet" href="https://revealjs.com/css/theme/white.css" id="theme"/>
 
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
@@ -18,7 +18,7 @@
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = 'https://robojackets.github.io/reveal.js/css/print/pdf.css';
+        link.href = 'https://revealjs.com/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
@@ -29,8 +29,8 @@
 <section id="sec-title-slide"><h1 class="title">Week 7</h1>
 </section>
 
-<section id="slide-org4e2c85a">
-<h2 id="org4e2c85a">Kernel</h2>
+<section id="slide-orgbefc25d">
+<h2 id="orgbefc25d">Kernel</h2>
 <ul>
 <li>A kernel is a square matrix that an image is multipled by</li>
 <li>Different kernels do different things</li>
@@ -38,8 +38,8 @@
 
 </ul>
 </section>
-<section id="slide-orga92c5db">
-<h3 id="orga92c5db">Identity</h3>
+<section id="slide-org6dcbe80">
+<h3 id="org6dcbe80">Identity</h3>
 <ul>
 <li>Returns the original image</li>
 
@@ -80,8 +80,8 @@
 </p>
 </div>
 </section>
-<section id="slide-org2012139">
-<h3 id="org2012139">Blur</h3>
+<section id="slide-org056857e">
+<h3 id="org056857e">Blur</h3>
 <ul>
 <li>used to reduce noise</li>
 
@@ -122,8 +122,8 @@
 </p>
 </div>
 </section>
-<section id="slide-org7b4b2bf">
-<h4 id="org7b4b2bf">Gaussian Distribution</h4>
+<section id="slide-org7412518">
+<h4 id="org7412518">Gaussian Distribution</h4>
 <ul>
 <li>Called a normal distribution, bell curve</li>
 <li>Defined by the mean and variance</li>
@@ -141,8 +141,8 @@ Sorry, your browser does not support SVG.</object>
 </p>
 </div>
 </section>
-<section id="slide-org9a66d04">
-<h4 id="org9a66d04">Gaussian blur</h4>
+<section id="slide-orgfe7ad1e">
+<h4 id="orgfe7ad1e">Gaussian blur</h4>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -179,8 +179,8 @@ Sorry, your browser does not support SVG.</object>
 </p>
 </div>
 </section>
-<section id="slide-orgb232366">
-<h4 id="orgb232366">Gaussian blur larger</h4>
+<section id="slide-org83c2baf">
+<h4 id="org83c2baf">Gaussian blur larger</h4>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -238,8 +238,8 @@ Sorry, your browser does not support SVG.</object>
 </tbody>
 </table>
 </section>
-<section id="slide-orgc98461d">
-<h3 id="orgc98461d">Edge Detection</h3>
+<section id="slide-orgcbfc113">
+<h3 id="orgcbfc113">Edge Detection</h3>
 <ul>
 <li>Gradients in images
 <ul>
@@ -250,8 +250,8 @@ Sorry, your browser does not support SVG.</object>
 
 </ul>
 </section>
-<section id="slide-orgf7d885d">
-<h4 id="orgf7d885d">Sobel</h4>
+<section id="slide-org34a2342">
+<h4 id="org34a2342">Sobel</h4>
 <ul>
 <li>Gradient calculation
 <ul>
@@ -263,8 +263,8 @@ Sorry, your browser does not support SVG.</object>
 
 </ul>
 </section>
-<section id="slide-orgcf321d2">
-<h4 id="orgcf321d2">Right Sobel</h4>
+<section id="slide-org43d0186">
+<h4 id="org43d0186">Right Sobel</h4>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -301,8 +301,8 @@ Sorry, your browser does not support SVG.</object>
 </p>
 </div>
 </section>
-<section id="slide-org6c4b60e">
-<h4 id="org6c4b60e">Top Sobel</h4>
+<section id="slide-orgba3e7da">
+<h4 id="orgba3e7da">Top Sobel</h4>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -339,24 +339,24 @@ Sorry, your browser does not support SVG.</object>
 </p>
 </div>
 </section>
-<section id="slide-orgb361dd0">
-<h4 id="orgb361dd0">Combination</h4>
+<section id="slide-org3374515">
+<h4 id="org3374515">Combination</h4>
 
 <div class="figure">
 <p><img src="https://i.imgur.com/zOUwHgY.png" alt="zOUwHgY.png" />
 </p>
 </div>
 </section>
-<section id="slide-orgf9f19ef">
-<h4 id="orgf9f19ef">Blurred Sobel</h4>
+<section id="slide-org99592eb">
+<h4 id="org99592eb">Blurred Sobel</h4>
 
 <div class="figure">
 <p><img src="https://i.imgur.com/LapsYpb.png" alt="LapsYpb.png" />
 </p>
 </div>
 </section>
-<section id="slide-orgabf5894">
-<h4 id="orgabf5894">Laplacian</h4>
+<section id="slide-org6bd7db8">
+<h4 id="org6bd7db8">Laplacian</h4>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -393,16 +393,16 @@ Sorry, your browser does not support SVG.</object>
 </p>
 </div>
 </section>
-<section id="slide-orgaa63f5a">
-<h4 id="orgaa63f5a">Blurred Laplacian</h4>
+<section id="slide-org1d4d275">
+<h4 id="org1d4d275">Blurred Laplacian</h4>
 
 <div class="figure">
 <p><img src="https://i.imgur.com/1lRPNTa.png" alt="1lRPNTa.png" />
 </p>
 </div>
 </section>
-<section id="slide-orgfded277">
-<h2 id="orgfded277">Thresholding</h2>
+<section id="slide-org1d4c4b2">
+<h2 id="org1d4c4b2">Thresholding</h2>
 <ul>
 <li>Used before projection to get pixel we care about</li>
 <li>Used by both teams
@@ -413,8 +413,8 @@ Sorry, your browser does not support SVG.</object>
 
 </ul>
 </section>
-<section id="slide-orgc5e7a17">
-<h3 id="orgc5e7a17">Binary</h3>
+<section id="slide-org24186c8">
+<h3 id="org24186c8">Binary</h3>
 <ul>
 <li>set to max if threshold is reached</li>
 
@@ -424,8 +424,8 @@ Sorry, your browser does not support SVG.</object>
 <img src="https://docs.opencv.org/3.2.0/Threshold_Tutorial_Theory_Binary.png" alt="Threshold_Tutorial_Theory_Binary.png" />
 </p>
 </section>
-<section id="slide-org5fcb17b">
-<h3 id="org5fcb17b">Truncate</h3>
+<section id="slide-org41b3d2c">
+<h3 id="org41b3d2c">Truncate</h3>
 <ul>
 <li>set anything above threshold to the threshold</li>
 
@@ -435,42 +435,42 @@ Sorry, your browser does not support SVG.</object>
 <img src="https://docs.opencv.org/3.2.0/Threshold_Tutorial_Theory_Truncate.png" alt="Threshold_Tutorial_Theory_Truncate.png" />
 </p>
 </section>
-<section id="slide-orgb1fe2f0">
-<h2 id="orgb1fe2f0">Hough</h2>
+<section id="slide-orgd48025c">
+<h2 id="orgd48025c">Hough</h2>
 <ul>
 <li>Express all points in polar coordinates</li>
 <li>Looks for overlapping lines to see what is a feature we care about</li>
 
 </ul>
 </section>
-<section id="slide-orgcaffc7e">
-<h3 id="orgcaffc7e">Lines</h3>
+<section id="slide-org1e3e4dc">
+<h3 id="org1e3e4dc">Lines</h3>
 <p>
 <a href="https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_houghlines/py_houghlines.html">Hough Lines</a>
 </p>
 </section>
-<section id="slide-orge0da542">
-<h3 id="orge0da542">Circles</h3>
+<section id="slide-org001bd30">
+<h3 id="org001bd30">Circles</h3>
 <p>
 <a href="https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_houghcircles/py_houghcircles.html">Hough Circles</a>
 </p>
 </section>
-<section id="slide-org5723afc">
-<h2 id="org5723afc">Canny Edge</h2>
+<section id="slide-org4c6a05e">
+<h2 id="org4c6a05e">Canny Edge</h2>
 <p>
 <a href="http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_canny/py_canny.html">Canny Edge</a>
 </p>
 </section>
-<section id="slide-org75fd8bf">
-<h2 id="org75fd8bf">OpenCV</h2>
+<section id="slide-org9768629">
+<h2 id="org9768629">OpenCV</h2>
 <ul>
 <li>Has good documentation</li>
 <li>Use google to search</li>
 
 </ul>
 </section>
-<section id="slide-orgbd3f12f">
-<h2 id="orgbd3f12f">Work</h2>
+<section id="slide-org412f13d">
+<h2 id="org412f13d">Work</h2>
 <ul>
 <li>Use the template to publish images
 <ul>
@@ -480,8 +480,8 @@ Sorry, your browser does not support SVG.</object>
 
 </ul>
 </section>
-<section id="slide-org9564e50">
-<h3 id="org9564e50">Commands</h3>
+<section id="slide-org9386dc4">
+<h3 id="org9386dc4">Commands</h3>
 <div class="org-src-container">
 
 <pre  class="src src-shell"><code trim>roscore
@@ -496,7 +496,7 @@ rosbag play -l NAME
 </section>
 </div>
 </div>
-<script src="https://robojackets.github.io/reveal.js/js/reveal.js"></script>
+<script src="https://revealjs.com/js/reveal.js"></script>
 
 <script>
 // Full list of configuration options available here:
@@ -510,7 +510,7 @@ multiplex: {
 
 // Optional libraries used to extend on reveal.js
 dependencies: [
- { src: 'https://robojackets.github.io/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://revealjs.com/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
 ]
 });
 </script>

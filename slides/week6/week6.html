@@ -7,9 +7,9 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="https://revealjs.com/css/reveal.css"/>
 
-<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/theme/white.css" id="theme"/>
+<link rel="stylesheet" href="https://revealjs.com/css/theme/white.css" id="theme"/>
 
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
@@ -18,7 +18,7 @@
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = 'https://robojackets.github.io/reveal.js/css/print/pdf.css';
+        link.href = 'https://revealjs.com/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
@@ -29,8 +29,8 @@
 <section id="sec-title-slide"><h1 class="title">Week 6</h1>
 </section>
 
-<section id="slide-orgfc38903">
-<h2 id="orgfc38903">What are we doing today</h2>
+<section id="slide-org5e7acf7">
+<h2 id="org5e7acf7">What are we doing today</h2>
 <ul>
 <li>Cameras</li>
 <li>OpenCV</li>
@@ -40,15 +40,15 @@
 </ul>
 
 </section>
-<section id="slide-org46fb5c0">
-<h2 id="org46fb5c0">Cameras</h2>
+<section id="slide-org9ba1f33">
+<h2 id="org9ba1f33">Cameras</h2>
 <ul>
 <li>An image is a collection of pixels</li>
 
 </ul>
 </section>
-<section id="slide-org8dc74c9">
-<h3 id="org8dc74c9">Stereo</h3>
+<section id="slide-orgc4249ed">
+<h3 id="orgc4249ed">Stereo</h3>
 <ul>
 <li>Can calculate the distances to things
 <ul>
@@ -65,8 +65,8 @@
 </p>
 </div>
 </section>
-<section id="slide-org595d337">
-<h2 id="org595d337">Computer Vision</h2>
+<section id="slide-org7c536de">
+<h2 id="org7c536de">Computer Vision</h2>
 <ul>
 <li>We have the knowledge in C++ to describe the logic we might want a robot to
 have. But we need to be able to make sense of what the robot sees and
@@ -78,8 +78,8 @@ classify it before we can act on this logic.</li>
 </ul>
 
 </section>
-<section id="slide-org5efc30c">
-<h2 id="org5efc30c">OpenCV</h2>
+<section id="slide-orgf0a68c7">
+<h2 id="orgf0a68c7">OpenCV</h2>
 <ul>
 <li>Industrial standard for image processing</li>
 
@@ -90,8 +90,8 @@ classify it before we can act on this logic.</li>
 </p>
 </div>
 </section>
-<section id="slide-org8813b4e">
-<h2 id="org8813b4e">What does an Image look like to your computer?</h2>
+<section id="slide-org2991587">
+<h2 id="org2991587">What does an Image look like to your computer?</h2>
 <ul>
 <li>OpenCV stores images in an object called a <i>Mat</i></li>
 <li>A Mat is an array with rows and columns. Each element
@@ -104,8 +104,8 @@ row and keep track of your row number by how far you've traversed.</li>
 
 </ul>
 </section>
-<section id="slide-orgbd7ad3f">
-<h2 id="orgbd7ad3f">Color Types</h2>
+<section id="slide-orga4b093f">
+<h2 id="orga4b093f">Color Types</h2>
 <ul>
 <li>There are many different formats for an image
 <ul>
@@ -117,8 +117,8 @@ row and keep track of your row number by how far you've traversed.</li>
 
 </ul>
 </section>
-<section id="slide-org3739459">
-<h3 id="org3739459">Grey scale</h3>
+<section id="slide-orgbb0da6d">
+<h3 id="orgbb0da6d">Grey scale</h3>
 <ul>
 <li>An image where each pixel is only white to black</li>
 <li>Range [0-255]
@@ -130,8 +130,8 @@ row and keep track of your row number by how far you've traversed.</li>
 
 </ul>
 </section>
-<section id="slide-orge3691de">
-<h3 id="orge3691de">Color Images</h3>
+<section id="slide-orge5072bd">
+<h3 id="orge5072bd">Color Images</h3>
 <ul>
 <li>Color images don't embed the color of a pixel in one element. Often, you'll
 find each pixel represented in BGR (Blue component, Green Component, Red
@@ -143,8 +143,8 @@ row of a black and white image.</li>
 </ul>
 
 </section>
-<section id="slide-org149cd68">
-<h3 id="org149cd68">HSV Images</h3>
+<section id="slide-org613472d">
+<h3 id="org613472d">HSV Images</h3>
 <ul>
 <li>Each Pixel in a color image has a hue, a saturation, and a luminosity.</li>
 <li>Even though our cameras read in images with RGB, converting them to HSV is
@@ -157,8 +157,8 @@ easy with OpenCV</li>
 </p>
 </div>
 </section>
-<section id="slide-org364ca41">
-<h4 id="org364ca41">HSV explained</h4>
+<section id="slide-org6a4cc9f">
+<h4 id="org6a4cc9f">HSV explained</h4>
 <ul>
 <li>Hue
 <ul>
@@ -184,8 +184,8 @@ easy with OpenCV</li>
 </div>
 
 </section>
-<section id="slide-org4b63758">
-<h4 id="org4b63758">Why do we use HSV</h4>
+<section id="slide-org900c976">
+<h4 id="org900c976">Why do we use HSV</h4>
 <ul>
 <li>HSV encodes image data in a way that is resistant to changes in color</li>
 <li>To put it another way, on a sunny day an image will contain more red, more
@@ -197,15 +197,15 @@ colors in the HSV space.</li>
 </ul>
 
 </section>
-<section id="slide-org4a378ea">
-<h2 id="org4a378ea">Finding the blue in an image</h2>
+<section id="slide-orgff8de06">
+<h2 id="orgff8de06">Finding the blue in an image</h2>
 <p>
 <a href="https://github.com/RoboJackets/ros-training/blob/master/code/week6/src/findBlue.cpp">https://github.com/RoboJackets/ros-training/blob/master/code/week6/src/findBlue.cpp</a>
 </p>
 
 </section>
-<section id="slide-org00062dd">
-<h2 id="org00062dd">Tensorflow</h2>
+<section id="slide-org99dca55">
+<h2 id="org99dca55">Tensorflow</h2>
 <ul>
 <li>Sometimes, CV problems present themselves in such a way that Deep Learning becomes the best solution.</li>
 <li>Tensorflow is a library containing machine learning algorithms.</li>
@@ -214,8 +214,8 @@ colors in the HSV space.</li>
 </ul>
 
 </section>
-<section id="slide-orgb7bfaab">
-<h2 id="orgb7bfaab">Semantic Segmentation</h2>
+<section id="slide-orgca51153">
+<h2 id="orgca51153">Semantic Segmentation</h2>
 <ul>
 <li>Semantic Segmentation is the art of grouping pixels in an image into clusters that share a meaning.</li>
 <li>In our use case, we classify pixels as "Not a line" or "Is a line"</li>
@@ -224,16 +224,16 @@ colors in the HSV space.</li>
 </ul>
 
 </section>
-<section id="slide-org360f194">
-<h2 id="org360f194">What is Convolving?</h2>
+<section id="slide-orgc5db3c4">
+<h2 id="orgc5db3c4">What is Convolving?</h2>
 <ul>
 <li>Convolving refers to the procedural application of a kernel to an image.</li>
 
 </ul>
 
 </section>
-<section id="slide-org90f36ad">
-<h2 id="org90f36ad">Kernels</h2>
+<section id="slide-orgf7283a1">
+<h2 id="orgf7283a1">Kernels</h2>
 <ul>
 <li>A kernel is a square matrix</li>
 <li>Each pixel value in a region of the image is multiplied by its corresponding element in the matrix, then summed for a result.</li>
@@ -241,8 +241,8 @@ colors in the HSV space.</li>
 
 </ul>
 </section>
-<section id="slide-orgdeebc41">
-<h3 id="orgdeebc41">Identity</h3>
+<section id="slide-org9343ecc">
+<h3 id="org9343ecc">Identity</h3>
 <ul>
 <li>Returns the original image</li>
 
@@ -283,8 +283,8 @@ colors in the HSV space.</li>
 </p>
 </div>
 </section>
-<section id="slide-org34a16e2">
-<h3 id="org34a16e2">Blur</h3>
+<section id="slide-orgb29acb9">
+<h3 id="orgb29acb9">Blur</h3>
 <ul>
 <li>used to reduce noise</li>
 <li>replaces the center pixel with the average of all of it's neighbors.</li>
@@ -324,8 +324,8 @@ colors in the HSV space.</li>
 <img src="https://i.imgur.com/ogsHVT9.png" alt="ogsHVT9.png" />i
 </p>
 </section>
-<section id="slide-org8aa21fa">
-<h4 id="org8aa21fa">Right Sobel</h4>
+<section id="slide-orgfdc291c">
+<h4 id="orgfdc291c">Right Sobel</h4>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -362,8 +362,8 @@ colors in the HSV space.</li>
 </p>
 </div>
 </section>
-<section id="slide-org926276d">
-<h4 id="org926276d">Top Sobel</h4>
+<section id="slide-org8424c31">
+<h4 id="org8424c31">Top Sobel</h4>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -400,8 +400,8 @@ colors in the HSV space.</li>
 </p>
 </div>
 </section>
-<section id="slide-org01711d0">
-<h4 id="org01711d0">Combination</h4>
+<section id="slide-org42787cf">
+<h4 id="org42787cf">Combination</h4>
 
 <div class="figure">
 <p><img src="https://i.imgur.com/zOUwHgY.png" alt="zOUwHgY.png" />
@@ -409,8 +409,8 @@ colors in the HSV space.</li>
 </div>
 
 </section>
-<section id="slide-org0c1f781">
-<h2 id="org0c1f781">Back to CNN</h2>
+<section id="slide-orgdfb55a0">
+<h2 id="orgdfb55a0">Back to CNN</h2>
 <ul>
 <li>These kernels are used to generate feature maps, which are then subjected to certain preprocessing steps and fed into a neural network as input, which then classifies each pixel as line or not-line.</li>
 <li>To train our network, we manually labelled many images from past competitions and testing runs, which allows our network to preform well for our use cases.</li>
@@ -419,8 +419,8 @@ colors in the HSV space.</li>
 </ul>
 
 </section>
-<section id="slide-org5a4d336">
-<h2 id="org5a4d336">I bet you all have wondered why I have gathered you here today.</h2>
+<section id="slide-orgb4bb8d9">
+<h2 id="orgb4bb8d9">I bet you all have wondered why I have gathered you here today.</h2>
 <ul>
 <li>As many of you might have noticed, we are in the shop rather than on campus.</li>
 <li>In addition, many of you might have noticed our poor documentation habits.</li>
@@ -432,7 +432,7 @@ colors in the HSV space.</li>
 </section>
 </div>
 </div>
-<script src="https://robojackets.github.io/reveal.js/js/reveal.js"></script>
+<script src="https://revealjs.com/js/reveal.js"></script>
 
 <script>
 // Full list of configuration options available here:
@@ -446,7 +446,7 @@ multiplex: {
 
 // Optional libraries used to extend on reveal.js
 dependencies: [
- { src: 'https://robojackets.github.io/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://revealjs.com/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
 ]
 });
 </script>

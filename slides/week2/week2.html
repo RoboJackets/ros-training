@@ -7,9 +7,9 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="https://revealjs.com/css/reveal.css"/>
 
-<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/theme/white.css" id="theme"/>
+<link rel="stylesheet" href="https://revealjs.com/css/theme/white.css" id="theme"/>
 
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
@@ -18,7 +18,7 @@
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = 'https://robojackets.github.io/reveal.js/css/print/pdf.css';
+        link.href = 'https://revealjs.com/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
@@ -29,8 +29,8 @@
 <section id="sec-title-slide"><h1 class="title">Week 2</h1>
 </section>
 
-<section id="slide-org0e29a21">
-<h2 id="org0e29a21">What are we doing today?</h2>
+<section id="slide-org72b168a">
+<h2 id="org72b168a">What are we doing today?</h2>
 <ul>
 <li>Sensor of the day: Lidar</li>
 <li>Coordinate Frames and Transformations mk.1</li>
@@ -39,8 +39,8 @@
 </ul>
 
 </section>
-<section id="slide-org097323a">
-<h2 id="org097323a">Meet the lidar!</h2>
+<section id="slide-orge78f683">
+<h2 id="orge78f683">Meet the lidar!</h2>
 <ul>
 <li>This sensor shines a laser light in circles and measures the return times
 from the pulses to give us a 3D model of our world</li>
@@ -55,8 +55,8 @@ fragile the a sensor like a camera, so <b>they should be handled with caution</b
 </div>
 
 </section>
-<section id="slide-org0f572c6">
-<h2 id="org0f572c6">Pointclouds</h2>
+<section id="slide-org1a36e6f">
+<h2 id="org1a36e6f">Pointclouds</h2>
 <ul>
 <li>A pointcloud is a data structure for holding the results found by the
 lidar (X, Y, Z)</li>
@@ -66,8 +66,8 @@ cartesian coordinates relative to the LIDAR</li>
 </ul>
 
 </section>
-<section id="slide-orgb04c958">
-<h2 id="orgb04c958">What does a pointcloud look like?</h2>
+<section id="slide-org9f6fb04">
+<h2 id="org9f6fb04">What does a pointcloud look like?</h2>
 <aside class="notes">
 <p>
 Pull out Jason's LIDAR and run rqt
@@ -80,8 +80,8 @@ Pull out Jason's LIDAR and run rqt
 </ul>
 
 </section>
-<section id="slide-org0384c38">
-<h2 id="org0384c38">Everything is Relative</h2>
+<section id="slide-orgb16df80">
+<h2 id="orgb16df80">Everything is Relative</h2>
 <ul>
 <li>Points are given relative to the sensor's frame of reference</li>
 <li>Imagine a 3d coordinate frame with the x-axis facing the front of the lidar, the y-axis shooting off to the left, and the z-axis pointing straight up</li>
@@ -93,12 +93,12 @@ Pull out Jason's LIDAR and run rqt
 </p>
 
 </section>
-<section id="slide-orgfb933ff">
-<h2 id="orgfb933ff">Insert Transformatios Slides Here, I suggest the ones from 3630 - they're pretty clear</h2>
+<section id="slide-org6b4cb87">
+<h2 id="org6b4cb87">Insert Transformatios Slides Here, I suggest the ones from 3630 - they're pretty clear</h2>
 
 </section>
-<section id="slide-orgf625b8e">
-<h2 id="orgf625b8e">ROS Messages!</h2>
+<section id="slide-orge303eaf">
+<h2 id="orge303eaf">ROS Messages!</h2>
 <ul>
 <li>Before, we set up a simple message type that held just a simple string.</li>
 <li>We'll see that again shortly.</li>
@@ -113,8 +113,8 @@ Pull out Jason's LIDAR and run rqt
 </ul>
 
 </section>
-<section id="slide-org92f1d9b">
-<h2 id="org92f1d9b">Headers - Timestamps</h2>
+<section id="slide-orgcf09b95">
+<h2 id="orgcf09b95">Headers - Timestamps</h2>
 <ul>
 <li>Headers are super useful, escpecially for their timestamps.</li>
 <li>Since the robot is running all of its nodes and sensors in parallel, it is possible to get messages that are out of date</li>
@@ -124,32 +124,32 @@ Pull out Jason's LIDAR and run rqt
 </ul>
 
 </section>
-<section id="slide-org7c47740">
-<h2 id="org7c47740">Headers - Timestamp</h2>
+<section id="slide-orgefa67cf">
+<h2 id="orgefa67cf">Headers - Timestamp</h2>
 <ul>
 <li>By syncing the timestamps of the position and pointcloud messages, we can correct (mostly) for this error - while messages might not be exactly in sync the difference in time between the closest messgages is often neglible.</li>
 
 </ul>
 
 </section>
-<section id="slide-org65fa20d">
-<h2 id="org65fa20d">Headers - FrameID</h2>
+<section id="slide-org9379c95">
+<h2 id="org9379c95">Headers - FrameID</h2>
 <ul>
 <li>In addition, headers contain a frame id which can specify which reference frame this message was created in, which allows our code to easily transform data across our robot's reference frames.</li>
 
 </ul>
 
 </section>
-<section id="slide-org99ab98f">
-<h2 id="org99ab98f">Data</h2>
+<section id="slide-orgfbc619c">
+<h2 id="orgfbc619c">Data</h2>
 <ul>
 <li>The data contained wihin a message is dependent on that data type, so checking the ros docs is important in determining how to treat different messages.</li>
 
 </ul>
 
 </section>
-<section id="slide-org363b2b5">
-<h2 id="org363b2b5">Data - Pointcloud</h2>
+<section id="slide-orgca74c62">
+<h2 id="orgca74c62">Data - Pointcloud</h2>
 <ul>
 <li>We use ROS's PCL package to interface with the LIDAR, and get messages of
 type
@@ -160,8 +160,8 @@ type
 </ul>
 
 </section>
-<section id="slide-orgb40fdd9">
-<h2 id="orgb40fdd9">How do we structure ROS projects?</h2>
+<section id="slide-orgcfed29d">
+<h2 id="orgcfed29d">How do we structure ROS projects?</h2>
 <aside class="notes">
 <p>
 pull open the repository and show them this literal structure
@@ -190,8 +190,8 @@ pull open the repository and show them this literal structure
 </div>
 
 </section>
-<section id="slide-org156c872">
-<h2 id="org156c872">CMakeLists file</h2>
+<section id="slide-org8739a24">
+<h2 id="org8739a24">CMakeLists file</h2>
 <aside class="notes">
 <p>
 walk them through the file and show them the parts of it
@@ -210,8 +210,8 @@ CMakeLists</a></li>
 </ul>
 
 </section>
-<section id="slide-orgf5f1477">
-<h2 id="orgf5f1477">Our CMakeLists.txt file</h2>
+<section id="slide-org0119c7b">
+<h2 id="org0119c7b">Our CMakeLists.txt file</h2>
 <pre  class="example">
 cmake_minimum_required(VERSION 2.8.3)
 project(node_example)
@@ -232,8 +232,8 @@ target_link_libraries(listener ${catkin_LIBRARIES})
 </pre>
 
 </section>
-<section id="slide-orgd76d812">
-<h2 id="orgd76d812">package.xml file</h2>
+<section id="slide-orgc0b052d">
+<h2 id="orgc0b052d">package.xml file</h2>
 <aside class="notes">
 <p>
 walk them through the file and show them the parts of it
@@ -252,8 +252,8 @@ package.xml</a></li>
 </ul>
 
 </section>
-<section id="slide-org76a643c">
-<h2 id="org76a643c">Our package.xml file</h2>
+<section id="slide-org7c632ce">
+<h2 id="org7c632ce">Our package.xml file</h2>
 <div class="org-src-container">
 
 <pre  class="src src-xml"><code trim>&lt;?<span style="color: #598249;">xml</span> <span style="color: #15968D;">version="1.0"</span>?&gt;
@@ -278,8 +278,8 @@ package.xml</a></li>
 </div>
 
 </section>
-<section id="slide-orgb974cad">
-<h2 id="orgb974cad">Some ROS Vocab</h2>
+<section id="slide-org7270756">
+<h2 id="org7270756">Some ROS Vocab</h2>
 <ul>
 <li>A <span class="underline">node</span> is a process running on your computer
 <ul>
@@ -316,8 +316,8 @@ define everytime a new message is published on this topic!
 </ul>
 
 </section>
-<section id="slide-org652b703">
-<h2 id="org652b703">A ROS Publisher - Setup</h2>
+<section id="slide-org5fcf3a1">
+<h2 id="org5fcf3a1">A ROS Publisher - Setup</h2>
 <aside class="notes">
 <p>
 Should we write our own? I like how well this is documented
@@ -349,8 +349,8 @@ Should we write our own? I like how well this is documented
 </div>
 
 </section>
-<section id="slide-org965f05e">
-<h2 id="org965f05e">ROS Publisher - publishing</h2>
+<section id="slide-org8001d7f">
+<h2 id="org8001d7f">ROS Publisher - publishing</h2>
 <div class="org-src-container">
 
 <pre  class="src src-C++"><code trim>  <span style="color: #598249;">int</span> <span style="color: #2F7BDE;">count</span> = 0;
@@ -378,8 +378,8 @@ Should we write our own? I like how well this is documented
 </div>
 
 </section>
-<section id="slide-orgc014a6d">
-<h2 id="orgc014a6d">Start the publisher node</h2>
+<section id="slide-org1148b28">
+<h2 id="org1148b28">Start the publisher node</h2>
 <div class="org-src-container">
 
 <pre  class="src src-sh"><code trim>rosrun node_example talker
@@ -387,8 +387,8 @@ Should we write our own? I like how well this is documented
 </div>
 
 </section>
-<section id="slide-org7ad321b">
-<h2 id="org7ad321b">rosnode</h2>
+<section id="slide-orgc47c8f1">
+<h2 id="orgc47c8f1">rosnode</h2>
 <aside class="notes">
 <p>
 demo
@@ -422,8 +422,8 @@ demo
 </table>
 
 </section>
-<section id="slide-org382f16c">
-<h2 id="org382f16c">rostopic</h2>
+<section id="slide-org21505fb">
+<h2 id="org21505fb">rostopic</h2>
 <aside class="notes">
 <p>
 demo
@@ -477,8 +477,8 @@ demo
 </table>
 
 </section>
-<section id="slide-orgcf7a33e">
-<h2 id="orgcf7a33e">rosmsg</h2>
+<section id="slide-org71aa580">
+<h2 id="org71aa580">rosmsg</h2>
 <aside class="notes">
 <p>
 demo
@@ -506,8 +506,8 @@ demo
 </ul>
 
 </section>
-<section id="slide-orgf0ef712">
-<h2 id="orgf0ef712">A ROS Subscriber -  Setup</h2>
+<section id="slide-org0127093">
+<h2 id="org0127093">A ROS Subscriber -  Setup</h2>
 <div class="org-src-container">
 
 <pre  class="src src-C++"><code trim><span style="color: #598249;">#include</span> <span style="color: #15968D;">"ros/ros.h"</span>
@@ -521,8 +521,8 @@ demo
 </div>
 
 </section>
-<section id="slide-org24900ed">
-<h2 id="org24900ed">A ROS Subscriber - Subscribing</h2>
+<section id="slide-org741b1dd">
+<h2 id="org741b1dd">A ROS Subscriber - Subscribing</h2>
 <div class="org-src-container">
 
 <pre  class="src src-C++"><code trim><span style="color: #598249;">int</span> <span style="color: #2F7BDE;">main</span>(<span style="color: #598249;">int</span> <span style="color: #2F7BDE;">argc</span>, <span style="color: #598249;">char</span> **<span style="color: #2F7BDE;">argv</span>)
@@ -541,16 +541,16 @@ demo
 </div>
 
 </section>
-<section id="slide-org331bbf2">
-<h2 id="org331bbf2">Start the subscriber node</h2>
+<section id="slide-org43e506c">
+<h2 id="org43e506c">Start the subscriber node</h2>
 <div class="org-src-container">
 
 <pre  class="src src-sh"><code trim>rosrun node_example listener
 </code></pre>
 </div>
 </section>
-<section id="slide-org4dcf338">
-<h2 id="org4dcf338">Let's go back to PointCloud2</h2>
+<section id="slide-org5243d45">
+<h2 id="org5243d45">Let's go back to PointCloud2</h2>
 <aside class="notes">
 <p>
 Talk them through the layout of the message. Show them that messages can
@@ -569,8 +569,8 @@ message declaration</a></li>
 </ul>
 
 </section>
-<section id="slide-orgbbd31fa">
-<h2 id="orgbbd31fa">Takeaways from the message definition</h2>
+<section id="slide-org7fbf2c8">
+<h2 id="org7fbf2c8">Takeaways from the message definition</h2>
 <ul>
 <li>Messages should always have headers. Haveing a timestamp makes logging and
 debugging easier</li>
@@ -582,7 +582,7 @@ of data, as they are also message types</li>
 </section>
 </div>
 </div>
-<script src="https://robojackets.github.io/reveal.js/js/reveal.js"></script>
+<script src="https://revealjs.com/js/reveal.js"></script>
 
 <script>
 // Full list of configuration options available here:
@@ -596,7 +596,7 @@ multiplex: {
 
 // Optional libraries used to extend on reveal.js
 dependencies: [
- { src: 'https://robojackets.github.io/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://revealjs.com/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
 ]
 });
 </script>

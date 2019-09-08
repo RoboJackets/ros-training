@@ -7,9 +7,9 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="https://revealjs.com/css/reveal.css"/>
 
-<link rel="stylesheet" href="https://robojackets.github.io/reveal.js/css/theme/white.css" id="theme"/>
+<link rel="stylesheet" href="https://revealjs.com/css/theme/white.css" id="theme"/>
 
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
@@ -18,7 +18,7 @@
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = 'https://robojackets.github.io/reveal.js/css/print/pdf.css';
+        link.href = 'https://revealjs.com/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
@@ -29,8 +29,8 @@
 <section id="sec-title-slide"><h1 class="title">Week 5</h1>
 </section>
 
-<section id="slide-orged865a2">
-<h2 id="orged865a2">What are we doing today</h2>
+<section id="slide-orga15b139">
+<h2 id="orga15b139">What are we doing today</h2>
 <ul>
 <li>Look at solutions from last week</li>
 <li>GPS</li>
@@ -41,11 +41,11 @@
 &#x2013;Sensor models and statistics
 </p>
 </section>
-<section id="slide-org36f8948">
-<h2 id="org36f8948">Solutions from last week</h2>
+<section id="slide-org44c55f1">
+<h2 id="org44c55f1">Solutions from last week</h2>
 </section>
-<section id="slide-org8b5349e">
-<h2 id="org8b5349e">GPS</h2>
+<section id="slide-orgd3f9d94">
+<h2 id="orgd3f9d94">GPS</h2>
 <ul>
 <li>Global positioning system</li>
 <li>Created by the military</li>
@@ -62,8 +62,8 @@
 
 </ul>
 </section>
-<section id="slide-org35ea1ad">
-<h3 id="org35ea1ad">Filters and base stations</h3>
+<section id="slide-org48bf60a">
+<h3 id="org48bf60a">Filters and base stations</h3>
 <ul>
 <li>Make assumptions to correct for noise</li>
 <li>Base station (RTK, real time kinematic)
@@ -77,8 +77,8 @@
 
 </ul>
 </section>
-<section id="slide-org64e308a">
-<h3 id="org64e308a">Almanacs</h3>
+<section id="slide-org0194ad9">
+<h3 id="org0194ad9">Almanacs</h3>
 <ul>
 <li>Where to look for the satellites
 <ul>
@@ -90,16 +90,16 @@
 
 </ul>
 </section>
-<section id="slide-orgc1db457">
-<h3 id="orgc1db457">Localization</h3>
+<section id="slide-org313ca01">
+<h3 id="org313ca01">Localization</h3>
 <ul>
 <li>Localization refers to the art of determining a robot's pose.</li>
 <li>The simplest method is called dead reckoning</li>
 
 </ul>
 </section>
-<section id="slide-orge4c301d">
-<h3 id="orge4c301d">Dead Reckoning</h3>
+<section id="slide-org0078386">
+<h3 id="org0078386">Dead Reckoning</h3>
 <ul>
 <li>Assume that the P(robot does what it is asked | we gave a command) = 1</li>
 <li>We simply track our requested changes in state and sum them.</li>
@@ -108,8 +108,8 @@
 
 </ul>
 </section>
-<section id="slide-org88643bd">
-<h3 id="org88643bd">Sensors</h3>
+<section id="slide-orgfc0c8ef">
+<h3 id="orgfc0c8ef">Sensors</h3>
 <ul>
 <li>Any tool we can use to incorporate new information about our world is a sensor</li>
 <li>However, in general, these are unreliable.</li>
@@ -117,8 +117,8 @@
 
 </ul>
 </section>
-<section id="slide-org92bb7ae">
-<h3 id="org92bb7ae">Bayes Theorem</h3>
+<section id="slide-orgbd44570">
+<h3 id="orgbd44570">Bayes Theorem</h3>
 <ul>
 <li>X = observation</li>
 <li>Z = evidence</li>
@@ -127,56 +127,56 @@
 
 </ul>
 </section>
-<section id="slide-org03a96ba">
-<h3 id="org03a96ba">Law of total proabability</h3>
+<section id="slide-orgef3d0c5">
+<h3 id="orgef3d0c5">Law of total proabability</h3>
 <ul>
 <li>P(Z) = sum(P(Z|X) for X in problem space)</li>
 
 </ul>
 </section>
-<section id="slide-org78de9d8">
-<h3 id="org78de9d8">Sensor model</h3>
+<section id="slide-orgc055466">
+<h3 id="orgc055466">Sensor model</h3>
 <ul>
 <li>Consists of a probabilty distribution that gives us P(sensor|reality)</li>
 <li>Either continous or discrete</li>
 
 </ul>
 </section>
-<section id="slide-orgf8ea944">
-<h3 id="orgf8ea944">Example</h3>
+<section id="slide-org7d63306">
+<h3 id="org7d63306">Example</h3>
 </section>
-<section id="slide-org2200691">
-<h3 id="org2200691">How do we update this information?</h3>
+<section id="slide-org35985ee">
+<h3 id="org35985ee">How do we update this information?</h3>
 <ul>
 <li>Given new sensor data, how can we calculate P(X|Z1, Z2,&#x2026;, ZN)?</li>
 
 </ul>
 </section>
-<section id="slide-org228d809">
-<h3 id="org228d809">Recursive Updating</h3>
+<section id="slide-org0d31f29">
+<h3 id="org0d31f29">Recursive Updating</h3>
 <ul>
 <li>P(X|Z1-&gt;ZN) = P(ZN|X, Z1-&gt;ZN-1)*P(X|Z1-&gt;ZN-1) / P(ZN|Z1-&gt;ZN-1)</li>
 <li>This can be simplifed through the Markov Assumption</li>
 
 </ul>
 </section>
-<section id="slide-org917e97c">
-<h3 id="org917e97c">Markov Assumption</h3>
+<section id="slide-orgf48b15c">
+<h3 id="orgf48b15c">Markov Assumption</h3>
 <ul>
 <li>The past has no effect on the present, so P(ZN|X, Z1-&gt;ZN-1) = P(ZN|X)</li>
 
 </ul>
 </section>
-<section id="slide-org51da9d6">
-<h3 id="org51da9d6">Finally</h3>
+<section id="slide-orgbfede75">
+<h3 id="orgbfede75">Finally</h3>
 <ul>
 <li>P(X|Z1-&gt;ZN) = P(ZN|X)*P(X|Z1-&gt;ZN-1)/P(ZN)</li>
 <li>This rule allows us to model our sensor's tendancy to be bad</li>
 
 </ul>
 </section>
-<section id="slide-orge5eeae8">
-<h3 id="orge5eeae8">Example</h3>
+<section id="slide-org3ed5de6">
+<h3 id="org3ed5de6">Example</h3>
 <ul>
 <li>P(open) = P(closed) = .5</li>
 <li>P(Z1|open) = .6</li>
@@ -187,31 +187,31 @@
 
 </ul>
 </section>
-<section id="slide-org13551c6">
-<h3 id="org13551c6">Example Cont.</h3>
+<section id="slide-org52860fa">
+<h3 id="org52860fa">Example Cont.</h3>
 <ul>
 <li>P(open|Z1,Z2) = P(Z2|open)*P(open|Z1) / (P(Z2|open)*P(open) + P(Z2|closed)*P(closed))</li>
 <li>P(open|Z1,Z2) = .8</li>
 
 </ul>
 </section>
-<section id="slide-orgd53913f">
-<h3 id="orgd53913f">Actions</h3>
+<section id="slide-org669f6ab">
+<h3 id="org669f6ab">Actions</h3>
 <ul>
 <li>Sensors give us confidence as described before</li>
 <li>Actions cause us to lose confidence</li>
 
 </ul>
 </section>
-<section id="slide-orgc350047">
-<h3 id="orgc350047">Stochastic Movement</h3>
+<section id="slide-org8379870">
+<h3 id="org8379870">Stochastic Movement</h3>
 <ul>
 <li>Robots typically don't do exactly what you want</li>
 
 </ul>
 </section>
-<section id="slide-org101489c">
-<h3 id="org101489c">Door Example, Again</h3>
+<section id="slide-org6ff0cb0">
+<h3 id="org6ff0cb0">Door Example, Again</h3>
 <ul>
 <li>P(open|Z1,Z2) = .8</li>
 <li>P(open|open,push) = .1</li>
@@ -221,8 +221,8 @@
 
 </ul>
 </section>
-<section id="slide-orgc064150">
-<h3 id="orgc064150">Cont.</h3>
+<section id="slide-org544a4b5">
+<h3 id="org544a4b5">Cont.</h3>
 <ul>
 <li>P(open|Z1,Z2, push) = P(open|open, push)*P(open|Z1,Z2) + P(open|closed, push)*P(closed|Z1,Z2)</li>
 
@@ -231,31 +231,31 @@
 &#x2013;	= .1*.8 + 0*.2 = .08
 </p>
 </section>
-<section id="slide-org3daba41">
-<h3 id="org3daba41">Big Takeaway</h3>
+<section id="slide-org84cff5f">
+<h3 id="org84cff5f">Big Takeaway</h3>
 <ul>
 <li>Through modeling sensors, we can accurately reflect our confidence gain</li>
 <li>Through modeling actions, we can accurately reflect our conifdence loss</li>
 
 </ul>
 </section>
-<section id="slide-org074ff9d">
-<h3 id="org074ff9d">Revist Mapping</h3>
+<section id="slide-orga2d6aa1">
+<h3 id="orga2d6aa1">Revist Mapping</h3>
 <ul>
 <li>We use probabilistic occupancy grids, which mean we use statistics to model our confidence in what we sense and store these confidences in a grid.</li>
 
 </ul>
 </section>
-<section id="slide-org307273b">
-<h3 id="org307273b">Localization</h3>
+<section id="slide-orgbb15891">
+<h3 id="orgbb15891">Localization</h3>
 <ul>
 <li>Current solution: Kalman Filter</li>
 <li>Proposed solution: Particle Filter</li>
 
 </ul>
 </section>
-<section id="slide-orga920f5e">
-<h3 id="orga920f5e">Particle Filters</h3>
+<section id="slide-org407c4a3">
+<h3 id="org407c4a3">Particle Filters</h3>
 <ul>
 <li>Particles are proposed poses</li>
 <li>Step one: initialze particles</li>
@@ -267,8 +267,8 @@
 
 </ul>
 </section>
-<section id="slide-org51092dd">
-<h3 id="org51092dd">Challenges</h3>
+<section id="slide-orgd475b19">
+<h3 id="orgd475b19">Challenges</h3>
 <ul>
 <li>Landmark detection</li>
 <li>Sensor model</li>
@@ -276,8 +276,8 @@
 
 </ul>
 </section>
-<section id="slide-orgb6b3fc0">
-<h3 id="orgb6b3fc0">Kalman Filters</h3>
+<section id="slide-org6cea391">
+<h3 id="org6cea391">Kalman Filters</h3>
 <ul>
 <li>Assumes all noise is gaussain and filters sensor readings based on that</li>
 <li>Essentially combines an old and new distribution to get a new mean and variance and builds a estimated distribution with those</li>
@@ -288,7 +288,7 @@
 </section>
 </div>
 </div>
-<script src="https://robojackets.github.io/reveal.js/js/reveal.js"></script>
+<script src="https://revealjs.com/js/reveal.js"></script>
 
 <script>
 // Full list of configuration options available here:
@@ -302,7 +302,7 @@ multiplex: {
 
 // Optional libraries used to extend on reveal.js
 dependencies: [
- { src: 'https://robojackets.github.io/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://revealjs.com/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
 ]
 });
 </script>
