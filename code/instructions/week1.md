@@ -69,7 +69,7 @@ After launching the node, you should see the simulator window open up:
 Now that we've got the simulator up and running, let's try moving the turtle around. To do that, we
 need to communicate to the simulator node. ROS does this through the use of **topics** and **messages**.
 
-You can think of a ROS topic as a an address that messages are sent to, and ROS messages as the actual messages
+You can think of a ROS topic as an address that messages are sent to, and ROS messages as the actual messages
 that are sent to those topics.
 
 For example, the simulator node listens to messages on the `/oswin/velocity` topic, makes the turtle move

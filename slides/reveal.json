@@ -1,5 +1,9 @@
 {
   "progress": true,
   "hash": false,
-  "transition": "slide"
+  "transition": "slide",
+  "width": 1440,
+  "height": 800,
+  "margin": 0.15,
+  "minScale": 0.1
 }
