@@ -3,21 +3,21 @@ jobs:
   build:
     working_directory: ~/ros-training
     docker:
-      - image: silex/emacs:master-dev
+      - image: node:latest
+    environment:
+      NPM_CONFIG_PREFIX: /home/node/.npm-global
     steps:
       # Install cask
       - checkout
       - run: git config --global user.name "$GIT_USERNAME" && git config --global user.email "$GIT_EMAIL"
       - run: git clone "$CIRCLE_REPOSITORY_URL" html && cd html && git checkout gh-pages && rm -fr * && cd ..
+      - run: npm install -g reveal-md
       - run:
-          name: No HTTP Link Check
-          command: sh -c "! grep -Er 'http[^s].+(png|jpg|jpeg|gif)\]' slides/*"
-      - run:
-          name: No Mixed Line Endings Check
-          command: sh -c "! find slides/* -name '*.org' -exec file {} \; | grep 'line terminators'"
-      - run: cd slides && ~/.cask/bin/cask install
+          name: Setup Environment Variables
+          command: |
+            echo "export PATH=/home/node/.npm-global/bin:$PATH" >> $BASH_ENV
         # Generate build files to /html
-      - run: cd slides && ~/.cask/bin/cask eval "(progn (require 'ros-training) (ros-training-publish))"
+      - run: source $BASH_ENV && cd slides && reveal-md -w ./ --static ../html
       - deploy:
           name: Deploy to github
           command: |
