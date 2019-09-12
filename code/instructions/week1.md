@@ -76,6 +76,8 @@ For example, the simulator node listens to messages on the `/oswin/velocity` top
 depending on what message was sent. This means that we can control the turtle by sending a message on the
 `/oswin/velocity` topic.
 
+<img src="https://drive.google.com/uc?export=download&id=1eMJvdkT4IcLWoMIsSyF7P_bzkNNJW8yU">
+
 Let's try this. Open up another terminal window, and launch the `teleop_twist_keyboard` node like so:
 ```bash
 rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/oswin/velocity
@@ -91,6 +93,8 @@ What's happening is that the `teleop_twist_keyboard` node **publishes** the velo
 `/oswin/velocity` topic and because `buzzsim` node **subscribes** to the same topic, it is able to
 receive those messages and move the turtle. We call the `teleop_twist_keyboard` a **ROS Publisher**
 and the `buzzsim` node a **ROS Subscriber**.
+
+<img src="https://drive.google.com/uc?export=download&id=1IMTA2zjoZJ-V2lv87u_clImAZ7xkhvEK">
 
 ## The `rostopic` tool
 To look more into this, we can use the `rostopic` tool. Close the `teleop_twist_keyboard` node with
@@ -127,6 +131,12 @@ Subscribers:
 Here, we can see that this topic is of type `geometry_msgs/Twist`, has no `Publishers`, and has one `Subscriber`,
 which is the `buzzsim` node. The type of a topic is the type of message of that topic. In this case, it is
 `geometry_msgs/Twist`, which contains information about the velocity of the robot.
+
+Since `geometry_msgs/Twist`, which comes from the package `geometry_msgs` package from ROS, we can
+lookup the definition in the [ROS docs](http://docs.ros.org/melodic/api/geometry_msgs/html/msg/Twist.html)
+(Google "geometry_msgs/Twist" and it should show up)
+
+<img src="https://i.imgur.com/uovZmPe.png">
 
 ### `rostopic echo`
 We can see exactly what is being sent on a topic with the `echo` command:
