@@ -57,9 +57,12 @@ Here's the plan:
 1. In the week6 `main.cpp`, subscribe to the `nav_msgs::OccupancyGrid` that the `week5` node is publishing
 2. In the callback for the `week6` node, use a `tf::TransformListener` to find out the current location of `oswin` and
 `kyle`.
-3. Create a for loop that iterates from i=-4 to 4. For each i, calculate where `oswin` would be if it moved at that
-angular velocity and a linear velocity of 1. Calculate the cost function for each resulting pose
-4. Calculate the angular velocity that results in the lowest cost
+3. Create a for loop that iterates from i=-4 to 4.
+    - Create another for loop inside that iterates form t=0 to some `num_steps` variable that you create
+        - For each t, calculate where `oswin` would be if it moved at that angular velocity and a linear velocity of 1.
+            Calculate the cost for each resulting pose using the cost function, and add that cost to a sum
+            for that i
+4. Calculate the i that results in the lowest cost
 5. Take that angular velocity, put it in a `geometry_msgs::Twist` message, and then publish it on the `oswin/velocity`
 topic
 
@@ -76,3 +79,69 @@ to show. To do this, you can take the best angular velocity but apply it in much
 bunch of `geometry_msgs::PoseStamped`, and then insert that into the `nav_msgs::Path` and publish it.
 
 It should look something like this:
+![](training_nav_rviz.png)
+
+We then have a few other things that can be added to this simple path planner:
+
+<details>
+  <summary>1. Executing two controls</summary>
+  
+  So far, our optimization based path planner assumes that we're executing one command
+  (ie. one linear and angular velocity) for the entire path. However, this isn't a very good assumption. For example,
+  
+  ![](example_one_control.png)
+  
+  It's very clear that the current "optimal" path isn't optimal at all, as intuitively you'd want the path to turn
+  right first to avoid the barrel, then turn left in order to head towards the goal.
+  
+  What we can do is **optimize over multiple controls** now instead of just one. For now, we'll increase the number of
+  controls we're executing, so that we optimize one control for half the time, and then another one for the rest of the
+  time.
+  
+  One way of doing this is to define a `std::vector<double>` for a "pair of controls", and then generate all the
+  possible controls in a `std::vector<std::vector<double>>`, and then loop over those controls to find the one that
+  minimizes the cost. 
+  
+  This should look something like this (see how nice visualization is):
+  ![](two_controls.png)
+</details>
+
+<details>
+  <summary>2. Executing more than two controls</summary>
+  
+  Two controls does a better job than one control, but its still pretty bad. What we really want is to be able to
+  execute a series of controls, one for every timestep.
+  
+  However, there's a problem if we repeated what we did for two controls but for say 10: The **search space** increases
+  dramatically.
+  
+  What does **search space** refer to?
+  
+  With one control, we're searching for **one** number. In reality, the number we're looking for lies on the real number
+  line, and so there are an _infinite_ number of controls we're searching through, but because we **discretize** our
+  search space to 9 different possibilities, we're only looking for the best one out of these 9.
+  
+  With two controls, there's 9 different possibilities for the first control, and 9 different possibilities for the
+  second. Using basic combinatorics, that's a total of 9^2 = 81 different options that we need to search through.
+  
+  If we've got 10 different controls, then that's a total of 9^10, or around 3 billion different controls that we need
+  to search through. That's way too many to do in a reasonable time.
+  
+  This is where optimization algorithms come in.
+</details>
+
+## Summary
+That's it for this week!
+
+We learnt about:
+- [An overview of path planning](#overview-of-path-planning)
+    - **Grid-based search**: Search through the grid for a path
+    - **Sampling based**: Randomly sample poses and connect them to find a path
+    - **Optimization based**: Treat the problem as an optimization problem with constraints
+- [Implemented a simple optimization based](#implementing-a-simplified-optimization-based-path-planner)
+    - Learning the kinematics for a differential drive robot
+    - Hopefully it's able to plan around the obstacles
+    - Publishing a debug path to help with visualizing the algorithm
+
+Next week, we'll be learning about **images manipulation** with **OpenCV** and how to use that
+to **identify objects** in our images.
