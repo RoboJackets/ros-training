@@ -128,6 +128,43 @@ We then have a few other things that can be added to this simple path planner:
   to search through. That's way too many to do in a reasonable time.
   
   This is where optimization algorithms come in.
+  
+  Instead of searching through every single possibility, they start with one option (often randomly picked), then
+  gradually find different options that are better, until they converge at some **local minima**.
+  
+  A very naive algorithm (but simple) is called **hill climbing**. The idea is that we start with some series of
+  controls. Then, we generate a random number for each control and **perturb**, or change, the original control with
+  the randomly generated number. If the new solution is better, then we take it. Otherwise, we try again. We repeat
+  this process until we can't find a better solution after some number of tries. This can be thought of as starting at
+  the base of a hill and choosing to move in a direction that points up, until we're at the top of that hill, hence the
+  name **hill climbing**.
+  
+  To implement this algorithm, you'll need to be able to generate random numbers. To do this, you can make use of the
+  `<random>` header from the standard library:
+  ```c++
+    #include <random>
+    ...
+    std::random_device rd{};
+    std::mt19937 gen{rd()};
+
+    // Construct a std::normal_distribution with mean = 5 and std_dev = 2
+    std::normal_distribution<> distribution{5, 2};
+
+    double sample_one = distribution(gen);
+    double sample_two = distribution(gen);
+  ```
+  See [here]() for more details.
+  
+  To sum up the algorithm:
+  1. Start with **n** random controls (where n is some number. Start with 2, then increase it when it works)
+  2. Generate **n** random numbers (zero mean, and some smaller std_dev as you want to be taking small steps)
+  3. Add the random numbers to the controls, calculate the resulting pose, and calculate the cost function. If the new
+  controls has a smaller cost, then keep the new controls.
+  4. If we've failed to find a better set of controls **x** number of times, then we'll say that we've found the best
+  solution
+  
+  If you've managed to implement this correctly (good job for making it this far), then you should get some really nice
+  looking path like the one below:
 </details>
 
 ## Summary
