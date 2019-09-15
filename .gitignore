@@ -1,1 +1,6 @@
 html/
+
+*/.idea
+*.idea
+
+.cask
