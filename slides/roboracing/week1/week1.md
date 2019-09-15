@@ -7,6 +7,7 @@ title: Week 1
 
 ## What are we doing today?
 - Introduction
+- ROS-Training Schedule
 - Review Installation
 - RoboRacing Competitions
 - Introduction to ROS
@@ -21,6 +22,12 @@ title: Week 1
 - How to contact me
     - Slack: [@Daniel Martin](https://robojackets.slack.com/messages/@Daniel_Martin)
     - Email: [dmartin1@gatech.edu](mailto:dmartin1@gatech.edu)
+
+---
+
+## ROS-Training Schedule
+
+<img src="https://i.imgur.com/hCANi8O.png" height=700>
 
 ---
 
