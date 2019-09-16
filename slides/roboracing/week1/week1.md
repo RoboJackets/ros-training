@@ -18,7 +18,7 @@ title: Week 1
 
 - Daniel Martin
     - 2nd year, CS Major (Devices, Intelligence)
-    - RoboRacing Software Leadloses #64
+    - RoboRacing Software Lead
 - How to contact me
     - Slack: [@Daniel Martin](https://robojackets.slack.com/messages/@Daniel_Martin)
     - Email: [dmartin1@gatech.edu](mailto:dmartin1@gatech.edu)
@@ -77,7 +77,7 @@ title: Week 1
 ---
 
 ## What is ROS?
-- Robotic Operating System
+- Robot Operating System
 - Message passing framework for programming robots
 - ROS is composed of three major parts: roscore, nodes, and topics
 
