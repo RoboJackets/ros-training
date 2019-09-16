@@ -25,6 +25,19 @@ title: Week 1
 
 ---
 
+## Meet Evan
+
+- Evan Bretl
+    - 4th year, CS Major (Intelligence, Mod/Sim)
+    - Former PM and Software Lead
+    - Graduating this December :(
+    - RJ has given me lots of career opportunities (robotics internships + job offers)
+- How to contact me
+    - Slack: [@Evan Bretl](https://robojackets.slack.com/messages/@Evan_Bretl)
+    - Email: [evanbretl4@gmail.com](mailto:evanbretl4@gmail.com)
+
+---
+
 ## ROS-Training Schedule
 
 <img src="https://i.imgur.com/hCANi8O.png" height=700>
