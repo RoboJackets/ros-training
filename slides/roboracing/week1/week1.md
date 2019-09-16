@@ -124,7 +124,7 @@ catkin_make
     ```bash
     rosrun igvc_buzzsim buzzsim
     ```
-<img class="stretch" src="https://i.imgur.com/jsRD8i5.png">
+<img src="https://i.imgur.com/jsRD8i5.png" height="500">
 
 ---
 
@@ -230,7 +230,7 @@ rostopic
     # Publishers:
     # * /teleop_twist_keyboard (http://robojackets:46001/)
     #
-    # Subscribers: 
+    # Subscribers:
     #  * /buzzsimsim (http://robojackets:36899/)
     ```
 - The *Type* of a topic is the type of message for that topic
@@ -294,7 +294,7 @@ rostopic echo /oswin/velocity
 Now that we've seen how to use the `rostopic` tool, let's look more at the ROS **messages** themselves. So far, we've
 seen the `geometry_msgs/Twist` message, but how do they work?
 
-----
+---
 
 ### `.msg` files
 ROS Messages are defined using `.msg` files. For example, the
@@ -305,13 +305,13 @@ Vector3  linear
 Vector3  angular
 ```
 
-----
-
 Each line represents one field in the message, with the type on the left and the
 name on the right. In this case, the `twist.msg` message has two fields:
 "linear" of type `Vector3`, and "angular" of type `Vector3`.
 
-----
+In general, messages are described by other messages within them.
+
+---
 
 The `Vector3` type that
 this message refers to is another type that's defined
@@ -329,17 +329,13 @@ float64 y
 float64 z
 ```
 
-----
-
-In general, messages are described by other messages within them.
-
 ---
 
 ### Exercise: Writing our own ROS message
 Let's try writing our own ROS message now. Imagine that want to write a path planner node that
 publishes motor commands, and a motor controller node that subscribes to the motor commands.
 
-----
+---
 
 We don't have a ROS message type for motor commands yet though, and so we need to make our own
 custom ROS message.
@@ -349,7 +345,7 @@ Some requirements for our message:
 2. We want to know **when** the message was sent, so we can tell if the message is old or not.
 3. The command sent to the motor should be a float
 
-----
+---
 
 Write your ROS message in the file `igvc_training_msgs/msg/motor_command.msg`.
 
@@ -361,25 +357,26 @@ Tips:
 ---
 
 ## Summary
-This week, we learnt about:
-- [Running ROS Nodes](#/9)
+This week, we learned about:
+- Running ROS Nodes
     + `rosrun <package-name> <node-name>`, ie. `rosrun igvc_buzzsim buzzsim`
-- [ROS Topics and `teleop_twist_keyboard`](#/10)
+- ROS Topics and `teleop_twist_keyboard`
     + A ROS topic is like an address that messages are sent to
     + A ROS node can **subscribe** and **publish** messages to any topic
     + Each topic has a message type.
-- [The `rostopic` tool](#/13)
+- The `rostopic` tool
     + `rostopic list` to list available topics
     + `rostopic echo` to listen to topics
     + `rostopic pub` to publish to topics
-- [ROS messages](#/13)
+
+---
+
+## Summary cont'd
+- ROS messages
     + Described in a `.msg` file
     + Composed of other ROS messages
     + Wrote our own custom ROS message to communicate custom information between (hypothetical) nodes
-    
----
 
-## Summary
 The presentation slides are available on github, under the [ros-training](github.com/RoboJackets/ros-training)
 repository on the RoboJackets github.
 
