@@ -124,7 +124,7 @@ catkin_make
     ```bash
     rosrun igvc_buzzsim buzzsim
     ```
-<img src="https://i.imgur.com/jsRD8i5.png" height=500>
+<img class="stretch" src="https://i.imgur.com/jsRD8i5.png">
 
 ---
 
@@ -193,16 +193,16 @@ ROS **Topics**, **Messages**, **Publishers** and **Subscribers** are the core pa
 rostopic
 # rostopic is a command-line tool for printing information about ROS Topics.
 # Commands:
-# 	rostopic bw	display bandwidth used by topic
-# 	rostopic delay	display delay of topic from timestamp in header
-# 	rostopic echo	print messages to screen
-# 	rostopic find	find topics by type
-# 	rostopic hz	display publishing rate of topic    
-# 	rostopic info	print information about active topic
-# 	rostopic list	list active topics
-# 	rostopic pub	publish data to topic
-# 	rostopic type	print topic or field type
-# 
+#   rostopic bw display bandwidth used by topic
+#   rostopic delay  display delay of topic from timestamp in header
+#   rostopic echo   print messages to screen
+#   rostopic find   find topics by type
+#   rostopic hz display publishing rate of topic
+#   rostopic info   print information about active topic
+#   rostopic list   list active topics
+#   rostopic pub    publish data to topic
+#   rostopic type   print topic or field type
+#
 # Type rostopic <command> -h for more detailed usage, e.g. 'rostopic echo -h'
 ```
 
@@ -282,8 +282,81 @@ rostopic echo /oswin/velocity
       y: 0.0
       z: 0.0"
     ```
+  - Tab completion is really useful here. Type `rostopic pub /oswin/velocity ` and then keep tabbing
+  - The identation matters (for those of you who know YAML, this is YAML)
 - The turtle in the simulation should move
 - Try playing around with the `x` component of `linear` and the `z` component of `angular`
+
+---
+
+## ROS messages
+
+Now that we've seen how to use the `rostopic` tool, let's look more at the ROS **messages** themselves. So far, we've
+seen the `geometry_msgs/Twist` message, but how do they work?
+
+----
+
+### `.msg` files
+ROS Messages are defined using `.msg` files. For example, the
+[`twist.msg`](https://github.com/ros/common_msgs/blob/jade-devel/geometry_msgs/msg/Twist.msg) looks like:
+```.msg
+# This expresses velocity in free space broken into its linear and angular parts.
+Vector3  linear
+Vector3  angular
+```
+
+----
+
+Each line represents one field in the message, with the type on the left and the
+name on the right. In this case, the `twist.msg` message has two fields:
+"linear" of type `Vector3`, and "angular" of type `Vector3`.
+
+----
+
+The `Vector3` type that
+this message refers to is another type that's defined
+[somewhere else](https://github.com/ros/common_msgs/blob/jade-devel/geometry_msgs/msg/Vector3.msg):
+```.msg
+# This represents a vector in free space.
+# It is only meant to represent a direction. Therefore, it does not
+# make sense to apply a translation to it (e.g., when applying a
+# generic rigid transformation to a Vector3, tf2 will only apply the
+# rotation). If you want your data to be translatable too, use the
+# geometry_msgs/Point message instead.
+
+float64 x
+float64 y
+float64 z
+```
+
+----
+
+In general, messages are described by other messages within them.
+
+---
+
+### Exercise: Writing our own ROS message
+Let's try writing our own ROS message now. Imagine that want to write a path planner node that
+publishes motor commands, and a motor controller node that subscribes to the motor commands.
+
+----
+
+We don't have a ROS message type for motor commands yet though, and so we need to make our own
+custom ROS message.
+
+Some requirements for our message:
+1. Our robot has two motors, one for each wheel, so we need to be able to send each motor a separate command
+2. We want to know **when** the message was sent, so we can tell if the message is old or not.
+3. The command sent to the motor should be a float
+
+----
+
+Write your ROS message in the file `igvc_training_msgs/msg/motor_command.msg`.
+
+Tips:
+- Check out the [std_msgs](http://wiki.ros.org/std_msgs). It should contain everything you need
+- Remember to `catkin_make` to compile the message!
+- Try doing `rostopic pub` and `rostopic echo` to verify that your message works.
 
 ---
 
@@ -299,6 +372,10 @@ This week, we learnt about:
     + `rostopic list` to list available topics
     + `rostopic echo` to listen to topics
     + `rostopic pub` to publish to topics
+- [ROS messages](#/13)
+    + Described in a `.msg` file
+    + Composed of other ROS messages
+    + Wrote our own custom ROS message to communicate custom information between (hypothetical) nodes
     
 ---
 
