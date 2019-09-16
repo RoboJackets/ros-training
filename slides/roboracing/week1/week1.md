@@ -18,7 +18,7 @@ title: Week 1
 
 - Daniel Martin
     - 2nd year, CS Major (Devices, Intelligence)
-    - RoboRacing Software Lead
+    - RoboRacing Software Leadloses #64
 - How to contact me
     - Slack: [@Daniel Martin](https://robojackets.slack.com/messages/@Daniel_Martin)
     - Email: [dmartin1@gatech.edu](mailto:dmartin1@gatech.edu)
@@ -34,8 +34,8 @@ title: Week 1
 ## Installation
 - We work on Ubuntu 18.04 and ROS Melodic
 - VM
-    - VirtualBox or VMare
-    - Team ROS Image [here](https://mega.nz/#!enoWBawC!_pOgFVwLxf4yGZyqckouGeabjJCD0xL2jwfA08lTS9w)
+    - VirtualBox or VMWare
+    - RoboRacing ROS Image [here](https://mega.nz/#!enoWBawC!_pOgFVwLxf4yGZyqckouGeabjJCD0xL2jwfA08lTS9w)
 - Dual-booting
     - Be careful!
 - ROS Installation Instruction
@@ -51,6 +51,15 @@ title: Week 1
 -  Both autonomous navigation competitions
 
 <img src="https://i.imgur.com/0TSI6gt.jpg" height=300>
+
+---
+
+## ROS-Training Information
+
+-  [RoboJackets/ros-training](https://github.com/RoboJackets/ros-training) GitHub
+-  Follow _Getting Started_ Instructions
+-  These documents are in **rr_slides** branch
+-  Sharing with IGVC
 
 ---
 
@@ -142,7 +151,6 @@ rosrun {package name} {executable name}
 - We can send messages to the `/oswin/velocity` topic to control the turtle with our keyboard!
 - Use someone else's node `teleop_twist_keyboard` to do that:
     ```bash
-    sudo apt-get install ros-melodic-teleop-twist-keyboard
     rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/oswin/velocity
     ```
 - We're launching the script `teleop_twist_keyboard.py` from the package `teleop_twist_keyboard`
@@ -296,4 +304,4 @@ We'll be learning how to write ROS **Publishers** and **Subscribers** in C++
 
 ---
 
-See you next week!
+Questions?
