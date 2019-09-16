@@ -124,7 +124,7 @@ catkin_make
     ```bash
     rosrun igvc_buzzsim buzzsim
     ```
-<img src="https://i.imgur.com/jsRD8i5.png" height="500">
+<img src="https://i.imgur.com/jsRD8i5.png" height=500>
 
 ---
 
@@ -193,11 +193,11 @@ ROS **Topics**, **Messages**, **Publishers** and **Subscribers** are the core pa
 rostopic
 # rostopic is a command-line tool for printing information about ROS Topics.
 # Commands:
-#   rostopic bw display bandwidth used by topic
+#   rostopic bw     display bandwidth used by topic
 #   rostopic delay  display delay of topic from timestamp in header
 #   rostopic echo   print messages to screen
 #   rostopic find   find topics by type
-#   rostopic hz display publishing rate of topic
+#   rostopic hz     display publishing rate of topic
 #   rostopic info   print information about active topic
 #   rostopic list   list active topics
 #   rostopic pub    publish data to topic
