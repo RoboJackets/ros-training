@@ -7,7 +7,7 @@ We've looked at how we can publish messages, now it's time to do it in C++. Befo
 figure out how we can write a node in C++ first.
 
 ### Hello World with ROS and C++
-Let's start by writing Hello World with ROS and C++. Starting off with a normal C++ Hello World in
+Let's start by writing Hello World with ROS and C++. There is standard a standard Hello World program in
 [publisher.cpp](../igvc_training_exercises/src/week2/publisher.cpp):
 ```C++
 #include <iostream>
@@ -27,7 +27,7 @@ catkin_make
 
 Now, try running the executable with `rosrun`. The ROS package is called `igvc_training_exercises`, and the node is
 called `week2_publisher`. You can refer back to [week 1](week1.md) on the details of the command if you forgot. Otherwise,
-here's the [answer (Hover over me)](#spoiler "rosrun igvc_training_exercises week2_publisher").
+here's the [answer (Hover over me)](#spoiler "rosrun  igvc_training_exercises  week2_publisher").
 
 Verify that Hello World correctly prints out:
 ```
@@ -59,7 +59,7 @@ int main(int argc, char** argv)
 
 `ros::init` initializes a ROS node, and the last argument in the function is the name of the node. To verify that it
 works, save the file and recompile with `catkin_make`. You should still see `Hello World` being printed out. However, we
-can't actually tell that it's working, because the program is exciting right after it prints `Hello World`. To make the
+can't actually tell that it's a node because the program is exciting right after it prints `Hello World`. To make the
 program wait, add this line after `std::cout`:
 
 ```c++
