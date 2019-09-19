@@ -12,14 +12,16 @@ title: Week 2
 ---
 
 ## Writing a ROS Subscriber and Publisher in C++
-We've looked at how we can publish messages, now it's time to do it in C++. Before we do that though, let's
-figure out how we can write a node in C++ first.
+- We've looked at how we can publish messages, now it's time to do it in C++.
+
+- Before we do that though, let's write a node.
 
 ---
 
 ### Hello World with ROS and C++
-Let's start by writing Hello World with ROS and C++. Starting off with a normal C++ Hello World in
-[publisher.cpp](../igvc_training_exercises/src/week2/publisher.cpp):
+- Let's start by writing Hello World with ROS and C++.
+- in [publisher.cpp](../igvc_training_exercises/src/week2/publisher.cpp):
+
 ```C++
 #include <iostream>
 
@@ -31,21 +33,22 @@ int main(int argc, char** argv)
 
 ----
 
-We've already compiled this when compiling last week, but just as a recap, we can compile everything in the
-catkin workspace by running
-```bash
-cd catkin_ws # cd to where your catkin workspace is located
-catkin_make
-```
+- We've already compiled this when compiling last week
+- Recap:
+    ```bash
+    cd catkin_ws # cd to where your catkin workspace is located
+    catkin_make
+    ```
 
 ----
 
-- Now, try running the executable with `rosrun`. The ROS package is called `igvc_training_exercises`, and the node is
-called `week2_publisher`.
+- Now, try running the executable with `rosrun`
+    - ROS package: `igvc_training_exercises`
+    - Executable: `week2_publisher`.
 
 - How do you run `week2_publisher`?
 
-`rosrun igvc_training_exercises week2_publisher` <!-- .element: class="fragment" data-fragment-index="1" --> 
+<pre><code class="bash">rosrun igvc_training_exercises week2_publisher</code></pre> <!-- .element: class="fragment" data-fragment-index="1" --> 
 
 ----
 
@@ -61,8 +64,8 @@ it.
 
 ----
 
-- Start by adding an `#include` for the ROS headers at the top of the file. Don't worry about exactly what this does right
-now, as we'll be covering this in general software training later.
+- Start by adding an `#include` for the ROS headers at the top of the file.
+- We'll be covering what this does in general software training later.
 
 ----
 
@@ -87,10 +90,22 @@ now, as we'll be covering this in general software training later.
 
 ---
 
-- `ros::init` initializes a ROS node, and the last argument in the function is the name of the node. To verify that it
-works, save the file and recompile with `catkin_make`. You should still see `Hello World` being printed out. However, we
-can't actually tell that it's working, because the program is exciting right after it prints `Hello World`. To make the
-program wait, add this line after `std::cout`:
+```c++
+ros::init(argc, argv, "NODE_NAME")
+```
+
+- initializes a ROS node
+- last argument in the function is the name of the node
+
+----
+
+- Recompile with `catkin_make` and run the node again to verify that it still works
+- You should still see `Hello World` being printed out
+- However, we can't actually tell that it's working, because the program is exciting immediately
+
+----
+
+- To make the program wait, add `ros::spin()`
 
 ```c++
 int main(int argc, char** argv)
@@ -102,15 +117,15 @@ int main(int argc, char** argv)
 }
 ```
 
----
-
 - For now, don't worry about what `ros::spin()` does. All you need to know is that it stops the program from exiting until
 you do Ctrl-C to stop it.
 
----
+----
 
-- Compile the program again, and run it. Now, you should see that the program doesn't exit. Open up a new terminal window,
-and type in `rosnode list`. You should see the `week2` node show up:
+- Compile the program again, and run it
+    - The program now doesn't exit
+- Open up a new terminal window and type in `rosnode list`
+- You should see the `week2` node show up:
 ```
 /rosout
 /week2
@@ -148,7 +163,10 @@ int main(int argc, char** argv)
 
 #### 2. Create the `ros::Publisher`
 
-- Now we can create a `ros::Publisher` for the node.
+Now we can create a `ros::Publisher` for the node.
+
+----
+
 - `ros::NodeHandle` has a function `advertise` that creates a `ros::Publisher`
 - Need to specify the _type_ of the message
     - Number -> `std_msgs::Int32`.
