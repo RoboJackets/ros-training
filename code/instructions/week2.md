@@ -327,7 +327,7 @@ the message.
   Write a subscriber that subscribes to the `/warning` topic with the `std_msgs::String` message type, and print out the
   contents of the message received in the callback function using `ROS_WARN_STREAM` instead of `ROS_INFO_STREAM`.
   
-  Remember to `#include <std_msgs::String>` to be able to use that type.
+  Remember to `#include <std_msgs/String.h>` to be able to use that type.
   
   How can you test that your subscriber is working? 
   [Hint](#spoiler 'Use the "rostopic pub" command. Tab-completion works here, so keep pressing tab.'),
