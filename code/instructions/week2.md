@@ -7,7 +7,7 @@ We've looked at how we can publish messages, now it's time to do it in C++. Befo
 figure out how we can write a node in C++ first.
 
 ### Hello World with ROS and C++
-Let's start by writing Hello World with ROS and C++. Starting off with a normal C++ Hello World in
+Let's start by writing Hello World with ROS and C++. There is standard a standard Hello World program in
 [publisher.cpp](../igvc_training_exercises/src/week2/publisher.cpp):
 ```C++
 #include <iostream>
@@ -27,7 +27,7 @@ catkin_make
 
 Now, try running the executable with `rosrun`. The ROS package is called `igvc_training_exercises`, and the node is
 called `week2_publisher`. You can refer back to [week 1](week1.md) on the details of the command if you forgot. Otherwise,
-here's the [answer (Hover over me)](#spoiler "rosrun igvc_training_exercises week2_publisher").
+here's the [answer (Hover over me)](#spoiler "rosrun  igvc_training_exercises  week2_publisher").
 
 Verify that Hello World correctly prints out:
 ```
@@ -59,7 +59,7 @@ int main(int argc, char** argv)
 
 `ros::init` initializes a ROS node, and the last argument in the function is the name of the node. To verify that it
 works, save the file and recompile with `catkin_make`. You should still see `Hello World` being printed out. However, we
-can't actually tell that it's working, because the program is exciting right after it prints `Hello World`. To make the
+can't actually tell that it's a node because the program is exciting right after it prints `Hello World`. To make the
 program wait, add this line after `std::cout`:
 
 ```c++
@@ -87,9 +87,8 @@ Now, let's write a simple publisher that publishes a number. To do that, we need
 
 #### 1. Create a `ros::NodeHandle`
 
-To create a Publisher, we actually need to first create a `ros::NodeHandle`. You can think of the `ros::NodeHandle` as
-a "handle" for the ROS node - it acts as the main access point for a lot of the ROS functionality, such as
-creating ROS publishers and subscribers.
+To create a Publisher, we first need to create a `ros::NodeHandle`. You can think of the `ros::NodeHandle` as a "handle" for the
+ROS node. All you need to know at this point is that it acts as the main access point for a lot of the ROS functionality, such as creating ROS publishers and subscribers.
 
 Create a `ros::NodeHandle` by adding the following line in the main function:
 
@@ -109,9 +108,11 @@ int main(int argc, char** argv)
 
 After creating the `ros::NodeHandle`, we can now create a `ros::Publisher` for the node. `ros::NodeHandle` has a function
 `advertise` that creates a `ros::Publisher` and returns it. Before we create the `ros::Publisher` though, we need to tell
-ROS what message type we will be publishing. In this case, since we want to publish a number, we can use the built-in
-`std_msgs::Int32` message type. We also need the name of a topic to which we'll be publishing the messages on, which we'll
-set to `my_number`
+ROS what type of message we will be publishing. In this case, since we want to publish a number, we can use the built-in
+`std_msgs::Int32` message type. We also need the name of a topic where the messages will be published, which we'll
+set to `my_number`.
+
+(Note: `std_msgs` is a library provided by ROS for creating messages for standard types. [Read more here](http://wiki.ros.org/std_msgs).)
 
 Add an include for the `std_msgs/Int32.h`:
 ```c++
@@ -206,7 +207,7 @@ int main(int argc, char** argv)
 ```
 
 One problem right now though is that the publisher needs to wait for the subscriber to connect first before publishing,
-otherwise the message will be published before the subscriber can connect. A simple, though not the best fix we can do
+otherwise the message will be published before the subscriber will see it. A simple, though not the best, fix we can do
 is to add in a `ros::Duration(1).sleep()` to make the program sleep for one second before publishing:
 
 ```c++
@@ -230,7 +231,7 @@ int main(int argc, char** argv)
 
 Compile again with `catkin_make`, then run the node with `rosrun`. A message should be published to the `my_number` topic
 with the number you sent. What command can you run to see the message that is published?
-[Hint](#spoiler "rostopic echo") [Answer](#spoiler "rostopic echo /my_number").
+[Hint](#spoiler "rostopic echo") [Answer](#spoiler "rostopic  echo  /my_number").
 
 Make sure you run the command before you launch the `week2` node. You should see something like this.
 ```
@@ -296,7 +297,7 @@ convenient method that ROS provides us for logging things. Usually, it is better
 `std::cout`, because `ROS_INFO_STREAM` also includes a timestamp.
 
 Try compiling with `catkin_make` and testing it out. Run the subscriber node first with rosrun
-([Answer](#spoiler "rosrun igvc_training_exercises week2_subscriber")), then running the publisher node as before.
+([Answer](#spoiler "rosrun  igvc_training_exercises  week2_subscriber")), then running the publisher node as before.
 
 
 And...... nothing gets printed. What's happening?
