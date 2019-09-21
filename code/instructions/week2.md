@@ -8,7 +8,7 @@ figure out how we can write a node in C++ first.
 
 ### Hello World with ROS and C++
 Let's start by writing Hello World with ROS and C++. There is standard a standard Hello World program in
-[publisher.cpp](../igvc_training_exercises/src/week2/publisher.cpp):
+[code/igvc_training_exercises/src/week2/publisher.cpp](../igvc_training_exercises/src/week2/publisher.cpp):
 ```C++
 #include <iostream>
 
@@ -112,7 +112,8 @@ ROS what type of message we will be publishing. In this case, since we want to p
 `std_msgs::Int32` message type. We also need the name of a topic where the messages will be published, which we'll
 set to `my_number`.
 
-(Note: `std_msgs` is a library provided by ROS for creating messages for standard types. [Read more here](http://wiki.ros.org/std_msgs).)
+(Note: `std_msgs` is a library provided by ROS for creating messages for standard types.
+[Read more here](http://wiki.ros.org/std_msgs).)
 
 Add an include for the `std_msgs/Int32.h`:
 ```c++
@@ -123,7 +124,7 @@ Add an include for the `std_msgs/Int32.h`:
 ...
 ```
 
-Then call the function on the `nh` node handle we just created, and store the result in a publisher:
+Then call the `advertise` function on the `nh` node handle we just created, and store the result in a publisher:
 
 ```c++
 int main(int argc, char** argv)
@@ -132,6 +133,7 @@ int main(int argc, char** argv)
   ros::NodeHandle nh;
 
   ros::Publisher integer_pub = nh.advertise<std_msgs::Int32>("my_number", 1); // <-- Add this line
+  // nh.advertise<TYPE>(TOPIC_NAME, QUEUE_SIZE)
 
   std::cout << "Hello World!" << std::endl;
   ros::spin();
@@ -241,8 +243,10 @@ data: 13
 
 ### Writing a simple subscriber
 Now that we've written a publisher, let's write a subscriber. Start off by setting up the node with `ros::init` in the 
-[subscriber.cpp](../igvc_training_exercises/src/week2/subscriber.cpp) file, but with a node name of `subscriber` instead.
-Refer back to the [publisher.cpp](../igvc_training_exercises/src/week2/publisher.cpp) file or above if you need to.
+[code/igvc_training_exercises/src/week2/subscriber.cpp](../igvc_training_exercises/src/week2/subscriber.cpp) file, but
+with a node name of `subscriber` instead. Refer back to the
+[code/igvc_training_exercises/src/week2/publisher.cpp](../igvc_training_exercises/src/week2/publisher.cpp) file
+or above if you need to.
 [Answer](#spoiler 'ros::init(argc, argv, "subscriber")'). Don't forget to add `#include <ros/ros.h>` so that you can use
 the ros functions. There are again four things that we need to do:
 
@@ -257,6 +261,7 @@ Now, we need to create a `ros::Subscriber`. Similar to how we created a `ros::Pu
 by calling the `subscribe` function on the `ros::NodeHandle` like so:
 ```c++
 ros::Subscriber integer_sub = nh.subscribe("my_number", 1, integerCallback);
+// nh.subscribe(TOPIC_NAME, QUEUE_SIZE, CALLBACK_FUNCTION)
 ```
 
 #### 3. Create a callback function
@@ -381,12 +386,19 @@ the message.
   }
   ```
   
-  Notice that we add the `g_` prefix to the variable name. This is to follow thet ROS style guide, so that we can easily
+  Notice that we add the `g_` prefix to the variable name. This is to follow the ROS style guide, so that we can easily
   tell which variables are **global variables**.
   
   How can you tell if a number is even? 
   [Hint](#spoiler 'The % (modulo) operator returns the remainder after division of one number by another.'),
   [Answer](#spoiler 'message.data % 2 == 0').
+  
+  How do you publish to the `even_number` topic to test the node?
+  [Hint](#spoiler 'rostopic pub /even_number <tab>')
+  [Answer](#spoiler 'rostopic pub std_msgs/Int32 "data: 8')
+  
+  How do you echo the `even_number` topic to test that even numbers are being published?
+  [Answer](#spoiler 'rostopic echo /even_number')
   
 </details>
 
