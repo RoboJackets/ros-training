@@ -100,8 +100,9 @@ ros::init(argc, argv, "NODE_NAME")
 ----
 
 - Recompile with `catkin_make` and run the node again to verify that it still works
+    - Make sure you have `roscore` running in a separate window, as ROS needs `roscore` to work.
 - You should still see `Hello World` being printed out
-- However, we can't actually tell that it's working, because the program is exciting immediately
+- However, we can't actually tell that it's working, because the program is exiting immediately
 
 ----
 
@@ -210,7 +211,7 @@ int main(int argc, char** argv)
 
 - Specify the type of the message, `std_msgs::Int32`, as a **template argument** to the `advertise` function
 - We'll cover templates in a later week during general software training
-- Queue size of 1 => only want to publish the newest message if
+- Queue size of 1 => only want to publish the newest message
     - Don't worry about the queue size
     
 ----
@@ -314,7 +315,7 @@ int main(int argc, char** argv)
 #### Checking that the publisher works
 
 - Compile with `catkin_make`, then run with `rosrun`
-- How do you run the node? (The name of the executable is `week2_safety_node`)
+- How do you run the node? (The name of the executable is `week2_publisher`)
     <ul><li><pre><code>rosrun igvc_training_exercises week2_publisher</code></pre></li></ul><!-- .element: class="fragment" data-fragment-index="1" --> 
 <li><p>A message should be published to the `my_number` topic</p></li> <!-- .element: class="fragment" data-fragment-index="2" --> 
 <li><p>How do you see the message that the node published?</p></li> <!-- .element: class="fragment" data-fragment-index="2" --> 
