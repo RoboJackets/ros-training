@@ -59,7 +59,7 @@ int main(int argc, char** argv)
 
 `ros::init` initializes a ROS node, and the last argument in the function is the name of the node. To verify that it
 works, save the file and recompile with `catkin_make`. You should still see `Hello World` being printed out. However, we
-can't actually tell that it's a node because the program is exciting right after it prints `Hello World`. To make the
+can't actually tell that it's a node because the program is exiting right after it prints `Hello World`. To make the
 program wait, add this line after `std::cout`:
 
 ```c++
@@ -235,7 +235,7 @@ Compile again with `catkin_make`, then run the node with `rosrun`. A message sho
 with the number you sent. What command can you run to see the message that is published?
 [Hint](#spoiler "rostopic echo") [Answer](#spoiler "rostopic  echo  /my_number").
 
-Make sure you run the command before you launch the `week2` node. You should see something like this.
+Make sure you run the command before you launch the `week2_publisher` node. You should see something like this.
 ```
 data: 13
 ---
