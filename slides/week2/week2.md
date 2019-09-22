@@ -5,6 +5,14 @@ title: Week 2
 
 ---
 
+## Recap of last week
+- Setup VMs
+- Learnt about ROS topics, messages, subscribers and publishers
+- Learnt about the `rostopic` tool
+- Wrote your own custom ROS message
+
+---
+
 ## What are we doing today?
 - Writing a ROS Publisher and Subscriber in C++
 - Exercises
