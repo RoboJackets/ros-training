@@ -227,7 +227,7 @@ see a map that gets populated with obstacles as you drive around in the simulati
   where:
   <ul>
     <li><img src="https://latex.codecogs.com/svg.latex?\inline&space;p(m_i)" title="p(m_i)" /> represents the probability
-    that the i<sup>th</sup> cell is occupied the first term represents the occupancy of a cell i divided by the 1 minus the occupancy</li>
+    that the i<sup>th</sup> cell of the map is occupied.
     <li><img src="https://latex.codecogs.com/svg.latex?\inline&space;z_{1:t}" title="z_{1:t}" /> represents all the
     sensor data collected from time 1 (the beginning) to time t (the current time)</li>
     <li><img src="https://latex.codecogs.com/svg.latex?\inline&space;x_{1:t}" title="x_{1:t}" /> represents the all the
@@ -251,10 +251,6 @@ see a map that gets populated with obstacles as you drive around in the simulati
     <li>
         The first term is the probability that a given cell is occupied divided by the probability it isn't occupied
         using data <b>from the beginning till time t</b>.
-    </li>
-    <li>
-        The second term is the probability that a given cell is occupied divided by the probability it isn't occupied
-        using <b>only data from time t</b>
     </li>
     <li>
         The second term is the probability that a given cell is occupied divided by the probability it isn't occupied
