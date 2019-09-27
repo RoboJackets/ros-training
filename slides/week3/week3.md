@@ -1,49 +1,150 @@
 ---
 title: Week 3
+revealOptions:
+    width: 1600
+    height: 900 
 ---
 # Week 3
 
 ---
 
-Welcome to Week 3 of ROS training exercises! We'll be learning about *PID*, *launch files* and get to work with the
-simulator while we're at it and have some fun.
+## Recap of last week
+
+----
+
+#### Creating a ROS Node
+
+<pre><code>ros::init(argc, argv, "NODE_NAME")</code></pre> <!-- .element: class="fragment" data-fragment-index="1" --> 
+
+----
+
+#### Writing A ROS Publisher
+4 steps:
+
+<ol>
+<li>Need a <code>ros::NodeHandle</code></li> <!-- .element: class="fragment" data-fragment-index="0" --> 
+</ol>
+<pre><code class="c++">ros:NodeHandle nh;</code></pre> <!-- .element: class="fragment" data-fragment-index="1" --> 
+
+<ol start="2">
+<li>Need a <code>ros::Publisher</code></li> <!-- .element: class="fragment" data-fragment-index="2" --> 
+</ol>
+<pre><code class="c++">ros::Publisher publisher = nh.advertise&lt;MESSAGE_TYPE&gt;(TOPIC, QUEUE_SIZE)</code></pre> <!-- .element: class="fragment" data-fragment-index="3" --> 
+
+<ol start="3">
+<li>Create the message</li> <!-- .element: class="fragment" data-fragment-index="4" --> 
+</ol>
+<pre><code class="c++">std_msgs::Int32 msg;</code></pre> <!-- .element: class="fragment" data-fragment-index="5" --> 
+
+<ol start="4">
+<li>Publish the message</li> <!-- .element: class="fragment" data-fragment-index="6" --> 
+</ol>
+<pre><code class="c++">publish.publish(message)</code></pre> <!-- .element: class="fragment" data-fragment-index="7" --> 
+
+----
+
+#### Writing A ROS Subscriber
+4 steps:
+
+<div>
+<ol>
+<li>Need a <code>ros::NodeHandle</code></li> <!-- .element: class="fragment" data-fragment-index="0" --> 
+</ol>
+<pre><code class="c++">ros:NodeHandle nh;</code></pre> <!-- .element: class="fragment" data-fragment-index="1" --> 
+</div>
+
+<div>
+<ol start="2">
+<li>Need a <code>ros::Subscriber</code></li> <!-- .element: class="fragment" data-fragment-index="2" --> 
+<pre><code class="c++">ros::Subscriber subscriber = nh.subscribe(TOPIC, QUEUE_SIZE, CALLBACK)</code></pre> <!-- .element: class="fragment" data-fragment-index="3" --> 
+<ul>
+<li>What is a callback function (For ROS subscribers)?</li> <!-- .element: class="fragment" data-fragment-index="4" --> 
+<ul>
+<li>A function that is called when a new message is received</li> <!-- .element: class="fragment" data-fragment-index="5" --> 
+</ul>
+</ul>
+</ol>
+</div>
+
+<div>
+<ol start="3">
+<li>Create the callback function</li> <!-- .element: class="fragment" data-fragment-index="6" --> 
+</ol>
+<pre><code class="c++">void callbackFunction(std_msgs::Int32 msg) {
+  // Stuff
+}</code></pre> <!-- .element: class="fragment" data-fragment-index="7" --> 
+</div>
+
+<ol start="4">
+<li><pre>ros::spin()</pre></li> <!-- .element: class="fragment" data-fragment-index="8" --> 
+</ol>
+<div><pre style="display: inline">ros::spin()</pre> <span>after creating the subscriber</span></div> <!-- .element: class="fragment" data-fragment-index="9" -->
+
+---
+
+Welcome to Week 3 of ROS training exercises!
+
+- PID
+- Launch files
+- Play with the simulator
 
 ---
 
 ## Control Theory and PID
-Let's start with the first robotics topic that we'll be learning today: *PID*. To understand *PID* though, we'll begin
-with the motivation for PID: *Control Theory*.
+Need to understand control theory to learn about PID
 
 ---
 
 ### What is Control Theory
-*Control Theory* is about being able to control some sort of *system* to do what we want it to do. That's quite a vague
-definition, so let's use an example:
+- Control a **system** to do what we want
 
-Say that you're trying to stop your car right in front of the stop sign. How do you do that? Intuitively, you would
-gauge the distance, or *error*, between your current position and where you're trying to stop, and you would use that
-information to help you decide how much throttle to give the car.
+----
 
-We call the thing that determines how much throttle to give the *controller*, which tries to bring the
-*process variable (PV)* to equal the *set point (SP)* by changing the *control*. In the car example, the *PV* would be the car's position, and the
-*SP* would be the position that's just in front of the stop sign, and the *control* is the throttle of the car.
+#### Example
+
+- Task: stop a car in front of the stop sign
+
+How do you do that?
+
+----
+
+- Gauge the distance, or **error**, between current position and where you're trying to stop
+- Use that information to decide how much throttle
+
+----
+
+- **Controller** determines how much throttle
+- Goal: **Process variable (PV)** equal to **set point (SP)** by changing the **control**
+
+----
+#### Back to car example
+
+- **Process Variable (PV)**: Car's position
+- **Set Point (SP)**: Position right in front of the stop sign
+- **Control**: Throttle
 
 ---
 
 ### The PID algorithm - Proportional Controller
-PID is one example of such a *controller* that is very simple but also very effective. We can understand this algorithm
-in the context of the car example earlier:
 
-Let's say there is some *error*, meaning that your car was some distance away from the stop sign. You would step on
-the throttle to move your car forward. If there's a larger error, then you would step on the throttle more than then
-if there was a smaller error. And finally, if there's no error, then you wouldn't step on the throttle at all.
+- PID is one example of a **controller**
+    - Simple but effective
+- Three main parts
 
-What we've just described is a *proportional controller*, because the *control* is __proportional__ to the *error*.
+----
+
+Intuition:
+- Larger error → Step on throttle more
+- Smaller error → Step on throttle less
+- No error → Don't step on throttle
+    
+----
+#### Proportional controller
+
+**control** is **proportional** to the **error**
 
 <p align="center">
-    <img
-    src="https://latex.codecogs.com/svg.latex?P_\text{out}&space;=&space;K_\text{p}&space;e(t)"
-    title="P_\text{out} = K_\text{p} e(t)" />
+    <img class="eqn" src="https://latex.codecogs.com/svg.latex?P_\text{out}&space;=&space;K_\text{p}&space;e(t)"/>
 </p>
 
 ---

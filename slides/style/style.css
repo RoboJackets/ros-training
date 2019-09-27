@@ -5,3 +5,8 @@
     max-height: calc(50vh);
     max-width: calc(50vw);
 }
+
+.eqn
+{
+    height: 10rem;
+}
