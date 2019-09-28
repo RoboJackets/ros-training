@@ -1,7 +1,21 @@
-.reveal.reveal img
-{
+.reveal.reveal img {
     border: none;
     box-shadow: none;
     max-height: calc(50vh);
     max-width: calc(50vw);
+}
+
+.eqn {
+    height: 15rem;
+    filter: invert(100%);
+}
+
+.reveal img.eqn-inline {
+    height: 2rem;
+    margin: 0;
+    filter: invert(100%);
+}
+
+.reveal .inline {
+    display: inline;
 }
