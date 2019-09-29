@@ -76,7 +76,7 @@ get to these `<param>` tags later.
 Basically a `.launch` file lets you define multiple nodes to launch and also allows you to define parameters.
 
 #### The `buzzsim` environment for the exercise
-After doing `roslaunch igvc_training week3.launch`, you should see `buzzsim` open looking something like below:
+After doing `roslaunch igvc_training_exercises week3.launch`, you should see `buzzsim` open looking something like below:
 ![buzzsim_week3](buzzsim_week3.png)
 
 Notice that there are two turtles. For this exercise, the goal will be to control the bottom turtle to minimize the 
@@ -261,7 +261,7 @@ to solve this.
   [Hint 1](#spoiler 'To integrate, you will need two things: an accumulator variable, as well as a way to calculate the
   the time between the current message and the past message. The ros::Time type and ros::Time::now() should be helpful.
   You will need to create a global variable to store the previous time.')
-  [Hint 2](#spoiler 'The ros::Time variable initializes with all zeros, which is the wrong time. You can a global
+  [Hint 2](#spoiler 'The ros::Time variable initializes with all zeros, which is the wrong time. You can use a global
   boolean like g_initialized, and then set your previous_time variable to the current time if its not initialized')
   [Hint 3](#spoiler 'Make ki a parameter so that you can tune its value without recompiling.')
   
