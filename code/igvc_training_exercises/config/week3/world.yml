@@ -45,6 +45,19 @@ moving_kyle: &moving_kyle
   limits: *limits
   publishers: *publish_pose
 
+circle_kyle: &circle_kyle
+  state:
+    pose:
+      position:
+        x: 5
+        y: 0
+      orientation: 1.57
+    twist:
+      linear: 1.5
+      angular: 0.3
+  limits: *limits
+  publishers: *publish_pose
+
 worlds:
   stationary:
     turtles:
@@ -54,4 +67,8 @@ worlds:
     turtles:
       oswin: *oswin
       kyle: *moving_kyle
+  circle:
+    turtles:
+      oswin: *oswin
+      kyle: *circle_kyle
 
