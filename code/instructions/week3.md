@@ -19,14 +19,15 @@ We call the thing that determines how much throttle to give the *controller*, wh
 *SP* would be the position that's just in front of the stop sign, and the *control* is the throttle of the car.
 
 ### The PID algorithm - Proportional Controller
-PID is one example of such a *controller* that is very simple but also very effective. We can understand this algorithm
-in the context of the car example earlier:
+PID is one example of such a *controller* that is very simple but also very effective. PID stands for proportional, 
+integral, and derivative: three different kinds of *controllers*. We will begin with the proportional controller, which we 
+can understand in the context of the car example earlier:
 
 Let's say there is some *error*, meaning that your car was some distance away from the stop sign. You would step on
 the throttle to move your car forward. If there's a larger error, then you would step on the throttle more than then
 if there was a smaller error. And finally, if there's no error, then you wouldn't step on the throttle at all.
 
-What we've just described is a *proportional controller*, because the *control* is __proportional__ to the *error*.
+Here the *control* (the throttle) is __proportional__ to the *error* (the distance).
 
 <p align="center">
     <img
@@ -34,6 +35,7 @@ What we've just described is a *proportional controller*, because the *control* 
     title="P_\text{out} = K_\text{p} e(t)" />
 </p>
 
+(`K_p` is just a constant and `e(t)` is a function of time. In the car example, `e(t)` would get smaller as the car approached the destination.)
 
 ### Exercise: Implementing a Proportional controller in ROS
 Let's take the proportional controller that we've just learnt, and implement it in ROS. We'll be using the `buzzsim` simulator
