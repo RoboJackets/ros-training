@@ -53,8 +53,8 @@ its got the package name `igvc_training_exercises`. However, instead of specifyi
 instead specify a `week3.launch`.
 
 #### `.launch` files
-What's this `week3.launch`? It's actually a file located [here](../igvc_training_exercises/launch/week3.launch) in the 
-[launch](../igvc_training_exercises/launch) folder. Looking in the file, we see the following
+What's this `week3.launch`? `.launch` files are convenient to "launch" your ROS code. It's located [here]
+(../igvc_training_exercises/launch/week3.launch) in the [launch](../igvc_training_exercises/launch) folder. Looking in the file, we see the following:
 
 ```launch
 <launch>
