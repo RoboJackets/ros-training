@@ -173,6 +173,7 @@ roslaunch igvc_training_exercises week3.launch
         <param name="config_path" value="$(find igvc_training_exercises)/config/week3/world.yml" />
         <param name="world_name" value="stationary" />
 <!--        <param name="world_name" value="moving" />-->
+<!--        <param name="world_name" value="circle" />-->
     </node>
 
     <node pkg="igvc_training_exercises" type="week3" name="week3" output="screen">
@@ -435,6 +436,7 @@ It should look like this:
         <param name="config_path" value="$(find igvc_training_exercises)/config/week3/world.yml" />
 <!--        <param name="world_name" value="stationary" />-->
         <param name="world_name" value="moving" />
+<!--        <param name="world_name" value="circle" />-->
     </node>
 
     <node pkg="igvc_training_exercises" type="week3" name="week3" output="screen">

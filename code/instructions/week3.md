@@ -315,6 +315,41 @@ And by putting the three equations for control output above, we get:
 
 where **u** stands for the _control output_.
 
+<details>
+  <summary>Extension: Target tracking</summary>
+  
+  Modify your PID node to do tracking in 2D instead of 1D, by performing PID on both **heading**
+  (with control `twist/angular/z`) and **position** (with control `twist/linear/x`). 
+  
+  We'll also use a different world for this. Uncomment the following line in `week3.launch`:
+  ```launch
+    <node pkg="igvc_buzzsim" type="buzzsim" name="buzzsim">
+        <param name="config_path" value="$(find igvc_training_exercises)/config/week3/world.yml" />
+        <!-- <param name="world_name" value="stationary" /> --> <-- comment these two
+        <!-- <param name="world_name" value="moving" /> -->     <--
+        <param name="world_name" value="circle" />              <-- uncomment this one
+    </node>
+  ```
+
+  Try running the `week3` node now. You should see `kyle` move in a circle.
+  
+  To do 2D PID, we need to change the error for our **position** - while our old calculation works if both turtles are on
+  the x-axis, if one of the turtles is to the left / right of another, then this breaks down. Instead of this,
+  we can calculate the **distance** between the two turtles: If the second turtle is further, then we increase
+  the velocity of the first turtle.
+  
+  Of course, we also need to calculate the error for **heading**. We can do this by calculating the _relative angle_
+  from `kyle` to `oswin`:
+  ```c++
+  double heading_error = angles::normalize_angle(std::atan2(dy, dx) - oswin_yaw));
+  ```
+  Where `dy` and `dx` are the difference in `y` and `x` respectively of `oswin` and `kyle`'s position, and `oswin_yaw`
+  is the heading of `oswin`.
+  
+  You'll need a different set Kp, Ki, and Kd for the PID on heading though, so you'll need to create parameters for
+  those.
+</details>
+
 ## Summary
 And that's it for this week!
 
