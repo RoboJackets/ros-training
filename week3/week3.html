@@ -318,7 +318,8 @@ This is an **integral controller**, where the **control** is proportional to the
 - Instead of computing an **integral**, we compute a **sum** of the error
     - Multiply it by the time step between each interval
     
-<img src="https://www.physicsforums.com/attachments/graph-jpg.22137/" /></script></section><section data-markdown><script type="text/template">
+<img src="https://www.physicsforums.com/attachments/graph-jpg.22137/" />
+</script></section><section data-markdown><script type="text/template">
 <p align="center">
     <img class="eqn" src="https://latex.codecogs.com/svg.latex?I_\text{out}&space;=&space;K_\text{i}&space;\,&space;\sum_{\tau=0}^{t}&space;e(\tau)&space;\,\Delta&space;t" title="I_\text{out} = K_\text{i} \, \sum_{\tau=0}^{t} e(\tau) \,\Delta t" />
 </p>
@@ -355,14 +356,57 @@ It should look like this:
 </script></section><section data-markdown><script type="text/template">
 The error that you're seeing is called **steady state error**. As we explained earlier, the **integral controller**
 helps to solve this.
-</script></section></section><section  data-markdown><script type="text/template">
-## But wait, it's your turn now
-You thought I was going to do all the hard work for you guys? Well too bad.
+</script></section></section><section ><section data-markdown><script type="text/template">
+## But wait, we're not going to implement this
+The proof is trivial and left as an exercise for the reader
 
+You thought I was going to do all the hard work for you guys? Well too bad, we're moving on to Derivative.
+</script></section><section data-markdown><script type="text/template">
+### The PID Algorithm - Derivative Controller
+
+- Imagine we're back in the first scenario where we're trying to stop right in from the stop sign
+- We're driving a massive truck
+- What problems does our *proportional controller* have?
+<ul>
+<li>We keep our foot on the throttle even when we're going full speed in front of the stop sign</li> <!-- .element: class="fragment" data-fragment-index="0" --> 
+<li>Result in overshoot, oscillating back and forth</li> <!-- .element: class="fragment" data-fragment-index="0" --> 
+</ul></script></section><section data-markdown><script type="text/template">
+- Intuition:
+    - Step on the throttle at the beginning to get the truck moving
+    - As the truck begins to accelerate, use the throttle less
+    - The faster you're approaching the target position, the more you ease off the throttle, or even apply the brakes
+</script></section><section data-markdown><script type="text/template">
+Another example:
+- Scenario: opening a valve to fill a cup of water
+- If the cup is filling up too quickly, close the tap to prevent water from overflowing
+- On the other hand, if the cup broke a hole opened up at the bottom and water started to leak 
+    - Since error is now _increasing_ quickly, the derivative term will try to open up the tap more
+</script></section><section data-markdown><script type="text/template">
+- Component of control that is proportional to the **derivative** of the error
+    - The faster the error is _decreasing_, the more we _ease off_ on our **control**
+    - The faster the error is _increasing_, the more we _increase_ our **control**</script></section><section data-markdown><script type="text/template">
+This is a **derivative controller**, where the **control** is proportional to the **derivative** of the **error**.
+
+<p align="center">
+    <img class="eqn"
+    src="https://latex.codecogs.com/svg.latex?D_\text{out}&space;=&space;K_\text{d}&space;\,&space;\frac{d\,&space;e(t)}{dt}" />
+</p>
+</script></section><section data-markdown><script type="text/template">
+For the **discrete time** version, calculate the derivative with **finite differences**:
+
+<p align="center">
+    <img class="eqn"
+    src="https://latex.codecogs.com/svg.latex?D_{out}&space;=&space;K_d&space;\;&space;\frac{e(t)&space;-&space;e(t-1)}{\Delta&space;t}" title="D_{out} = K_d \; \frac{e(t) - e(t-1)}{\Delta t}" />
+</p>
+</script></section><section data-markdown><script type="text/template">
+### Exercise: Not overshooting, and derivative
+
+- This is left as an exercise for the reader again
+</script></section><section data-markdown><script type="text/template">
 - Similar to last week, check out the markdown version on [github](https://github.com/RoboJackets/ros-training/blob/master/code/instructions/week3.md)
     - Contains additional exercises (implementing the **I** and **D** parts of PID)
 - Any questions?
-</script></section><section ><section data-markdown><script type="text/template">
+</script></section></section><section ><section data-markdown><script type="text/template">
 ## Summary
 </script></section><section data-markdown><script type="text/template">
 - [PID control and basic control theory](#the-pid-algorithm---proportional-controller)
