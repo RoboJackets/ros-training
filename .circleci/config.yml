@@ -17,7 +17,7 @@ jobs:
           command: |
             echo "export PATH=/home/node/.npm-global/bin:$PATH" >> $BASH_ENV
         # Generate build files to /html
-      - run: source $BASH_ENV && cd slides && reveal-md ./ --static ../html --css style/style.css
+      - run: source $BASH_ENV && cd slides && reveal-md ./ --static ../html --css style/style.css --assets-dir assets
       - deploy:
           name: Deploy to github
           command: |
