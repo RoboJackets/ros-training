@@ -4,6 +4,6 @@
         <param name="world_name" value="imu_test" />
     </node>
 
-    <node pkg="igvc_training_exercises" type="week4" name="week4">
+    <node pkg="igvc_training_exercises" type="week4" name="week4" output="screen">
     </node>
 </launch>
