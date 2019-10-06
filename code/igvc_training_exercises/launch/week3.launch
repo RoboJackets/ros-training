@@ -7,5 +7,6 @@
     </node>
 
     <node pkg="igvc_training_exercises" type="week3" name="week3" output="screen">
+        <param name="kp" value="4.0" />
     </node>
 </launch>
