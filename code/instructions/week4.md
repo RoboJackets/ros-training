@@ -9,7 +9,7 @@ IMU you will be able to tell your acceleration, angular velocity and heading.
 
 ## Coordinate frames and the IMU
 One thing important when using the IMU is which **coordinate frame** the data is in. A **coordinate frame** is a
-refers to the coordinate system that is used for the data. For example, the IMU can measure accelerations in the
+reference to the coordinate system that is used for the data. For example, the IMU can measure accelerations in the
 x, y and z axes in the _robot's coordinate frame_, which is different from the _world's coordinate frame_.
 
 A quick note: ROS has a [REP 103](https://www.ros.org/reps/rep-0103.html) which defines conventions for coordinate
