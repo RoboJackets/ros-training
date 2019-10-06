@@ -5,6 +5,16 @@
     max-width: calc(50vw);
 }
 
+.eqn-huge {
+    height: 45rem;
+    filter: invert(100%);
+}
+
+.eqn-big {
+    height: 30rem;
+    filter: invert(100%);
+}
+
 .eqn {
     height: 15rem;
     filter: invert(100%);
