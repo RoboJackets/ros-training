@@ -13,7 +13,7 @@ revealOptions:
 
 #### Control Theory
 
-Control a system to do what we want <!-- .element: class="fragment" data-fragment-index="1" --> 
+control a system to do what we want <!-- .element: class="fragment" data-fragment-index="1" --> 
 
 ----
 

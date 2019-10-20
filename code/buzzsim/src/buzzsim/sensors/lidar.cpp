@@ -4,19 +4,23 @@
 
 namespace turtle
 {
-Lidar::Lidar(const Options& options) : options_{ options }
+Lidar::Lidar(const Options &options)
+  : options_{ options }
+  , gen_{ rd_() }
+  , spurrious_distribution_{ 0, 1 }
+  , spurrious_range_distribution_{ 0, options.range }
 {
 }
 
-pcl::PointCloud<pcl::PointXYZ> Lidar::simulate(const motion::Pose& pose, const std::vector<Obstacle>& obstacles) const
+pcl::PointCloud<pcl::PointXYZ> Lidar::simulate(const motion::Pose &pose, const std::vector<Obstacle> &obstacles) const
 {
   auto polygon = getPolygonWithHoles(pose.position, obstacles);
   auto visibility_polygon = computeVisibilityPolygon(pose.position, polygon);
   return calculateLidarHits(pose, visibility_polygon);
 }
 
-pcl::PointCloud<pcl::PointXYZ> Lidar::calculateLidarHits(const motion::Pose& pose,
-                                                         const Polygon_2& visibility_polygon) const
+pcl::PointCloud<pcl::PointXYZ> Lidar::calculateLidarHits(const motion::Pose &pose,
+                                                         const Polygon_2 &visibility_polygon) const
 {
   double start_angle = pose.orientation - options_.angle_width / 2;
   double end_angle = pose.orientation + options_.angle_width / 2;
@@ -36,15 +40,29 @@ pcl::PointCloud<pcl::PointXYZ> Lidar::calculateLidarHits(const motion::Pose& pos
     Point_2 closest_intersection = getClosestIntersection(scan_segment, visibility_polygon);
     double squared_distance = CGAL::to_double(CGAL::squared_distance(pose_point, closest_intersection));
 
-    //    ROS_INFO_STREAM("Angle: " << angle << ", distance: " << std::sqrt(squared_distance));
+    //    ROS_INFO_STREAM("Angle: " << angle << ", distance: " <<
+    //    std::sqrt(squared_distance));
+    // Transform back to local frame
+    double x = CGAL::to_double(closest_intersection.x() - pose_point.x());
+    double y = CGAL::to_double(closest_intersection.y() - pose_point.y());
+    double rotated_x = cos(pose.orientation) * x + sin(pose.orientation) * y;
+    double rotated_y = -sin(pose.orientation) * x + cos(pose.orientation) * y;
+
+    // Spurrious detection
+    double random_number = spurrious_distribution_(gen_);
+    if (random_number < options_.spurrious_detection_rate)
+    {
+      double angle = std::atan2(rotated_y, rotated_x);
+      double range = spurrious_range_distribution_(gen_);
+
+      rotated_x = range * std::cos(angle);
+      rotated_y = range * std::sin(angle);
+    }
+
     if (squared_distance != 0 && squared_distance <= options_.range * options_.range)
     {
-      // Transform back to local frame
-      double x = CGAL::to_double(closest_intersection.x() - pose_point.x());
-      double y = CGAL::to_double(closest_intersection.y() - pose_point.y());
-      double rotated_x = cos(pose.orientation) * x + sin(pose.orientation) * y;
-      double rotated_y = -sin(pose.orientation) * x + cos(pose.orientation) * y;
       pcl::PointXYZ pcl_point{ static_cast<float>(rotated_x), static_cast<float>(rotated_y), 0.0 };
+
       scan.points.emplace_back(pcl_point);
     }
   }
@@ -52,7 +70,7 @@ pcl::PointCloud<pcl::PointXYZ> Lidar::calculateLidarHits(const motion::Pose& pos
   return scan;
 }
 
-Polygon_2 Lidar::computeVisibilityPolygon(const motion::Position& position, const Polygon_with_holes_2& polygon) const
+Polygon_2 Lidar::computeVisibilityPolygon(const motion::Position &position, const Polygon_with_holes_2 &polygon) const
 {
   Arrangement_2 env;
   std::vector<Segment_2> segments;
@@ -74,7 +92,7 @@ Polygon_2 Lidar::computeVisibilityPolygon(const motion::Position& position, cons
 
   // Find the face of the query point
   Point_2 q{ position.x, position.y };
-  Arrangement_2::Face_const_handle* face;
+  Arrangement_2::Face_const_handle *face;
   CGAL::Arr_naive_point_location<Arrangement_2> pl(env);
   CGAL::Arr_point_location_result<Arrangement_2>::Type obj = pl.locate(q);
 
@@ -98,10 +116,11 @@ Polygon_2 Lidar::computeVisibilityPolygon(const motion::Position& position, cons
   return visibility_polygon;
 }
 
-Polygon_with_holes_2 Lidar::getPolygonWithHoles(const motion::Position& position,
-                                                const std::vector<Obstacle>& obstacles) const
+Polygon_with_holes_2 Lidar::getPolygonWithHoles(const motion::Position &position,
+                                                const std::vector<Obstacle> &obstacles) const
 {
-  auto range = options_.range * 2;  // Should be sqrt(2) but I don't want to deal with rounding errors and stuff...
+  auto range = options_.range * 2;  // Should be sqrt(2) but I don't want to deal
+                                    // with rounding errors and stuff...
 
   Point_2 top{ position.x + range, position.y };
   Point_2 bottom{ position.x - range, position.y };
@@ -115,10 +134,10 @@ Polygon_with_holes_2 Lidar::getPolygonWithHoles(const motion::Position& position
   lidar_range_rect.push_back(right);
 
   Polygon_set_2 result;
-  for (const auto& obstacle : obstacles)
+  for (const auto &obstacle : obstacles)
   {
     Polygon_2 polygon_obstacle;
-    for (const auto& point : obstacle.points)
+    for (const auto &point : obstacle.points)
     {
       Point_2 p{ point.x, point.y };
       polygon_obstacle.push_back(p);
@@ -141,7 +160,7 @@ Polygon_with_holes_2 Lidar::getPolygonWithHoles(const motion::Position& position
   return result_list.front();
 }
 
-Point_2 Lidar::getClosestIntersection(const Segment_2& scan_segment, const Polygon_2& visibility_polygon) const
+Point_2 Lidar::getClosestIntersection(const Segment_2 &scan_segment, const Polygon_2 &visibility_polygon) const
 {
   // value for no matches = pos
   auto pos = scan_segment.source();
@@ -171,8 +190,8 @@ Point_2 Lidar::getClosestIntersection(const Segment_2& scan_segment, const Polyg
   return closest_point;
 }
 
-void Lidar::setClosestIfCloser(Point_2* closest_point, double* closest_distance, const Point_2& new_point,
-                               const Point_2& comparison_point) const
+void Lidar::setClosestIfCloser(Point_2 *closest_point, double *closest_distance, const Point_2 &new_point,
+                               const Point_2 &comparison_point) const
 {
   double new_distance = CGAL::to_double(CGAL::squared_distance(comparison_point, new_point));
   if (*closest_distance == 0.0 || new_distance < *closest_distance)

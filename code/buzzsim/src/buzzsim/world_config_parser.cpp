@@ -456,6 +456,15 @@ bool convert<turtle::Lidar::Options>::decode(const Node& node, turtle::Lidar::Op
     rhs.angular_resolution = node["angular_resolution"].as<double>();
   }
 
+  if (node["spurrious_detection_rate"].IsDefined())
+  {
+    if (!node["spurrious_detection_rate"].IsScalar())
+    {
+      return false;
+    }
+    rhs.spurrious_detection_rate = node["spurrious_detection_rate"].as<double>();
+  }
+
   return true;
 }
 
