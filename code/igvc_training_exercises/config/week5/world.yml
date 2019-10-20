@@ -15,6 +15,12 @@ lidar_options: &lidar_options
   range: 10
   angular_resolution: 0.01 # Rad
 
+noisy_lidar_options: &noisy_lidar_options
+  angle_width: 3.1415926 # End angle - start angle. Rad
+  range: 10
+  angular_resolution: 0.01 # Rad
+  spurrious_detection_rate: 0.01
+
 obstacles: &obstacles
   - type: polygon
     points: [[1, 1], [1, 3], [3, 3], [3, 1]]
@@ -36,8 +42,27 @@ oswin: &oswin
   limits: *limits
   publishers: *publish_pose_and_lidar
 
+noisy_oswin: &noisy_oswin
+  lidar: *noisy_lidar_options
+  lidar_painter:
+    visualization_ratio: 5
+  state:
+    pose:
+      position:
+        x: -5
+        y: 0
+    twist:
+      linear: 0
+      angular: 0
+  limits: *limits
+  publishers: *publish_pose_and_lidar
+
 worlds:
   basic_mapping:
     turtles:
       oswin: *oswin
+    obstacles: *obstacles
+  noisy_mapping:
+    turtles:
+      oswin: *noisy_oswin
     obstacles: *obstacles

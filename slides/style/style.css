@@ -29,3 +29,34 @@
 .reveal .inline {
     display: inline;
 }
+
+.row {
+    display: flex;
+}
+
+.column {
+    flex: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden
+}
+
+.col4 {
+    flex: 33%;
+    display: flex;
+}
+
+.col6 {
+    flex: 50%;
+    display: flex;
+}
+
+.col8 {
+    flex: 66%;
+    display: flex;
+}
+
+.row > img {
+    width: 80%;
+}
