@@ -8,7 +8,7 @@ This tutorial assumes that you have **ROS melodic** installed. If you haven't in
 [these instructions](http://wiki.ros.org/melodic/Installation/Ubuntu) for the complete set of installation instructions.
 
 ## Getting Started
-First, install Git LFS. You can find Linux installation instructions [here](https://help.github.com/en/github/managing-large-files/installing-git-large-file-storage).  
+Install Git LFS: 
 ```bash
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
 sudo apt-get install git-lfs
