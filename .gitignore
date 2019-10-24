@@ -1,1 +1,4 @@
 html/
+*/.idea
+*.idea
+*.bag
