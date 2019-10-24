@@ -8,6 +8,9 @@ This tutorial assumes that you have **ROS melodic** installed. If you haven't in
 [these instructions](http://wiki.ros.org/melodic/Installation/Ubuntu) for the complete set of installation instructions.
 
 ## Getting Started
+First, install Git LFS. You can find Linux installation instructions [here](https://help.github.com/en/github/managing-large-files/installing-git-large-file-storage).
+- This includes running the `git lfs install` command, this must be done prior to the cloning of the repository from github or the data files will not be properly downloaded.
+
 Clone the repo into a catkin workspace:
 ```bash
 cd catkin_ws # cd to where your catkin workspace is located
