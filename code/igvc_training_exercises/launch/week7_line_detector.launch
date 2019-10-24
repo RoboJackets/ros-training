@@ -1,0 +1,14 @@
+<launch>
+    <node pkg="rosbag" type="play" name="player"
+          args="--clock $(find igvc_training_exercises)/bag/dragrace.bag
+           /camera_center/image_color_rect:=/camera/image -l"/>
+    <node name="rqt_image_view" pkg="rqt_image_view" type="rqt_image_view"/>
+
+    <node pkg="igvc_training_exercises" type="week7_line_detector"
+          name="week7_line_detector" output="screen">
+
+        <param name="laplacian_threshold_min" type="int" value="-280" />
+        <param name="laplacian_threshold_max" type="int" value="-50" />
+    </node>
+
+</launch>
