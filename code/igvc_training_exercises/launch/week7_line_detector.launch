@@ -10,5 +10,4 @@
         <param name="laplacian_threshold_min" type="int" value="-280" />
         <param name="laplacian_threshold_max" type="int" value="-50" />
     </node>
-
 </launch>

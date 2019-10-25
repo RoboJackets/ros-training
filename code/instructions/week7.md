@@ -45,6 +45,8 @@ are going to use `rqt_image_view` for displaying images. This just a simple GUI 
 at what image is being published on any topic. The command for running it is:  
 ```rqt_image_view```   
 
+<a href="https://imgur.com/TH2EAS3"><img src="https://i.imgur.com/TH2EAS3.png" title="source: imgur.com" /></a>
+
  Practice working with bag files by running the 
  [start_light bag file](../igvc_training_exercises/bag/start_light.bag) by first
   uncompressing it and then playing it on loop while using `rqt_image_view` for visualization.
@@ -76,11 +78,9 @@ we want to avoid accidentally modifying the original data as well as not copy it
 
 To publish a Mat image just do:
 ```c++
-    sensor_msgs::Image outmsg;
     cv_ptr->image = img;
     cv_ptr->encoding = "mono8";      //mono8 for BINARY, bgr8 for COLORED
-    cv_ptr->toImageMsg(outmsg);
-    img_publisher_variable.publish(outmsg);
+    img_publisher_variable.publish(cv_ptr->toImageMsg();
 ```
 
 ## Kernel
@@ -161,6 +161,14 @@ have a wide array of uses:
 - Isolation of individual elements and joining disparate elements in an image.
 - Finding of intensity bumps or holes in an image  
 
+Here the kernel is defined as:
+```c++
+cv::Mat kernel(int x, int y) {
+    return cv::getStructuringElement(cv::MORPH_RECT, cv::Size(x, y));
+}
+```
+Which just means that the return kernel is a rectangle of _x_ by _y_. 
+
 **Dilate:**  
 The dilatation makes the object in white bigger.    
 `cv::dilate(frame_binary, frame_binary, kernel(3, 3));`  
@@ -221,7 +229,8 @@ since
 Now you have everything you need to write a start light detector in ROS! Write your node in 
 [src/week7/main.cpp](../igvc_training_exercises/src/week7/main.cpp). Debug using 
 `rqt_image_viewer`. 
-1. Subscribe to `/camera_center/image_color_rect` and write a callback function taking in a `sensor_msgs::ImageConstPtr`.
+0. Uncompress the bag files!
+1. Subscribe to `/camera/image` and write a callback function taking in a `sensor_msgs::ImageConstPtr`.
 Also, make a publisher for `/event/race_started` of type `std_msgs::Bool` for if the race has begun
 2. Color threshold the image for green and red (both states of the start light)
 3. Remove small noise and connect related components by using morphological transformations
@@ -230,6 +239,34 @@ circular shape in the thresholded images. [Hint]((#spoiler  CHeck if there exist
 an area above a specified area threshold and a circularity above a specified circularity threshold))
 5. Check if the red light is on, then if the red light turns off and the green light turns on
 within the next 1 second, publish that the race has started.
+
+## Extensions:
+<details>
+<summary>1. <bold>Line Detector</bold> </summary>  
+ 
+Write a node in a new file (make sure to update the CMakeLists.txt) 
+which detects the track lines in the [drag race](../igvc_training_exercises/bag/drag_race.bag) bag file. 
+
+In this exercise, we are going to use the Laplacian operator which is just a fancy way of 
+saying we are taking the second derivative over the image using a kernel. This operator
+pretty much finds the gradient of the image and is useful for detect edges. It can be applied
+to an image by doing: 
+```c++
+cv::Laplacian(frame_gray, laplacian, CV_16S, 3, 1, 0, cv::BORDER_DEFAULT);
+```
+
+Recommended Steps:
+1. Blurred image 
+2. Convert to greyscale 
+3. Apply the Laplacian operator to the greyscale image
+4. Threshold the Laplacian output within a range to make a binary image [Hint](#spoiler 
+use a threshold range around -200 and -10 for line detection)
+5. Block the areas that we are not interested in, like the sky, with a black fill rectangle 
+covering the top half of the image 
+[Hint](#spoiler cv::rectangle(img, cv::Point(0, 0), cv::Point(img.cols,  img.rows/2), 0, CV_FILLED);)
+6. Remove noise by ignoring any contours smaller than a certain area 
+7. Publish binary image 
+</details>
 
 # Summary
 
