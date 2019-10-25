@@ -95,7 +95,7 @@ To perform a gaussian blur, just run
 ```c++
 cv::GaussianBlur(frame, frame, cv::Size(3,3), 0, 0)
 ``` 
-where in case the kernel size is 3. 
+where in this case the kernel size is 3. 
 
 ## HSV
 A color space is just a way of encoding a color with numbers. BGR is the default color space for OpenCV, 
@@ -109,12 +109,12 @@ check if a pixel is roughly a hue of purple. It would definitely be possible to 
 but it would be kinda tough if the lighting conditions weren't
 fixed since you might have to specify multiple ranges; however, with HSV is it relatively simple. 
 
-The way to convert an BGR image to HSV is by doing:
+The way to convert an BGR image to HSV is by doing:  
 ```c++
 cv::cvtColor(frame, hsv_frame, cv::COLOR_BGR2HSV);
 ```
 
-##Thresholding
+## Thresholding
 Thresholding is pretty simple. Given an image, check if each pixel is within a bound or not. 
 In the image below, numbers are displayed so that the number's value corresponds
 it is brightness. Then through binary thresholding, each pixel will a value greater than 0 is set 
@@ -150,7 +150,7 @@ useful in removing noise, as we explained above.
 `cv::morphologyEx(frame_binary, frame_binary, cv::MORPH_OPEN, kernel(3, 3));`  
 **Closing:**  
 Closing is reverse of Opening, Dilation followed by Erosion. It is useful 
-in closing small holes inside the foreground objects, or small black points on the object.
+in closing small holes inside the foreground objects, or small black points on the object.  
 `cv::morphologyEx(frame_binary, frame_binary, cv::MORPH_CLOSE, kernel(3, 3));`  
 <table style="width:100%">
    <tr>
@@ -174,7 +174,7 @@ in closing small holes inside the foreground objects, or small black points on t
 Contours can be explained simply as a list of points that 
 represents the edge of a shape.
 Contours are a useful tool for shape analysis and object detection and recognition.
-<img width="660" height="200" src="https://lh5.googleusercontent.com/EZxifb4wmL0Kwfte3awn5mtkLKeHR1G94K3iG4JJdlwExu4FnglC3euH8zwWuM6LSs682i0yL2_GhgN7V0LXS14HMM49YkVtLcJwxDzL-CQ_jqVwoQYF4zJZPAX5HbvuvKU5vA28" alt=""/>
+<img width="660" height="200" src="https://lh5.googleusercontent.com/EZxifb4wmL0Kwfte3awn5mtkLKeHR1G94K3iG4JJdlwExu4FnglC3euH8zwWuM6LSs682i0yL2_GhgN7V0LXS14HMM49YkVtLcJwxDzL-CQ_jqVwoQYF4zJZPAX5HbvuvKU5vA28" alt=""/>  
 In order to find the contours in a image, simply do:
 ```c++
 vector<vector<cv::Point>> contours;
@@ -190,8 +190,8 @@ In order to find the perimeter of a contour do:
   
 **Circularity:**  
 In order to find the circularity of a contour do:  
-```double circularity = 4 * M_PI * (area / (perimeter * perimeter));```
-since 
+```double circularity = 4 * M_PI * (area / (perimeter * perimeter));```  
+since   
 <img src="https://latex.codecogs.com/gif.latex?\frac{4\pi&space;Area}{(Perimeter)^2}" title="\frac{4\pi Area}{(Perimeter)^2}" />
 
 
