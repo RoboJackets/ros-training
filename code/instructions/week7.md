@@ -228,15 +228,16 @@ since
 # Exercise 
 Now you have everything you need to write a start light detector in ROS! Write your node in 
 [src/week7/main.cpp](../igvc_training_exercises/src/week7/main.cpp). Debug using 
-`rqt_image_viewer`. 
+`rqt_image_viewer`.   
 0. Uncompress the bag files!
 1. Subscribe to `/camera/image` and write a callback function taking in a `sensor_msgs::ImageConstPtr`.
 Also, make a publisher for `/event/race_started` of type `std_msgs::Bool` for if the race has begun
 2. Color threshold the image for green and red (both states of the start light)
 3. Remove small noise and connect related components by using morphological transformations
 4. Check which state the start light is in by checking if there exist a sufficiently large
-circular shape in the thresholded images. [Hint]((#spoiler  CHeck if there exist a contour with 
-an area above a specified area threshold and a circularity above a specified circularity threshold))
+circular shape in the thresholded images. 
+[Hint](#spoiler "check if there exist a contour with 
+an area above a specified area threshold and a circularity above a specified circularity threshold")
 5. Check if the red light is on, then if the red light turns off and the green light turns on
 within the next 1 second, publish that the race has started.
 
@@ -259,11 +260,11 @@ Recommended Steps:
 1. Blurred image 
 2. Convert to greyscale 
 3. Apply the Laplacian operator to the greyscale image
-4. Threshold the Laplacian output within a range to make a binary image [Hint](#spoiler 
-use a threshold range around -200 and -10 for line detection)
+4. Threshold the Laplacian output within a range to make a binary image
+[Hint](#spoiler "Use a threshold range around -200 and -10 for line detection")  
 5. Block the areas that we are not interested in, like the sky, with a black fill rectangle 
 covering the top half of the image 
-[Hint](#spoiler cv::rectangle(img, cv::Point(0, 0), cv::Point(img.cols,  img.rows/2), 0, CV_FILLED);)
+[Hint](#spoiler "cv::rectangle(img, cv::Point(0, 0), cv::Point(img.cols,  img.rows/2), 0, CV_FILLED);")  
 6. Remove noise by ignoring any contours smaller than a certain area 
 7. Publish binary image 
 </details>
