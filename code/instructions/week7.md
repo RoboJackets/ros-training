@@ -39,6 +39,17 @@ You can find out if a bag file is uncompressed by doing:
 ```rosbag info <your bagfile>```   
 And seeing `compression: none` 
 
+## Image Visualization 
+Just like how we used `rviz` for visualization of the world in previous exercises, now we
+are going to use `rqt_image_view` for displaying images. This just a simple GUI for looking
+at what image is being published on any topic. The command for running it is:  
+```rqt_image_view```   
+
+ Practice working with bag files by running the 
+ [start_light bag file](../igvc_training_exercises/bag/start_light.bag) by first
+  uncompressing it and then playing it on loop while using `rqt_image_view` for visualization.
+ 
+
 ## OpenCV Library 
 **OpenCV** (Open Source Computer Vision Library) is an open source computer vision library frequently used for
 real-time perception. The library has more than 2500 optimized algorithms, which includes a comprehensive set of 
@@ -56,8 +67,20 @@ In order to converts between ROS Image messages and OpenCV Mat images, we are go
 #include <opencv2/opencv.hpp>
 
 void img_callback(const sensor_msgs::ImageConstPtr &msg) {
-    cv::Mat frame = cv_bridge::toCvCopy(msg, "bgr8")->image;
+    cv_ptr = cv_bridge::toCvCopy(msg, "bgr8");   
+    cv::Mat frame = cv_ptr->image;
 }
+```
+The reason we are using `sensor_msgs::ImageConstPtr` instead of `sensor_msgs::Image` is because 
+we want to avoid accidentally modifying the original data as well as not copy it multiple times. 
+
+To publish a Mat image just do:
+```c++
+    sensor_msgs::Image outmsg;
+    cv_ptr->image = img;
+    cv_ptr->encoding = "mono8";      //mono8 for BINARY, bgr8 for COLORED
+    cv_ptr->toImageMsg(outmsg);
+    img_publisher_variable.publish(outmsg);
 ```
 
 ## Kernel
@@ -192,12 +215,21 @@ In order to find the perimeter of a contour do:
 In order to find the circularity of a contour do:  
 ```double circularity = 4 * M_PI * (area / (perimeter * perimeter));```  
 since   
-<img src="https://latex.codecogs.com/gif.latex?\frac{4\pi&space;Area}{(Perimeter)^2}" title="\frac{4\pi Area}{(Perimeter)^2}" />
-
+<img src="https://latex.codecogs.com/gif.latex?\text{Circularity}&space;=&space;\frac{4\pi&space;Area}{(Perimeter)^2}" title="\text{Circularity} = \frac{4\pi Area}{(Perimeter)^2}" />  
 
 # Exercise 
-
-
+Now you have everything you need to write a start light detector in ROS! Write your node in 
+[src/week7/main.cpp](../igvc_training_exercises/src/week7/main.cpp). Debug using 
+`rqt_image_viewer`. 
+1. Subscribe to `/camera_center/image_color_rect` and write a callback function taking in a `sensor_msgs::ImageConstPtr`.
+Also, make a publisher for `/event/race_started` of type `std_msgs::Bool` for if the race has begun
+2. Color threshold the image for green and red (both states of the start light)
+3. Remove small noise and connect related components by using morphological transformations
+4. Check which state the start light is in by checking if there exist a sufficiently large
+circular shape in the thresholded images. [Hint]((#spoiler  CHeck if there exist a contour with 
+an area above a specified area threshold and a circularity above a specified circularity threshold))
+5. Check if the red light is on, then if the red light turns off and the green light turns on
+within the next 1 second, publish that the race has started.
 
 # Summary
 
@@ -207,6 +239,7 @@ We learnt about:
 - [Bag Files](#using-bag-files)
     + Stores messages published from ROS topics 
     + Great for logging data on test days 
+    + Visualize image messages using `rqt_image_view`
 - [OpenCV](#opencv-library)
     + Very helpful for address computer vision problems
     + Use Mat datatype to storing images 
@@ -222,8 +255,6 @@ We learnt about:
     + Used often to remove noise and to connect close features in a binary images
 - [Contours](#contours)
     + Consists of the edge points of a shape
-    + Has a lot a nice associated functions for finding useful feature information 
-        + Area 
-        + Perimeter
-        + Circularity
+    + Has a lot a nice associated functions for finding useful feature information
+     (area, perimeter, circularity, and a couple more)
 

@@ -6,7 +6,5 @@
 
     <node pkg="igvc_training_exercises" type="week7_start_light_detector"
           name="week7_start_light_detector" output="screen">
-
     </node>
-
 </launch>

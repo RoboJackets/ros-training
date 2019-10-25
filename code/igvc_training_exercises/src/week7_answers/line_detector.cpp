@@ -34,7 +34,8 @@ cv::Mat cutSmall(const cv::Mat& color_edges, int size_min) {
 }
 
 void img_callback(const sensor_msgs::ImageConstPtr &msg) {
-    cv::Mat frame  = cv_bridge::toCvCopy(msg, "bgr8")->image;
+    cv_ptr = cv_bridge::toCvCopy(msg, "bgr8");
+    cv::Mat frame = cv_ptr->image;
 
 
     cv::Mat frame_gray, frame_blur, lapl, adaptive, true_lines, floodfill_blobs;
@@ -51,11 +52,16 @@ void img_callback(const sensor_msgs::ImageConstPtr &msg) {
 
     frame = frame.setTo(cv::Scalar(0, 255, 0), lapl);
 
-    sensor_msgs::Image outmsg;
-    cv_ptr->image = frame;
-    cv_ptr->encoding = "bgr8";
-    cv_ptr->toImageMsg(outmsg);
-    debug_img_pub.publish(outmsg);
+
+    cv_ptr->image = img;
+    cv_ptr->encoding = "mono8";    //mono8 for BINARY, bgr8 for COLORED
+    debug_img_pub.publish(cv_ptr->toImageMsg)
+
+//    sensor_msgs::Image outmsg;
+//    cv_ptr->image = frame;
+//    cv_ptr->encoding = "bgr8";
+//    cv_ptr->toImageMsg(outmsg);
+//    debug_img_pub.publish(outmsg);
 }
 
 int main(int argc, char **argv) {
