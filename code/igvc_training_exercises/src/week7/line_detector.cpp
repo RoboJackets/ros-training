@@ -34,8 +34,8 @@ cv::Mat cutSmall(const cv::Mat& color_edges, int size_min) {
 }
 
 void img_callback(const sensor_msgs::ImageConstPtr &msg) {
-    cv_ptr = cv_bridge::toCvCopy(msg, "bgr8");
-    cv::Mat frame = cv_ptr->image;
+    cv::Mat frame  = cv_bridge::toCvCopy(msg, "bgr8")->image;
+
 
     cv::Mat frame_gray, frame_blur, lapl, adaptive, true_lines, floodfill_blobs;
     cv::GaussianBlur(frame, frame_blur, cv::Size(5, 5), 0);
@@ -46,6 +46,7 @@ void img_callback(const sensor_msgs::ImageConstPtr &msg) {
 
     cv::rectangle(lapl, cv::Point(0, 0), cv::Point(lapl.cols,  lapl.rows/2), 0, CV_FILLED);
     cv::dilate(lapl, lapl, kernel(4, 4));
+//    cv::morphologyEx(lapl, lapl, ORPH_CLOSE, kernel(3, 3));
     lapl = cutSmall(lapl, 1000);
 
     frame = frame.setTo(cv::Scalar(0, 255, 0), lapl);

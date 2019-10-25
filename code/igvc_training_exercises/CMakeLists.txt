@@ -13,7 +13,11 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   tf_conversions
   std_msgs
+  cv_bridge
+  image_transport
   igvc_buzzsim)
+
+find_package(OpenCV REQUIRED)
 
 ###################################
 ## catkin specific configuration ##
@@ -25,6 +29,7 @@ catkin_package(CATKIN_DEPENDS
   tf_conversions
   std_msgs
   igvc_buzzsim)
+
 
 include_directories(include)
 
