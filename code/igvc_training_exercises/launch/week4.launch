@@ -2,8 +2,9 @@
     <node pkg="igvc_buzzsim" type="buzzsim" name="buzzsim" output="screen">
         <param name="config_path" value="$(find igvc_training_exercises)/config/week4/world.yml" />
         <param name="world_name" value="imu_test" />
+<!--        <param name="world_name" value="noisy_imu" />-->
     </node>
 
-    <node pkg="igvc_training_exercises" type="week4" name="week4">
+    <node pkg="igvc_training_exercises" type="week4" name="week4" output="screen">
     </node>
 </launch>

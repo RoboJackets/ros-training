@@ -212,38 +212,45 @@ see a map that gets populated with obstacles as you drive around in the simulati
   
   What this means is that each grid cell has a probability of being occupied or not, and as we gain more information
   about the whether the grid cell is occupied or not we used
-  [**Baye's Theorem**](https://en.wikipedia.org/wiki/Bayes%27_theorem). If you haven't encountered Bayes' Theorem
+  [**Bayes' Theorem**](https://en.wikipedia.org/wiki/Bayes%27_theorem). If you haven't encountered Bayes' Theorem
   before, it is a formula for the **conditional probability** based on the reverse _conditional probability_ and
   the _marginal probabilities_ for each variable.
   
   This was probably still pretty vague. You can check out
-  [this presentation](ais.informatik.uni-freiburg.de/teaching/ws13/mapping/pdf/slam10-gridmaps.pdf)
+  [this presentation](http://ais.informatik.uni-freiburg.de/teaching/ws13/mapping/pdf/slam10-gridmaps.pdf)
   for a nice derivation of the math of occupancy grid mapping and binary bayes filter, which I won't go into here.
-  Basically, after using Bayes' Theorem and the Markov Theorem and some other tricks, we end up with the following:
+  Basically, mathematically our problem can be phrased as finding:
+  
+  <p align="center">
+    <img src="https://latex.codecogs.com/svg.latex?p(m_i&space;\mid&space;z_{1:t},&space;x_{1:t})" title="p(m_i \mid z_{1:t}, x_{1:t})" /> 
+  </p>
+  where:
+  <ul>
+    <li><img src="https://latex.codecogs.com/svg.latex?\inline&space;p(m_i)" title="p(m_i)" /> represents the probability
+    that the i<sup>th</sup> cell of the map is occupied.
+    <li><img src="https://latex.codecogs.com/svg.latex?\inline&space;z_{1:t}" title="z_{1:t}" /> represents all the
+    sensor data collected from time 1 (the beginning) to time t (the current time)</li>
+    <li><img src="https://latex.codecogs.com/svg.latex?\inline&space;x_{1:t}" title="x_{1:t}" /> represents the all the
+    robot's poses from time 1 (the beginning) to time t (the current time)</li>
+  </ul>
+  
+  This can be understood as saying "what is the probability that cell i of the occupancy grid is occupied using
+  the sensor data and location of the pose of my robot from the beginning of time till now".
+  
+  After using Bayes' Theorem and the Markov Theorem and some other tricks, we end up with the following:
   
   <p align="center">
     <img src="https://latex.codecogs.com/svg.latex?\frac{p(m_i&space;\mid&space;z_{1:t},&space;x_{1:t})}&space;{1-p(m_i&space;\mid&space;z_{1:t},&space;x_{1:t})}&space;=&space;\frac{p(m_i&space;\mid&space;z_t,&space;x_t)}{1-p(m_i&space;\mid&space;z_t,&space;x_t)}&space;\;&space;\frac{p(m_i&space;\mid&space;z_{1:t-1},x_{1:t-1})}{1-p(m_i&space;\mid&space;z_{1:t-1},x_{1:t-1})}&space;\;&space;\frac{1-p(m_i)}{p(m_i)}" title="\frac{p(m_i \mid z_{1:t}, x_{1:t})} {1-p(m_i \mid z_{1:t}, x_{1:t})} = \frac{p(m_i \mid z_t, x_t)}{1-p(m_i \mid z_t, x_t)} \; \frac{p(m_i \mid z_{1:t-1},x_{1:t-1})}{1-p(m_i \mid z_{1:t-1},x_{1:t-1})} \; \frac{1-p(m_i)}{p(m_i)}" />
   </p>
   
-  where:
-  <ul>
-    <li><img src="https://latex.codecogs.com/svg.latex?\inline&space;p(m_i)" title="p(m_i)" /> represents the probability
-    that the i<sup>th</sup> cell is occupied the first term represents the occupancy of a cell i divided by the 1 minus the occupancy</li>
-    <li><img src="https://latex.codecogs.com/svg.latex?\inline&space;z_t" title="z_t" /> represents the sensor data at
-    time t.</li>
-    <li><img src="https://latex.codecogs.com/svg.latex?\inline&space;x_t" title="x_t" /> represents the robot's pose at
-    time t.</li>
-  </ul>
+  where we have on the left
+  <img src="https://latex.codecogs.com/svg.latex?\inline&space;p(m_i&space;\mid&space;z_{1:t},&space;x_{1:t})" title="p(m_i \mid z_{1:t}, x_{1:t})" />
+  , which is what we're trying to find, divided by 1 - the previous term, equal to a product of three terms:
   
-  Essentially:
   <ul>
     <li>
         The first term is the probability that a given cell is occupied divided by the probability it isn't occupied
         using data <b>from the beginning till time t</b>.
-    </li>
-    <li>
-        The second term is the probability that a given cell is occupied divided by the probability it isn't occupied
-        using <b>only data from time t</b>
     </li>
     <li>
         The second term is the probability that a given cell is occupied divided by the probability it isn't occupied
@@ -271,8 +278,104 @@ see a map that gets populated with obstacles as you drive around in the simulati
     <img src="https://latex.codecogs.com/svg.latex?l_{t,i}&space;=&space;\text{inverse\_sensor\_model(}m_i,&space;x_t,&space;z_t\text{)}&space;&plus;&space;l_{t-1,i}&space;-&space;l_0" title="l_{t,i} = \text{inverse\_sensor\_model(}m_i, x_t, z_t\text{)} + l_{t-1,i} - l_0" />
   </p>
   
-  Change your mapper you just wrote to use occupancy grid mapping instead. You will need to make your own map that uses
-  `double`, such as by creating a global `std::vector<double>` variable.
+  Let's go through an example to demonstrate how this works:
+  
+  Assume that we're trying to map some unknown environment, and we have perfect knowledge of where we are, and we also
+  periodically receive sensor data from a lidar scan to tell us where obstacles are and aren't.
+  
+  We don't know anything about the map yet, so we have **no prior**, and so the probability for every grid cell on the
+  map is 0.5: it's as likely to be _occupied_ as it is to be _empty_. Because we want to be computationally efficient,
+  we choose to represent probabilities using **log odds notation**, so instead of storing a 0.5 for each grid cell,
+  we store the value:
+  <p align="center">
+    <img src="https://latex.codecogs.com/svg.latex?l(0.5)=log\frac{0.5}{1-0.5}=log\frac{0.5}{0.5}=log(1)=0" title="l(0.5)=log\frac{0.5}{1-0.5}=log\frac{0.5}{0.5}=log(1)=0" /> 
+  </p>
+  
+  Now, let's say that we know that we are at (0, 0), it's currently time t=1 (we just started), and our lidar scan
+  tells us that there's there's an obstacle at (1, 1). With the new information, what's probability that
+  grid cell (1, 1) is occupied?
+  
+  Let's use the formula from earlier to calculate the new probability for the grid cell (1, 1). We don't know anything
+  about the map, and so our **prior**,
+  <img src="https://latex.codecogs.com/svg.latex?\inline&space;l(m_i)=0" title="l(m_i)=0" />
+  
+  Since this is the first time we received sensor data, the current lidar scan is
+  <img src="https://latex.codecogs.com/svg.latex?\inline&space;z_1" title="z_1" />,
+  and there is no <img src="https://latex.codecogs.com/svg.latex?\inline&space;z_0" title="z_0" />.
+  Thus,
+  <img src="https://latex.codecogs.com/svg.latex?\inline&space;l(m_i&space;\mid&space;z_0,&space;x_0)=0" title="l(m_i \mid z_0, x_0)=0" />.
+  
+  And finally, there's the
+  <img src="https://latex.codecogs.com/svg.latex?\inline&space;l(m_i&space;\mid&space;z_1,&space;x_1)" title="l(m_i \mid z_1, x_1)=0" /> 
+  , or
+    <img src="https://latex.codecogs.com/svg.latex?\mbox{inverse\_sensor\_model}(m_i,&space;x_1,&space;z_1)" title="\mbox{inverse\_sensor\_model}(m_i, x_1, z_1)" /> 
+  term.
+  
+  This term represents the probability that the map cell is occupied if we **only** had access to the currernt pose and
+  sensor information. In this case, this depends on how accurate our sensor is: "What's the probability that my sensor
+  is correct if it's telling me that there's obstacle at some location?".
+  
+  Let's assume that there's a 0.95 probability that there really is an obstacle when the lidar says there's an obstacle.
+  In this case, taking the log odds of 0.95,
+  <img src="https://latex.codecogs.com/svg.latex?l(0.9)=log\frac{0.9}{1-0.9}=log\frac{0.9}{0.1}=log(9)\approx2.20" title="l(0.9)=log\frac{0.9}{1-0.9}=log\frac{0.9}{0.1}=log(9)\approx2.20" /> 
+  the final probability that map cell (1, 1) is occupied is:
+  <p align="center">
+    <img src="https://latex.codecogs.com/svg.latex?l(m_i&space;\mid&space;z_{1:t},x_{1:t})&space;=&space;2.20&space;&plus;&space;0&space;-&space;0&space;=&space;2.20" title="l(m_i \mid z_{1:t},x_{1:t}) = 2.20 + 0 - 0 = 2.20" /> 
+  </p>
+  which, when converting back to normal probability, is just 0.95 - we only have one reading from our sensor which has
+  a 0.95 probability of being correct.
+ 
+  Now, moving on to the next timestep at t=2. We get another lidar scan telling us that cell (1, 1) is occupied. Our
+  **prior** is still the same - we don't know anything intrinsically about whether or not the environment is occupied
+  or not. However, the
+  <img src="https://latex.codecogs.com/svg.latex?\inline&space;l(m_i&space;\mid&space;z_{1:t-1},&space;x_{1:t-1})" title="l(m_i \mid z_{1:t-1}, x_{1:t-1})" /> 
+  term is now different. We do have an estimate of the probability of cell (1, 1) being occupied at time t=1, which is:
+  <p align="center">
+    <img src="https://latex.codecogs.com/svg.latex?l(m_i&space;\mid&space;z_{1},&space;x_{1})=2.20" title="l(m_i \mid z_{1}, x_{1})=2.20" /> 
+  </p>
+  
+  Now for the
+  <img src="https://latex.codecogs.com/svg.latex?\inline&space;l(m_i&space;\mid&space;z_2,&space;x_2)" />
+  term. Our lidar is still detecting an obstacle at (1, 1), and the probability that our lidar is correct is still 0.95,
+  so this is exactly the same value as time t=1:
+  <p align="center">
+    <img src="https://latex.codecogs.com/svg.latex?l(m_i&space;\mid&space;z_{2},&space;x_{2})=2.20" title="l(m_i \mid z_{2}, x_{2})=2.20" /> 
+  </p>
+  
+  Summing together the terms for time t=2:
+  <p align="center">
+    <img src="https://latex.codecogs.com/svg.latex?l(m_i&space;\mid&space;z_{1:2},x_{1:2})&space;=&space;2.20&space;&plus;&space;2.20&space;-&space;0&space;=&space;4.40" title="l(m_i \mid z_{1:2},x_{1:2}) = 2.20 + 2.20 - 0 = 4.40" /> 
+  </p>
+  which when converting back to normal probability is:
+  <p align="center">
+    <img src="https://latex.codecogs.com/svg.latex?p(4.4)&space;=&space;1&space;-&space;\frac{1}{1&plus;\exp(4.4)}&space;\approx&space;0.99" /> 
+  </p>
+  
+  Notice something interesting here: while our first lidar scan changed the probability from 0.5 to 0.95 (an increase
+  of 0.4), the second lidar scan only changed the probability from 0.95 to 0.99 (an increase of 0.04). This is because
+  the first lidar scan gave us more information than the second lidar scan.
+  
+  One way of understanding how this works is by taking this to the extreme, and instead of comparing the first and
+  second laser scan, to compare the first and the 1000th laser scan: If you have already had 999 laser scans that told
+  you that cell (1, 1) was already occupied, then the 1000th laser scan basically tells you nothing new. You already
+  knew that cell (1, 1) was occupied, and hearing it for the 1000th time adds nothing. On the other hand, if you don't
+  know anything about whether cell (1, 1) was occupied or not, and then suddenly you learn from a somewhat reliable
+  source that cell (1, 1) **is** occupied, then you've got from having a belief that the probability is 0.5 to however
+  much you trust that source of information.
+  
+  This is why naiively counting doesn't work: it doesn't take into account the fact that the amount of information
+  gained changes depending on what you already know. With the old mapping method, the first scan is equally as valuable
+  as the 1000th scan, even though clearly that isn't the case.
+  
+  Now that you understand occupancy grid mapping a little bit more, let's change the current algorithm to use this.
+  You will need to make your own map that uses `double` (to make things easier), which you can do by creating a
+  global `std::vector<double>` variable to act as a map.
+  
+  [Hint](#spoiler "First create the std::vector<double> map, and set everything to 0 (no prior)")
+  [Hint](#spoiler "Next, create methods to convert to and from log odds, using the equations earlier")
+  [Hint](#spoiler "Finally, instead of increasing the cell by 1, create a parameter 'lidar_hit_probability'
+  to represent the probability that the lidar scans are accurate, and then instead
+  change the cell's value by the log odds of that probability.")
   
   Note: To display your map, you will need to convert from log odds back to normal probabilities. Scale the probability
   from 0-1 to 0-100, and you should be good to go!

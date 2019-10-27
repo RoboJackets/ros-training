@@ -1,7 +1,62 @@
-.reveal.reveal img
-{
+.reveal.reveal img {
     border: none;
     box-shadow: none;
     max-height: calc(50vh);
     max-width: calc(50vw);
+}
+
+.eqn-huge {
+    height: 45rem;
+    filter: invert(100%);
+}
+
+.eqn-big {
+    height: 30rem;
+    filter: invert(100%);
+}
+
+.eqn {
+    height: 15rem;
+    filter: invert(100%);
+}
+
+.reveal img.eqn-inline {
+    height: 2rem;
+    margin: 0;
+    filter: invert(100%);
+}
+
+.reveal .inline {
+    display: inline;
+}
+
+.row {
+    display: flex;
+}
+
+.column {
+    flex: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden
+}
+
+.col4 {
+    flex: 33%;
+    display: flex;
+}
+
+.col6 {
+    flex: 50%;
+    display: flex;
+}
+
+.col8 {
+    flex: 66%;
+    display: flex;
+}
+
+.row > img {
+    width: 80%;
 }

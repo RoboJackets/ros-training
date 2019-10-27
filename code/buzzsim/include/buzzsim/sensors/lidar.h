@@ -8,6 +8,7 @@
 #include <buzzsim/motion.h>
 #include <buzzsim/obstacle.h>
 #include <buzzsim/sensors/cgal_types.h>
+#include <random>
 
 namespace turtle
 {
@@ -19,6 +20,7 @@ public:
     double angle_width;
     double range;
     double angular_resolution;
+    double spurrious_detection_rate;
   };
 
   Lidar(const Options& options);
@@ -76,6 +78,11 @@ private:
                           const Point_2& comparison_point) const;
 
   Options options_;
+
+  std::random_device rd_;
+  mutable std::mt19937 gen_;
+  mutable std::uniform_real_distribution<> spurrious_distribution_;
+  mutable std::uniform_real_distribution<> spurrious_range_distribution_;
 };
 }  // namespace turtle
 

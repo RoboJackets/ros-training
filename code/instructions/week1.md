@@ -76,6 +76,8 @@ For example, the simulator node listens to messages on the `/oswin/velocity` top
 depending on what message was sent. This means that we can control the turtle by sending a message on the
 `/oswin/velocity` topic.
 
+<img src="https://drive.google.com/uc?export=download&id=1eMJvdkT4IcLWoMIsSyF7P_bzkNNJW8yU">
+
 Let's try this. Open up another terminal window, and launch the `teleop_twist_keyboard` node like so:
 ```bash
 rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/oswin/velocity
@@ -91,6 +93,8 @@ What's happening is that the `teleop_twist_keyboard` node **publishes** the velo
 `/oswin/velocity` topic and because `buzzsim` node **subscribes** to the same topic, it is able to
 receive those messages and move the turtle. We call the `teleop_twist_keyboard` a **ROS Publisher**
 and the `buzzsim` node a **ROS Subscriber**.
+
+<img src="https://drive.google.com/uc?export=download&id=1IMTA2zjoZJ-V2lv87u_clImAZ7xkhvEK">
 
 ## The `rostopic` tool
 To look more into this, we can use the `rostopic` tool. Close the `teleop_twist_keyboard` node with
@@ -127,6 +131,12 @@ Subscribers:
 Here, we can see that this topic is of type `geometry_msgs/Twist`, has no `Publishers`, and has one `Subscriber`,
 which is the `buzzsim` node. The type of a topic is the type of message of that topic. In this case, it is
 `geometry_msgs/Twist`, which contains information about the velocity of the robot.
+
+Since `geometry_msgs/Twist`, which comes from the package `geometry_msgs` package from ROS, we can
+lookup the definition in the [ROS docs](http://docs.ros.org/melodic/api/geometry_msgs/html/msg/Twist.html)
+(Google "geometry_msgs/Twist" and it should show up)
+
+<img src="https://i.imgur.com/uovZmPe.png">
 
 ### `rostopic echo`
 We can see exactly what is being sent on a topic with the `echo` command:
@@ -168,6 +178,9 @@ angular:
   z: 0.0"
 ```
 
+Note that tab completion is really useful here. Type `rostopic pub /oswin/velocity ` and then keep tabbing. Also,
+the identation matters (for those of you who know YAML, this is YAML).
+
 The `rostopic pub` command will publish a message of type `geometry_msgs/Twist` to the `/oswin/velocity` topic,
 and you should now see the turtle begin to move forward. To stop it, run the same command, but with a `0` for the
 linear `x` velocity instead:
@@ -185,6 +198,61 @@ angular:
 Try playing around with the the `x` part of `linear` and the `z` part of `angular`, and seeing how the turtle
 moves.
 
+## ROS messages
+Now that we've seen how to use the `rostopic` tool, let's look more at the ROS **messages** themselves. So far, we've
+seen the `geometry_msgs/Twist` message, but how do they work?
+
+### `.msg` files
+ROS Messages are defined using `.msg` files. For example, the
+[`twist.msg`](https://github.com/ros/common_msgs/blob/jade-devel/geometry_msgs/msg/Twist.msg) looks like:
+```.msg
+# This expresses velocity in free space broken into its linear and angular parts.
+Vector3  linear
+Vector3  angular
+```
+
+Each line represents one field in the message, with the type on the left and the
+name on the right. In this case, the `twist.msg` message has two fields:
+"linear" of type `Vector3`, and "angular" of type `Vector3`. The `Vector3` type that
+this message refers to is another type that's defined
+[somewhere else](https://github.com/ros/common_msgs/blob/jade-devel/geometry_msgs/msg/Vector3.msg):
+```.msg
+# This represents a vector in free space. 
+# It is only meant to represent a direction. Therefore, it does not
+# make sense to apply a translation to it (e.g., when applying a 
+# generic rigid transformation to a Vector3, tf2 will only apply the
+# rotation). If you want your data to be translatable too, use the
+# geometry_msgs/Point message instead.
+
+float64 x
+float64 y
+float64 z
+```
+
+In general, messages are described by other messages within them.
+
+### Exercise: Writing our own ROS message
+Let's try writing our own ROS message now. Imagine that want to write a path planner node that
+publishes motor commands, and a motor controller node that subscribes to the motor commands.
+
+We don't have a ROS message type for motor commands yet though, and so we need to make our own
+custom ROS message.
+
+Some requirements for our message:
+1. Our robot has two motors, one for each wheel, so we need to be able to send each motor a separate command
+2. We want to know **when** the message was sent, so we can tell if the message is old or not.
+3. The command sent to the motor should be a float
+
+Write your ROS message in the file
+[`igvc_training_msgs/msg/motor_command.msg`](../igvc_training_msgs/msg/motor_command.msg).
+
+Tips:
+- Check out the [std_msgs](http://wiki.ros.org/std_msgs). It should contain everything you need
+
+Remember to `catkin_make` to compile the message!
+
+Try doing `rostopic pub` and `rostopic echo` to verify that your message works.
+
 ## Summary
 And that is it for week 1 of the exercises.
 
@@ -199,6 +267,9 @@ This week, we learnt about:
     + `rostopic list` to list available topics
     + `rostopic echo` to listen to topics
     + `rostopic pub` to publish to topics
+- [ROS messages](#ros-messages)
+    + Describing a ROS message with a `.msg` file
+    + Writing our own ROS message by using messages from `std_msgs`
 
 In [week2](week2.md), we'll be looking at how to write **ROS Publishers**
 and **ROS Subscribers** in C++.

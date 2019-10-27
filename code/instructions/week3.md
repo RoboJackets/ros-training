@@ -19,14 +19,15 @@ We call the thing that determines how much throttle to give the *controller*, wh
 *SP* would be the position that's just in front of the stop sign, and the *control* is the throttle of the car.
 
 ### The PID algorithm - Proportional Controller
-PID is one example of such a *controller* that is very simple but also very effective. We can understand this algorithm
-in the context of the car example earlier:
+PID is one example of such a *controller* that is very simple but also very effective. PID stands for proportional, 
+integral, and derivative: three different kinds of *controllers*. We will begin with the proportional controller, which we 
+can understand in the context of the car example earlier:
 
 Let's say there is some *error*, meaning that your car was some distance away from the stop sign. You would step on
 the throttle to move your car forward. If there's a larger error, then you would step on the throttle more than then
 if there was a smaller error. And finally, if there's no error, then you wouldn't step on the throttle at all.
 
-What we've just described is a *proportional controller*, because the *control* is __proportional__ to the *error*.
+Here the *control* (the throttle) is __proportional__ to the *error* (the distance).
 
 <p align="center">
     <img
@@ -34,6 +35,7 @@ What we've just described is a *proportional controller*, because the *control* 
     title="P_\text{out} = K_\text{p} e(t)" />
 </p>
 
+(`K_p` is just a constant and `e(t)` is a function of time. In the car example, `e(t)` would get smaller as the car approached the destination.)
 
 ### Exercise: Implementing a Proportional controller in ROS
 Let's take the proportional controller that we've just learnt, and implement it in ROS. We'll be using the `buzzsim` simulator
@@ -51,8 +53,8 @@ its got the package name `igvc_training_exercises`. However, instead of specifyi
 instead specify a `week3.launch`.
 
 #### `.launch` files
-What's this `week3.launch`? It's actually a file located [here](../igvc_training_exercises/launch/week3.launch) in the 
-[launch](../igvc_training_exercises/launch) folder. Looking in the file, we see the following
+What's this `week3.launch`? `.launch` files are convenient to "launch" your ROS code. It's located [here]
+(../igvc_training_exercises/launch/week3.launch) in the [launch](../igvc_training_exercises/launch) folder. Looking in the file, we see the following:
 
 ```launch
 <launch>
@@ -76,7 +78,7 @@ get to these `<param>` tags later.
 Basically a `.launch` file lets you define multiple nodes to launch and also allows you to define parameters.
 
 #### The `buzzsim` environment for the exercise
-After doing `roslaunch igvc_training week3.launch`, you should see `buzzsim` open looking something like below:
+After doing `roslaunch igvc_training_exercises week3.launch`, you should see `buzzsim` open looking something like below:
 ![buzzsim_week3](buzzsim_week3.png)
 
 Notice that there are two turtles. For this exercise, the goal will be to control the bottom turtle to minimize the 
@@ -261,7 +263,7 @@ to solve this.
   [Hint 1](#spoiler 'To integrate, you will need two things: an accumulator variable, as well as a way to calculate the
   the time between the current message and the past message. The ros::Time type and ros::Time::now() should be helpful.
   You will need to create a global variable to store the previous time.')
-  [Hint 2](#spoiler 'The ros::Time variable initializes with all zeros, which is the wrong time. You can a global
+  [Hint 2](#spoiler 'The ros::Time variable initializes with all zeros, which is the wrong time. You can use a global
   boolean like g_initialized, and then set your previous_time variable to the current time if its not initialized')
   [Hint 3](#spoiler 'Make ki a parameter so that you can tune its value without recompiling.')
   
@@ -312,6 +314,41 @@ And by putting the three equations for control output above, we get:
 </p>
 
 where **u** stands for the _control output_.
+
+<details>
+  <summary>Extension: Target tracking</summary>
+  
+  Modify your PID node to do tracking in 2D instead of 1D, by performing PID on both **heading**
+  (with control `twist/angular/z`) and **position** (with control `twist/linear/x`). 
+  
+  We'll also use a different world for this. Uncomment the following line in `week3.launch`:
+  ```launch
+    <node pkg="igvc_buzzsim" type="buzzsim" name="buzzsim">
+        <param name="config_path" value="$(find igvc_training_exercises)/config/week3/world.yml" />
+        <!-- <param name="world_name" value="stationary" /> --> <-- comment these two
+        <!-- <param name="world_name" value="moving" /> -->     <--
+        <param name="world_name" value="circle" />              <-- uncomment this one
+    </node>
+  ```
+
+  Try running the `week3` node now. You should see `kyle` move in a circle.
+  
+  To do 2D PID, we need to change the error for our **position** - while our old calculation works if both turtles are on
+  the x-axis, if one of the turtles is to the left / right of another, then this breaks down. Instead of this,
+  we can calculate the **distance** between the two turtles: If the second turtle is further, then we increase
+  the velocity of the first turtle.
+  
+  Of course, we also need to calculate the error for **heading**. We can do this by calculating the _relative angle_
+  from `kyle` to `oswin`:
+  ```c++
+  double heading_error = angles::normalize_angle(std::atan2(dy, dx) - oswin_yaw));
+  ```
+  Where `dy` and `dx` are the difference in `y` and `x` respectively of `oswin` and `kyle`'s position, and `oswin_yaw`
+  is the heading of `oswin`.
+  
+  You'll need a different set Kp, Ki, and Kd for the PID on heading though, so you'll need to create parameters for
+  those.
+</details>
 
 ## Summary
 And that's it for this week!
