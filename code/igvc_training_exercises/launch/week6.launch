@@ -6,6 +6,5 @@
     </node>
 
     <node pkg="igvc_training_exercises" type="week6" name="week6" output="screen">
-
     </node>
 </launch>
