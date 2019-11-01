@@ -398,3 +398,5 @@ We learnt about:
     + Use the `pcl_ros::transformPointCloud` function to transform pointclouds to a different coordinate frame
 - [Implementing a simple mapper](#implementing-a-simple-mapping-in-ros-with-c)
     + Getting practice with working with pointclouds and performing coordinate transforms
+
+[Next week](week6.md), we'll be building off of the mapper we wrote today and do some **path planning**.
