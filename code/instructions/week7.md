@@ -39,6 +39,10 @@ You can find out if a bag file is uncompressed by doing:
 ```rosbag info <your bagfile>```   
 And seeing `compression: none` 
 
+_Note_: Make sure that `git lfs` is installed (instructions in _Get Started_) when doing 
+this exercise or else you may have issues 
+uncompressing and running the bag file.  
+
 ## Image Visualization 
 Just like how we used `rviz` for visualization of the world in previous exercises, now we
 are going to use `rqt_image_view` for displaying images. This just a simple GUI for looking
@@ -229,16 +233,16 @@ since
 Now you have everything you need to write a start light detector in ROS! Write your node in 
 [src/week7/main.cpp](../igvc_training_exercises/src/week7/main.cpp). Debug using 
 `rqt_image_viewer`.   
-1. Uncompress the bag files!
-2. Subscribe to `/camera/image` and write a callback function taking in a `sensor_msgs::ImageConstPtr`.
+0. Uncompress the bag files!
+1. Subscribe to `/camera/image` and write a callback function taking in a `sensor_msgs::ImageConstPtr`.
 Also, make a publisher for `/event/race_started` of type `std_msgs::Bool` for if the race has begun
-3. Color threshold the image for green and red (both states of the start light)
-4. Remove small noise and connect related components by using morphological transformations
-5. Check which state the start light is in by checking if there exist a sufficiently large
+2. Color threshold the image for green and red (both states of the start light)
+3. Remove small noise and connect related components by using morphological transformations
+4. Check which state the start light is in by checking if there exist a sufficiently large
 circular shape in the thresholded images. 
 [Hint](#spoiler "check if there exist a contour with 
 an area above a specified area threshold and a circularity above a specified circularity threshold")
-6. Check if the red light is on, then if the red light turns off and the green light turns on
+5. Check if the red light is on, then if the red light turns off and the green light turns on
 within the next 1 second, publish that the race has started.
 
 ## Extensions:
