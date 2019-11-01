@@ -1,0 +1,9 @@
+<launch>
+    <node pkg="rosbag" type="play" name="player"
+          args="--clock $(find igvc_training_exercises)/bag/start_light.bag -l"/>
+    <node name="rqt_image_view" pkg="rqt_image_view" type="rqt_image_view"/>
+
+    <node pkg="igvc_training_exercises" type="week7"
+          name="week7_start_light_detector" output="screen">
+    </node>
+</launch>

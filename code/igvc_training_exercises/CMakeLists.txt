@@ -13,7 +13,11 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   tf_conversions
   std_msgs
+  cv_bridge
+  image_transport
   igvc_buzzsim)
+
+find_package(OpenCV REQUIRED)
 
 ###################################
 ## catkin specific configuration ##
@@ -26,6 +30,7 @@ catkin_package(CATKIN_DEPENDS
   std_msgs
   igvc_buzzsim)
 
+
 include_directories(include)
 
 add_subdirectory(src/week2)
@@ -33,6 +38,7 @@ add_subdirectory(src/week3)
 add_subdirectory(src/week4)
 add_subdirectory(src/week5)
 add_subdirectory(src/week6)
+add_subdirectory(src/week7)
 
 add_subdirectory(src/week_scanmatching)
 add_subdirectory(src/week_slam)
