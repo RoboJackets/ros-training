@@ -70,7 +70,13 @@ The LiDAR receives data in the sensor's frame. Need to transform to world (odom)
 
 ----
 
-## Sampling based
+### A*
+
+https://www.redblobgames.com/pathfinding/a-star/introduction.html
+
+---
+
+### Sampling based
 
 - Randomly sampling in **configuration space**
     - Space of possible positions attainable by the robot
@@ -84,7 +90,7 @@ The LiDAR receives data in the sensor's frame. Need to transform to world (odom)
 
 ----
 
-## Optimization based
+### Optimization based
 - Treat as optimization problem
 - Have set of states **x**, a set of control actions **u** and some cost function **f(x, u)**\
 - A path found by finding **x** and **u** which minimize the cost function
@@ -103,6 +109,8 @@ Let's implement a very simple optimization based path planner!
 To do path planning though, we need a **map**
 - We made a node that creates a map last week
 - We'll be making use of that
+    - For those of you who didn't finish, you can use the code from the `answers` branch
+    - [link here](https://github.com/RoboJackets/ros-training/blob/answers/code/igvc_training_exercises/src/week5/main.cpp)
 
 ----
 
@@ -135,6 +143,8 @@ topic
 - Be sure to make use of `rviz`
     - Display `nav_msgs::Path` to "see" what the robot is thinking
 - Can you make it plan better?
+
+<img style="max-width: 1000px; max-height: 1000px" src="https://i.imgur.com/Ps6RwRS.png" />
 
 ---
 
