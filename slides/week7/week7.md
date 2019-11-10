@@ -13,11 +13,31 @@ revealOptions:
 
 ---
 
+## Path Planning
+What are the three main categories of path planning?
+
+Grid based <!-- .element: class="fragment" data-fragment-index="0" --> 
+
+Sampling based <!-- .element: class="fragment" data-fragment-index="1" --> 
+
+Optimization based <!-- .element: class="fragment" data-fragment-index="2" --> 
+
+----
+
+## Grid based
+Represent the map as a grid, search through the grid for a path <!-- .element: class="fragment" data-fragment-index="0" --> 
+
+----
+
+## Sampling based
+Randomly sample points to find a path <!-- .element: class="fragment" data-fragment-index="0" --> 
+
+----
+
 ## Optimization-based Planning
-- These algorithms interpret path planning as an optimization / controls 
-problem
-- A path is then formed by finding a set of states _x_ and set of control actions _u_ that 
-_minimize_ some cost function _f(x, u)_
+These algorithms interpret path planning as an optimization / controls problem <!-- .element: class="fragment" data-fragment-index="0" --> 
+
+Find best controls u that minimizes cost function <!-- .element: class="fragment" data-fragment-index="1" --> 
 
 ---
 
@@ -63,27 +83,12 @@ data for testing and debugging
 - Remember to run `roscore` before playing the bag file!
  
 ---
- 
- ## Running Bag Files
-- The bag files on our repo are **compressed** so **make sure** to 
- **uncompress** them before running them.   
-- You can compress all bag file in a folder by doing:  
- ```rosbag compress *.bag```  
-- And uncompress all of them by doing:  
- ```rosbag decompress *.bag```  
- 
-- You can find out if a bag file is uncompressed by doing:  
- ```rosbag info <your bagfile>```   
--  And seeing `compression: none` 
-
----
 
 ## Image Visualization 
 - Just like how we used `rviz` for visualization of the world in previous exercises, now we
 are going to use `rqt_image_view` for displaying images.
-- This just a simple GUI for looking
-at what image is being published on any topic. The command for running it is:  
-```rqt_image_view```   
+- This just a simple image viewer for visualizing image messages
+- You can also use `rqt_gui` with `rosrun rqt_gui rqt_gui` to allow for multiple panes
 
 <a href="https://imgur.com/TH2EAS3"><img src="https://i.imgur.com/TH2EAS3.png" title="source: imgur.com" /></a>
 
@@ -98,44 +103,186 @@ moving objects, extract 3D models of objects, and much more!
 
 ---
 
-## Mat  
-- Mat is just the datatype used to describe images in OpenCV and it consists of a header and a data matrix.
-- In order to converts between ROS Image messages and OpenCV Mat images, we are going to use `cv_bridge`:
+## cv::Mat  
+- `cv::Mat` is the datatype used to describe images in OpenCV
+- Represents a **Matrix**, which can be used to describe images
+
+----
+
+### Intro to images
+- Images are made up pixels of different colors
+- For black and white images, we can represent each pixel using a single number to represent its **brightness**
+- Usually, this ranges from 0 - 255, because that is the range of one **byte**.
+
+![](https://ai.stanford.edu/~syyeung/cvweb/Pictures1/imagematrix.png)
+
+Since a picture is in 2D, with rows and columns, we can use a 2D **matrix** to model this:
+
+----
+
+- For colored images, use **three** numbers to describe
+    - Can represent any color as a combination of **red**, **green**, and **blue**
+- Thus, each colored pixel will have three numbers that range from 0 - 255
+    - (again because this is the range of one byte).
+
+To model this using a matrix, instead of a **2D** matrix, we now have a **3D** matrix, with each entry having a row,
+column, and now also a **channel**:
+![](http://www.aishack.in/static/img/tut/cvmat.jpg)
+
+----
+
+### Usage
+- For a detailed introduction, you can check out the
+[OpenCV docs](https://docs.opencv.org/master/d6/d6d/tutorial_mat_the_basic_image_container.html)
+- The constructor:
 ```c++
-// Two new important includes for CV
- #include <cv_bridge/cv_bridge.h>
- #include <opencv2/opencv.hpp>
- void img_callback(const sensor_msgs::ImageConstPtr &msg) {
-    cv_ptr = cv_bridge::toCvCopy(msg, "bgr8");   
+cv::Mat M(2, 2, CV_8UC1, cv::Scalar(255));
+std::cout << "M = " << std::endl << " " << M << std::endl;
+```
+```
+M =
+ [255, 255;
+ 255, 255]
+```
+
+----
+ 
+- Accessing elements with the `.at<type>(row, column)` method:
+
+```c++
+cv::Mat M(2, 2, CV_8UC1, cv::Scalar(255));
+M.at<uchar>(0, 1) = 5;
+M.at<uchar>(1, 0) = 9;
+std::cout << "M = " << std::endl << " " << M << std::endl;
+```
+```
+M = 
+ [255,   5;
+   9, 255]
+```
+
+----
+
+- Notice that we use `uchar` as the template argument for `.at`
+- Specify that our image uses 1 byte for each pixel
+    - `CV_8UC1`
+    - `8U`: 8 bits
+    - `C1`: **1 channel**, ie. greyscale images
+    - If we wanted to create a 3 channel image, we would use `CV_8UC3` instead
+
+---
+
+## Using OpenCV in ROS
+
+----
+
+### Subscribing
+
+- Subscribing to images is a bit different than other message types
+    - Many different ways of representing image
+        - `sensor_msgs::Image` (raw)
+        - `sensor_msgs::CompressedImage` (compressed)
+        - `theora_image_transport/Packet` (theora)
+        
+- Using `image_transport` will convert all these types to `sensor_msgs::Image` for us:
+```c++
+void imageCallback(sensor_msgs::Image& image) {}
+// ...
+image_transport::ImageTransport it{nh};
+image_transport::Subscriber image_sub
+  = it.subscribe("/out", 1, imageCallback, {"compressed"});
+```
+
+----
+
+- Unfortunately, the message type for ROS images isn't `cv::Mat`, but rather `sensor_msgs::Image`.
+- In order to convert between `sensor_msgs::Image` and `cv::Mat`, we need to use `cv_bridge`:
+```c++
+// For OpenCV
+#include <opencv2/opencv.hpp>
+// For cv_bridge
+#include <cv_bridge/cv_bridge.h>
+void img_callback(const sensor_msgs::ImageConstPtr &msg)
+{
+    cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(msg, "bgr8");   
     cv::Mat frame = cv_ptr->image;
- }
+}
 ```
 
----
+----
 
-## Mat 
+- Notice that the type of the message is `sensor_msgs::Image`
+- Our callback take in a `sensor_msgs::ImageConstPtr`
+- What's going on?
 
-- The reason we are using `sensor_msgs::ImageConstPtr` instead of `sensor_msgs::Image` is because 
-we want to avoid accidentally modifying the original data as well as not copy it multiple times. 
+----
 
-- To publish a Mat image just do:
+If you look at the declaration of `sensor_msgs::ImageConstPtr` (Ctrl-B, or Ctrl-click), you'll see this:
 ```c++
-    cv_ptr->image = img;
-    cv_ptr->encoding = "mono8";      //mono8 for BINARY, bgr8 for COLORED
-    img_publisher_variable.publish(cv_ptr->toImageMsg();
+typedef boost::shared_ptr< ::sensor_msgs::Image const> ImageConstPtr;
 ```
 
----
+Don't worry about the `typedef`. You can think of the above line as equivalent to the following:
+```c++
+using ImageConstPtr = boost::shared_ptr<sensor_msgs::Image const>;
+```
+
+So, basically `ImageConstPtr` is just an alias for `boost::shared_ptr<sensor_msgs::Image const>`.
+
+----
+
+It turns out that ROS will automatically add "\~Ptr" and "\~ConstPtr" aliases for each message type that you
+define for convenience. But why?
+
+----
+
+- Smart Pointers allow you to manage a resource without copying it around
+    - For `shared_ptr`: multiple **owners** of a resource without copying it around
+    - Resource automatically cleaned up after the last owner is gone
+
+- Don't copy around the `sensor_msgs::Image`, but instead get a `shared_ptr` pointing to the resource
+- Important for large objects like images or pointclouds because copying is expensive.
+
+----
+
+### Converting from cv::Mat to sensor_msgs::Image
+- Now, let's say we've just done some image processing, and we want to publish our processed image
+- Need to convert our `cv::Mat` back to a `sensor_msgs::Image`
+
+- To do that, we first need to create a `cv_bridge::CvImage`, and set its `image` member to the `cv::Mat`:
+
+```c++
+cv::Mat mat;
+// Some processing done on mat
+cv_bridge::CvImage cv_image;
+cv_image.image = mat;
+cv_ptr->encoding = "mono8"; // mono8 for BINARY (CV_8UC1), bgr8 COLORED (CV_8UC3)
+```
+
+----
+
+Afterwards, we can call the `toImageMsg()` method to get a `sensor_msgs::Image` which we can publish:
+
+```c++
+g_img_pub.publish(cv_ptr.toImageMsg();
+```
+
+----
 
 ## Kernel
-- A kernel is simply a small matrix used perform convolution of an image. It is commonly used for blurring, 
-sharpening, embossing, edge detection, and much more. The most simple type of kernel is an 
+- A kernel is simply a small matrix used perform convolution of an image
+- It is commonly used for image processing
+    - blurring, sharpening, embossing, edge detection, and much more
+
+----
+
+The most simple type of kernel is an 
 identity kernel:
 <p align="center">
-    <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/5bf6623ca763ba780b471a565eb1b06cd14b445c">
+    <img class="eqn" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/5bf6623ca763ba780b471a565eb1b06cd14b445c">
 </p>
 
-- which just takes the value at the kernel's "origin" (the center element for odd-sided kernels) and puts it on 
+- Takes the value at the kernel's "origin" (the center element for odd-sided kernels) and puts it on 
 the output image. 
 
 ---
@@ -154,13 +301,15 @@ the border so the kernel never "hanging off" the edge of input matrix.
 - For now, the least you need to know about kernels is that are used by many computer vision 
 algorithms and many CV functions will simply require you to declare the kernel size (usually around 3 to 9). 
 
-- Here the kernel is defined as:
+- `cv::getStructingElement` allows you to create kernels of common shapes
+    - Rectangle, Elllipse, Cross
+    
 ```c++
-cv::Mat kernel(int x, int y) {
+cv::Mat kernel(int x, int y)
+{
     return cv::getStructuringElement(cv::MORPH_RECT, cv::Size(x, y));
 }
 ```
-- Which just means that the return kernel is a rectangle of _x_ by _y_. 
 
 ---
 ## Blurring 
@@ -185,15 +334,19 @@ cv::GaussianBlur(frame, frame, cv::Size(3,3), 0, 0)
 ``` 
 - where in this case the kernel size is 3. 
 
+<img class="eqn" src="https://4.bp.blogspot.com/-v4dH8qhFnEE/WqHaTPel8RI/AAAAAAAAI8g/AxIVu5i7mHU5UDcu6BkJQJj_UO11sMomwCLcBGAs/s1600/3x3%2BGaussian%2BKernel.png" />
+
 ---
 
 ## HSV
 - A color space is just a way of encoding a color with numbers
-- BGR is the default color space for OpenCV, where each color is a blue, green, and red component
-- HSV (Hue, saturation, and value)  is another 
-common color space where each pixel is described by it base color (hue or tint) 
-in terms of their shade 
-(saturation or amount of gray) and their brightness value
+- **BGR** is the default color space for OpenCV
+    - We can describe a color by how much red, green and blue there is
+    - The order "BGR" vs "RGB" is a due to historical reasons
+    - Problem: Hard to use to specify a color
+- **HSV** (Hue, Saturation, Value)
+    - Instead, use a color's **Hue**, **Saturation** and **Value** (brightness)
+    - Easier to specify a color
 
 ---
 
@@ -205,11 +358,8 @@ radial slice, around a central axis of neutral colors which ranges from black at
 ---
 
 ## HSV Uses
-- Working with HSV is very useful and convenient when tackling perception problems like if you wanted to reliably 
-check if a pixel is roughly a hue of purple. 
-- It would definitely be possible to do using the RGB color space, 
-but it would be kinda tough if the lighting conditions weren't
-fixed since you might have to specify multiple ranges; however, with HSV is it relatively simple. 
+- Very useful and convenient when doing filtering by color
+    - Possible with RGB, but much more complex due to different lighting conditions
 
 - The way to convert an BGR image to HSV is by doing:  
 ```c++
@@ -219,35 +369,36 @@ cv::cvtColor(frame, hsv_frame, cv::COLOR_BGR2HSV);
 ---
 
 ## Thresholding
-- Thresholding is pretty simple. 
-- Given an image, check if each pixel is within a bound or not. 
+- Convert image from grayscale (0 - 255) to a black and white (0 or 255)
+- Often used as a boolean **mask**, ie. is this object red or not?
 
 ---
 
 ## Greyscale Thresholding
-- In the image below, numbers are displayed so that the number's value corresponds
-it is brightness. Then through binary thresholding, each pixel will a value greater than 0 is set 
-to 255 (The max brightness). 
+- In the image below, number's value corresponds it is brightness
+- Binary thresholding => each pixel with a value greater than 0 is set to 255 (The max brightness). 
+- Idea: separate black from non-black
 ![](https://www.learnopencv.com/wp-content/uploads/2015/02/opencv-threshold-tutorial.jpg)
 
 ---
 
 ## Color Thresholding
-- We can also check if each pixel is within in a certain range by using `cv::inRange()`
-- A common usage of this function is for color thresholding like turning a 3-channel HSV image 
-(where each pixel has 3 values 0-255) into a 1-channel binary image (where each pixel 
+- We can also check if each pixel is within in a certain range of color by using `cv::inRange()`
+- A common usage: Color thresholding
+    - Separate all red objects from non-red objects
+    - Convert a 3-channel HSV image (where each pixel has 3 values 0-255) into a 1-channel binary image (where each pixel 
 has 1 value, true or false).
  
 -For example, if we wanted to color threshold for blue/green:
 ```c++
 cv::inRange(hsv_frame, cv::Scalar(20, 120, 120), cv::Scalar(100, 255, 255), green_found);
 ```
-
+<img src="https://i.imgur.com/GAnc2Qf.png" />
 ---
 
 ## Morphological Transformations
-- Morphological operations are a set of operations that process images based on shapes.
-The most basic morphological operations are: Erosion and Dilation. 
+- Set of operations that process images based on shapes
+- The most basic morphological operations are: Erosion and Dilation. 
 - They have a wide array of uses:
     - Removing noise
     - Isolation of individual elements and joining disparate elements in an image.
@@ -278,11 +429,12 @@ The most basic morphological operations are: Erosion and Dilation.
 ## Morphological Transformations
 
 - **Opening:**  
-    - Opening is just another name of erosion followed by dilation and it is 
-useful in removing noise. 
+    - Erosion followed by dilation
+    - Removes noise
 - **Closing:**  
-    - Closing is reverse of Opening, Dilation followed by Erosion. It is useful 
-in closing small holes inside the foreground objects, or small black points on the object.  
+    - Dilation followed by Erosion
+    - Closes small holes inside the foreground objects or small black points  
+    
 <table style="width:100%">
    <tr>
     <th><img src="https://docs.opencv.org/trunk/opening.png" width="600" alt></th>
@@ -297,12 +449,11 @@ in closing small holes inside the foreground objects, or small black points on t
 ---
 
 ## Contours 
-- Contours can be explained simply as a list of points that 
-represents the edge of a shape.
-- Contours are a useful tool for shape analysis and object detection and recognition.  
+- List of points that represents the edge of a shape.
+- Useful tool for shape analysis and object detection and recognition.  
 <img width="660" height="200" src="https://lh5.googleusercontent.com/EZxifb4wmL0Kwfte3awn5mtkLKeHR1G94K3iG4JJdlwExu4FnglC3euH8zwWuM6LSs682i0yL2_GhgN7V0LXS14HMM49YkVtLcJwxDzL-CQ_jqVwoQYF4zJZPAX5HbvuvKU5vA28" alt=""/>  
 
-- Useful features
+- Useful features for a contour
     - Area
     - Perimeter   
     - Circularity     
@@ -316,9 +467,8 @@ represents the edge of a shape.
 ---
 
 ## Exercise
-1. Uncompress the bag files!
-2. Subscribe to `/camera/image` and write a callback function taking in a `sensor_msgs::ImageConstPtr`.
-Also, make a publisher for `/event/race_started` of type `std_msgs::Bool` for if the race has begun
+1. Subscribe to `/camera/image` and write a callback function taking in a `sensor_msgs::ImageConstPtr`.
+2. Make a publisher for `/event/race_started` of type `std_msgs::Bool` for if the race has begun
 3. Color threshold the image for green and red (both states of the start light)
 4. Remove small noise and connect related components by using morphological transformations
 5. Check which state the start light is in by checking if there exist a sufficiently large

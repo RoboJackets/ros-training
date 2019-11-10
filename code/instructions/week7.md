@@ -28,21 +28,6 @@ In order to make the bag file run repeatly simple add the loop flag `-l`:
 You can also press `[Space]` in the terminal running the bag file in order to pause/play the recording. 
 Remember to run `roscore` before playing the bag file!
 
-The bag files on our repo are **compressed** so **make sure** to 
-**uncompress** them before running them.   
-You can compress all bag file in a folder by doing:  
-```rosbag compress *.bag```  
-And uncompress all of them by doing:  
-```rosbag decompress *.bag```  
-
-You can find out if a bag file is uncompressed by doing:  
-```rosbag info <your bagfile>```   
-And seeing `compression: none` 
-
-_Note_: Make sure that `git lfs` is installed (instructions in _Get Started_) when doing 
-this exercise or else you may have issues 
-uncompressing and running the bag file.  
-
 ## Image Visualization 
 Just like how we used `rviz` for visualization of the world in previous exercises, now we
 are going to use `rqt_image_view` for displaying images. This just a simple GUI for looking
@@ -52,8 +37,7 @@ at what image is being published on any topic. The command for running it is:
 <a href="https://imgur.com/TH2EAS3"><img src="https://i.imgur.com/TH2EAS3.png" title="source: imgur.com" /></a>
 
  Practice working with bag files by running the 
- [start_light bag file](../igvc_training_exercises/bag/start_light.bag) by first
-  uncompressing it and then playing it on loop while using `rqt_image_view` for visualization.
+ [start_light bag file](../igvc_training_exercises/bag/start_light.bag) by playing it on loop while using `rqt_image_view` for visualization.
  
 
 ## OpenCV Library 
@@ -64,27 +48,139 @@ recognize faces, identify objects, classify human actions in videos, track camer
 moving objects, extract 3D models of objects, and much more!
 
 
-## Mat  
-Mat is just the datatype used to describe images in OpenCV and it consists of a header and a data matrix.
-In order to converts between ROS Image messages and OpenCV Mat images, we are going to use `cv_bridge`:
+## cv::Mat  
+### Introduction
+`cv::Mat` is the datatype used to describe images in OpenCV. As the name suggests, it represents a **Matrix**, which
+can be used to describe images. How?
+
+As you may or may not know, images are made up pixels of different colors. For black and white images, we can
+represent each pixel using a single number to represent its **brightness**. Usually, this ranges from 0 - 255,
+because that is the range of one **byte**.
+
+![](https://ai.stanford.edu/~syyeung/cvweb/Pictures1/imagematrix.png)
+
+Since a picture is in 2D, with rows and columns, we can use a 2D **matrix** to model this:
+![](https://docs.opencv.org/2.4/_images/MatBasicImageForComputer.jpg)
+
+For colored images, instead of using one number, we use **three**, since we can represent any color as a combination
+of **red**, **green**, and **blue**. Thus, each colored pixel will have three numbers that range from 0 - 255 (again
+because this is the range of one byte).
+
+To model this using a matrix, instead of a **2D** matrix, we now have a **3D** matrix, with each entry having a row,
+column, and now also a **channel**:
+![](http://www.aishack.in/static/img/tut/cvmat.jpg)
+
+### Usage
+How do we actually use this? For a detailed introduction, you can check out the
+[OpenCV docs](https://docs.opencv.org/master/d6/d6d/tutorial_mat_the_basic_image_container.html), but the most
+important things are the constructor:
 ```c++
-// Two new important includes for CV
-#include <cv_bridge/cv_bridge.h>
+cv::Mat M(2, 2, CV_8UC1, cv::Scalar(255));
+std::cout << "M = " << std::endl << " " << M << std::endl;
+```
+```
+M =
+ [255, 255;
+ 255, 255]
+```
+ 
+and accessing elements with the `.at<type>(row, column)` method:
+
+```c++
+cv::Mat M(2, 2, CV_8UC1, cv::Scalar(255));
+M.at<uchar>(0, 1) = 5;
+M.at<uchar>(1, 0) = 9;
+std::cout << "M = " << std::endl << " " << M << std::endl;
+```
+```
+M = 
+ [255,   5;
+   9, 255]
+```
+
+Notice that we use `uchar` as the template argument for `.at`. This is because, as we mentioned earlier, we use 1
+**byte** to store each pixel data and `uchar` corresponds to 1 byte, and the way we specify that our image uses
+1 byte for each pixel is in the `CV_8UC1` argument. The `8U` refers to "8 bits", which is how many bits are in 1 byte,
+`C1` refers to **1 channel**, ie. greyscale images. If we wanted to create a 3 channel image, we would use `CV_8UC3`
+instead.
+
+## Using OpenCV in ROS
+### Subscribing to ROS images
+Subscribing to images is a bit different than other message types, because there are many different ways
+of representing image, ie:
+- `sensor_msgs::Image` (raw)\
+- `sensor_msgs::CompressedImage` (compressed)
+- `theora_image_transport/Packet` (theora)
+        
+Using `image_transport` will convert all these types to `sensor_msgs::Image` for us:
+```c++
+void imageCallback(sensor_msgs::Image& image) {}
+// ...
+image_transport::ImageTransport it{nh};
+image_transport::Subscriber image_sub
+  = it.subscribe("/out", 1, imageCallback, {"compressed"});
+```
+
+### Converting from sensor_msgs::Image to cv::Mat
+Unfortunately, the message type for ROS images isn't `cv::Mat`, but rather `sensor_msgs::Image`. In order
+to convert between `sensor_msgs::Image` and `cv::Mat`, we need to use `cv_bridge`:
+```c++
+// For OpenCV
 #include <opencv2/opencv.hpp>
 
-void img_callback(const sensor_msgs::ImageConstPtr &msg) {
-    cv_ptr = cv_bridge::toCvCopy(msg, "bgr8");   
+// For cv_bridge
+#include <cv_bridge/cv_bridge.h>
+
+void img_callback(const sensor_msgs::ImageConstPtr &msg)
+{
+    cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(msg, "bgr8");   
     cv::Mat frame = cv_ptr->image;
 }
 ```
-The reason we are using `sensor_msgs::ImageConstPtr` instead of `sensor_msgs::Image` is because 
-we want to avoid accidentally modifying the original data as well as not copy it multiple times. 
 
-To publish a Mat image just do:
+Notice that the type of the message is `sensor_msgs::Image`, but we let our callback take in a
+`sensor_msgs::ImageConstPtr`. What's going on?
+
+If you look at the declaration of `sensor_msgs::ImageConstPtr` (Ctrl-B, or Ctrl-click), you'll see this:
 ```c++
-    cv_ptr->image = img;
-    cv_ptr->encoding = "mono8";      //mono8 for BINARY, bgr8 for COLORED
-    img_publisher_variable.publish(cv_ptr->toImageMsg();
+typedef boost::shared_ptr< ::sensor_msgs::Image const> ImageConstPtr;
+```
+
+Don't worry about the `typedef`. You can think of the above line as equivalent to the following:
+```c++
+using ImageConstPtr = boost::shared_ptr<sensor_msgs::Image const>;
+```
+
+So, basically `ImageConstPtr` is just an alias for `boost::shared_ptr<sensor_msgs::Image const>`.
+
+It turns out that ROS will automatically add "~Ptr" and "~ConstPtr" aliases for each message type that you
+define for convenience. But why?
+
+If you think back to what smart pointers do, they allow you to manage a resource without copying it around. For
+`shared_ptr` specifically, it means that we can have multiple **owners** of a resource without copying it around,
+and have the resource be automatically cleaned up after the last owner is gone.
+
+In this context, it means that we don't copy around the `sensor_msgs::Image`, but instead get a `shared_ptr`
+pointing to the resource. This is important for large objects like images or pointclouds because copying them
+is expensive.
+
+### Converting from cv::Mat to sensor_msgs::Image
+Now, let's say we've just done some image processing, and we want to publish our processed image. To do that,
+we will need to convert our `cv::Mat` back to a `sensor_msgs::Image`. To do that, we first need to create
+a `cv_bridge::CvImage`, and set its `image` member to the `cv::Mat`:
+
+```c++
+cv::Mat mat;
+// Some processing done on mat
+cv_bridge::CvImage cv_image;
+cv_image.image = mat;
+cv_ptr->encoding = "mono8"; // mono8 for BINARY (CV_8UC1), bgr8 COLORED (CV_8UC3)
+```
+
+Afterwards, we can call the `toImageMsg()` method to get a `sensor_msgs::Image` which we can publish:
+
+```c++
+g_img_pub.publish(cv_ptr.toImageMsg();
 ```
 
 ## Kernel
@@ -234,14 +330,14 @@ Now you have everything you need to write a start light detector in ROS! Write y
 [src/week7/main.cpp](../igvc_training_exercises/src/week7/main.cpp). Debug using 
 `rqt_image_viewer`.     
 1. Subscribe to `/camera/image` and write a callback function taking in a `sensor_msgs::ImageConstPtr`.
-Also, make a publisher for `/event/race_started` of type `std_msgs::Bool` for if the race has begun
-2. Color threshold the image for green and red (both states of the start light)
-3. Remove small noise and connect related components by using morphological transformations
-4. Check which state the start light is on by checking if there exist a sufficiently large
+2. Make a publisher for `/event/race_started` of type `std_msgs::Bool` for if the race has begun
+3. Color threshold the image for green and red (both states of the start light)
+4. Remove small noise and connect related components by using morphological transformations
+5. Check which state the start light is on by checking if there exist a sufficiently large
 circular shape in the thresholded images. 
-[Hint](#spoiler "check if there exist a contour with 
+[Hint](#spoiler "Check if there exist a contour with 
 an area larger than a specified area threshold and a circularity larger than a specified circularity threshold")
-5. Check if the red light is on, then if the red light turns off and the green light turns on
+6. Check if the red light is on, then if the red light turns off and the green light turns on
 within the next 1 second, publish that the race has started.
 
 ## Extensions:
